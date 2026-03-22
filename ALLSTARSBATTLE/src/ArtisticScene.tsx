@@ -26,7 +26,6 @@ const ArtisticScene = ({ onNavigateToProgram, onNavigateToTickets, pageBackgroun
   const [selectedCompany, setSelectedCompany] = useState<Company | null>(null);
   const [showAllGallery, setShowAllGallery] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(true);
   const [imagesLoaded, setImagesLoaded] = useState(0);
   const prevShowAllGalleryRef = useRef(false);
   const prevSelectedCompanyRef = useRef<Company | null>(null);
@@ -57,7 +56,7 @@ const ArtisticScene = ({ onNavigateToProgram, onNavigateToTickets, pageBackgroun
           }
         }
       } finally {
-        setIsLoading(false);
+        // No longer setting isLoading to false
       }
     };
     loadData();
@@ -90,7 +89,7 @@ const ArtisticScene = ({ onNavigateToProgram, onNavigateToTickets, pageBackgroun
     setImagesLoaded(prev => Math.min(prev + 1, totalExpectedImages));
   };
 
-  const allImagesLoaded = imagesLoaded >= totalExpectedImages || !isLoading;
+  const allImagesLoaded = imagesLoaded >= totalExpectedImages;
 
   // Reset image counter when companies/selected company changes
   useEffect(() => {
@@ -131,19 +130,6 @@ const ArtisticScene = ({ onNavigateToProgram, onNavigateToTickets, pageBackgroun
 
   return (
     <div className="bg-background-dark text-slate-100 font-sans selection:bg-primary selection:text-background-dark">
-      {/* Loading State */}
-      {isLoading && (
-        <div className="fixed inset-0 z-50 bg-background-dark flex items-center justify-center">
-          <div className="text-center space-y-6">
-            <div className="w-16 h-16 border-4 border-primary/30 border-t-primary rounded-full animate-spin mx-auto"></div>
-            <div className="space-y-2">
-              <p className="text-white font-heading text-xl">Chargement de la Scène Artistique</p>
-              <p className="text-slate-400 text-sm">Veuillez patienter...</p>
-            </div>
-          </div>
-        </div>
-      )}
-
       <AnimatePresence mode="wait">
         {showAllGallery ? (
           // Gallery View with Pagination

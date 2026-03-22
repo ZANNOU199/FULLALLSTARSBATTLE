@@ -485,6 +485,40 @@ export default function App() {
   const [participateData, setParticipateData] = useState<any>(null);
   const [selectedMediaYear, setSelectedMediaYear] = useState<number>(2026);
 
+  // Load navigation state from localStorage on app start
+  useEffect(() => {
+    const savedPage = localStorage.getItem('currentPage');
+    const savedArticleId = localStorage.getItem('selectedArticleId');
+    const savedMediaYear = localStorage.getItem('selectedMediaYear');
+    
+    if (savedPage) {
+      setCurrentPage(savedPage as any);
+    }
+    if (savedArticleId) {
+      setSelectedArticleId(savedArticleId);
+    }
+    if (savedMediaYear) {
+      setSelectedMediaYear(parseInt(savedMediaYear));
+    }
+  }, []);
+
+  // Save navigation state to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('currentPage', currentPage);
+  }, [currentPage]);
+
+  useEffect(() => {
+    if (selectedArticleId) {
+      localStorage.setItem('selectedArticleId', selectedArticleId);
+    } else {
+      localStorage.removeItem('selectedArticleId');
+    }
+  }, [selectedArticleId]);
+
+  useEffect(() => {
+    localStorage.setItem('selectedMediaYear', selectedMediaYear.toString());
+  }, [selectedMediaYear]);
+
   const loadCMSData = async () => {
     const data = await cmsService.getData();
     setConfig(data.globalConfig);
