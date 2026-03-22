@@ -26,23 +26,76 @@ const ArtisticScene = ({ onNavigateToProgram, onNavigateToTickets, pageBackgroun
   const [selectedCompany, setSelectedCompany] = useState<Company | null>(null);
   const [showAllGallery, setShowAllGallery] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
+  const [imagesLoaded, setImagesLoaded] = useState(0);
   const prevShowAllGalleryRef = useRef(false);
   const prevSelectedCompanyRef = useRef<Company | null>(null);
 
+  // Load data on mount and restore navigation state
   useEffect(() => {
     const loadData = async () => {
-      const data = await cmsService.getData();
-      setCompanies(data.companies || []);
+      try {
+        const data = await cmsService.getData();
+        setCompanies(data.companies || []);
+        
+        // Restore navigation state from localStorage
+        const savedState = localStorage.getItem('artisticSceneState');
+        if (savedState) {
+          try {
+            const { selectedId, showGallery, currentPageNum } = JSON.parse(savedState);
+            if (showGallery) {
+              setShowAllGallery(true);
+              setCurrentPage(currentPageNum || 1);
+            } else if (selectedId) {
+              const company = (data.companies || []).find((c: Company) => c.id === selectedId);
+              if (company) {
+                setSelectedCompany(company);
+              }
+            }
+          } catch (e) {
+            console.warn('Failed to restore navigation state:', e);
+          }
+        }
+      } finally {
+        setIsLoading(false);
+      }
     };
     loadData();
   }, []);
 
-  // Scroll to top when opening gallery
+  // Save navigation state to localStorage
   useEffect(() => {
     if (showAllGallery) {
-      window.scrollTo(0, 0);
+      localStorage.setItem('artisticSceneState', JSON.stringify({
+        showGallery: true,
+        currentPageNum: currentPage,
+        selectedId: null
+      }));
+    } else if (selectedCompany) {
+      localStorage.setItem('artisticSceneState', JSON.stringify({
+        showGallery: false,
+        currentPageNum: 1,
+        selectedId: selectedCompany.id
+      }));
+    } else {
+      // Home view - don't save state
+      localStorage.removeItem('artisticSceneState');
     }
-  }, [showAllGallery]);
+  }, [showAllGallery, selectedCompany, currentPage]);
+
+  // Track image loading to know when all images are loaded
+  const totalExpectedImages = companies.length + (selectedCompany?.gallery?.length || 0) + 2; // companies + gallery + featured + hero
+  
+  const handleImageLoad = () => {
+    setImagesLoaded(prev => Math.min(prev + 1, totalExpectedImages));
+  };
+
+  const allImagesLoaded = imagesLoaded >= totalExpectedImages || !isLoading;
+
+  // Reset image counter when companies/selected company changes
+  useEffect(() => {
+    setImagesLoaded(0);
+  }, [companies, selectedCompany]);
 
   // Scroll to top when viewing company details
   useEffect(() => {
@@ -78,6 +131,19 @@ const ArtisticScene = ({ onNavigateToProgram, onNavigateToTickets, pageBackgroun
 
   return (
     <div className="bg-background-dark text-slate-100 font-sans selection:bg-primary selection:text-background-dark">
+      {/* Loading State */}
+      {isLoading && (
+        <div className="fixed inset-0 z-50 bg-background-dark flex items-center justify-center">
+          <div className="text-center space-y-6">
+            <div className="w-16 h-16 border-4 border-primary/30 border-t-primary rounded-full animate-spin mx-auto"></div>
+            <div className="space-y-2">
+              <p className="text-white font-heading text-xl">Chargement de la Scène Artistique</p>
+              <p className="text-slate-400 text-sm">Veuillez patienter...</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       <AnimatePresence mode="wait">
         {showAllGallery ? (
           // Gallery View with Pagination
@@ -137,10 +203,12 @@ const ArtisticScene = ({ onNavigateToProgram, onNavigateToTickets, pageBackgroun
                               </div>
                             </div>
                             <img 
-                              className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 ease-out" 
-                              src={company.mainImage} 
-                              alt={company.name}
-                              referrerPolicy="no-referrer"
+                            className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 ease-out" 
+                            src={company.mainImage} 
+                            alt={company.name}
+                            referrerPolicy="no-referrer"
+                            onLoad={handleImageLoad}
+                            loading="lazy"
                             />
                             <div className="absolute bottom-2 left-2 z-20">
                               <span className="bg-primary text-background-dark text-[8px] font-black px-2 py-0.5 uppercase tracking-widest">
@@ -365,6 +433,8 @@ const ArtisticScene = ({ onNavigateToProgram, onNavigateToTickets, pageBackgroun
                         src={featuredPiece?.image || "https://lh3.googleusercontent.com/aida-public/AB6AXuDFFVjlS0aV2aTZ_NOUWSPOLFwvZDL53_dHLHupDNuVMhBZlkX7CnONhZG-SOJnA70FigEjAj6fHlw1dX_QNjvlouaXTV7FpZAXArqfjERLDvl6Cy48tFNGGL6rFGW1y4K1v_8gLWpXw9U-t6RhMPGVxdPc9kfXz5lgGmOZsIdsyqxJ8XtocNNGz91LRaDnMusjC2cud0R5XhBaE_0Ifh_vQJNugwvgwOBYr3hxh492ZauvzD8RKjUl3QeOwy71EzcXE5PeEQ3CspOm"} 
                         alt={featuredPiece?.title || "L'éveil des ombres"}
                         referrerPolicy="no-referrer"
+                        onLoad={handleImageLoad}
+                        loading="lazy"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-background-dark/80 via-transparent to-transparent"></div>
                       
@@ -460,6 +530,7 @@ const ArtisticScene = ({ onNavigateToProgram, onNavigateToTickets, pageBackgroun
                       alt={selectedCompany.name}
                       className="w-full h-full object-cover"
                       referrerPolicy="no-referrer"
+                      onLoad={handleImageLoad}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-background-dark/60 to-transparent"></div>
                     <div className="absolute bottom-6 left-6">
@@ -476,7 +547,7 @@ const ArtisticScene = ({ onNavigateToProgram, onNavigateToTickets, pageBackgroun
                         transition={{ delay: 0.2 + i * 0.1 }}
                         className="aspect-square overflow-hidden rounded-sm border border-white/5 grayscale hover:grayscale-0 transition-all cursor-pointer"
                       >
-                        <img src={img} alt="Gallery" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                        <img src={img} alt="Gallery" className="w-full h-full object-cover" referrerPolicy="no-referrer" onLoad={handleImageLoad} />
                       </motion.div>
                     ))}
                   </div>
