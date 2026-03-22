@@ -1,0 +1,38 @@
+// Liste complète des icônes Lucide React disponibles
+export const LUCIDE_ICONS = [
+  'Star', 'Heart', 'Verified', 'GlassWater', 'Sparkles', 'Zap',
+  'Award', 'Trophy', 'Crown', 'Gem', 'Feather', 'Flame',
+  'Music', 'Volume2', 'Headphones', 'Radio', 'Mic',
+  'Image', 'Camera', 'Video', 'Film', 'Play', 'Pause',
+  'Users', 'User', 'UserCheck', 'UserPlus', 'UserX', 'UserCog',
+  'MapPin', 'Map', 'Navigation', 'Compass', 'Globe', 'Earth',
+  'Building', 'Home', 'Hotel', 'Landmark',
+  'Calendar', 'Clock', 'Watch', 'Timer', 'Stopwatch',
+  'Mail', 'MessageCircle', 'MessageSquare', 'Send', 'Phone',
+  'Info', 'AlertCircle', 'AlertTriangle', 'HelpCircle', 'CheckCircle', 'XCircle',
+  'Settings', 'Sliders', 'Cog', 'Wrench', 'Hammer',
+  'Key', 'Lock', 'Unlock', 'Eye', 'EyeOff',
+  'Download', 'Upload', 'Share2', 'Share', 'Link', 'ExternalLink',
+  'Copy', 'Clipboard', 'Edit', 'Trash2', 'Plus', 'Minus',
+  'X', 'Check', 'ChevronDown', 'ChevronUp', 'ChevronLeft', 'ChevronRight',
+  'ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight', 'ArrowUpRight',
+  'Search', 'Filter', 'Grid', 'List', 'Menu',
+  'Badge', 'Briefcase', 'BookOpen', 'Book', 'Bookmark',
+  'BarChart', 'LineChart', 'PieChart', 'TrendingUp', 'TrendingDown',
+  'Activity', 'Layers', 'Layout', 'Move', 'Maximize', 'Minimize',
+  'RotateCw', 'RotateCcw', 'RefreshCw',
+  'Tag', 'Tags', 'Target', 'Box', 'Package', 'Gift', 'Flag', 'Umbrella',
+  'Wind', 'Cloud', 'CloudRain', 'Sun', 'Moon', 'Sunset', 'Sunrise',
+  'Coffee', 'Droplets', 'Flower', 'Leaf', 'Mountain', 'Waves', 'Anchor',
+  'Smile', 'Frown', 'Circle', 'Square',
+  'Type', 'Bold', 'Italic', 'Underline', 'Code',
+  'Terminal', 'Database', 'Server', 'Cpu',
+  'Wifi', 'WifiOff', 'Signal', 'Bluetooth',
+  'LogOut', 'LogIn', 'Power', 'Battery',
+  'ShoppingCart', 'ShoppingBag', 'DollarSign', 'CreditCard', 'Wallet', 'Coins',
+  'Lightbulb', 'Thermometer', 'Droplet', 'Focus',
+  'Instagram', 'Facebook', 'Twitter', 'Youtube', 'Linkedin', 'Github',
+  'Megaphone', 'Bell', 'Volume'
+] as const;
+
+export type LucideIconName = typeof LUCIDE_ICONS[number];
