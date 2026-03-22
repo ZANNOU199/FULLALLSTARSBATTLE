@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { CMSData, Company, FeaturedPiece } from '../../types';
-import { Plus, Trash2, Edit, Save, X, Image as ImageIcon, Sparkles } from 'lucide-react';
+import { Plus, Trash2, Edit, Save, X, Image as ImageIcon, Sparkles, Upload, Loader } from 'lucide-react';
 import { cmsService } from '../../services/cmsService';
+import { UploadService } from '../../services/uploadService';
 
 export default function SceneArtistique({ data, setData, onSave }: { data: CMSData, setData: React.Dispatch<React.SetStateAction<CMSData>>, onSave?: (data: CMSData) => Promise<void> }) {
   const [isAdding, setIsAdding] = useState(false);
@@ -9,6 +10,48 @@ export default function SceneArtistique({ data, setData, onSave }: { data: CMSDa
   const [editingFeaturedPiece, setEditingFeaturedPiece] = useState(false);
   const [formData, setFormData] = useState<Partial<Company>>({});
   const [featuredFormData, setFeaturedFormData] = useState<Partial<FeaturedPiece>>({});
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadingField, setUploadingField] = useState<string | null>(null);
+
+  // File upload handler
+  const handleFileUpload = async (file: File, fieldName: string, isForFeatured: boolean) => {
+    if (!UploadService.validateImageFile(file)) {
+      alert('Fichier invalide. Seules les images (JPEG, PNG, WebP, GIF) de moins de 10MB sont acceptées.');
+      return;
+    }
+
+    setIsUploading(true);
+    setUploadingField(fieldName);
+    setUploadProgress(0);
+
+    try {
+      const progressInterval = setInterval(() => {
+        setUploadProgress(prev => Math.min(prev + 10, 90));
+      }, 200);
+
+      const fileName = UploadService.generateFileName(file.name);
+      const uploadedUrl = await UploadService.uploadFile(file, fileName);
+
+      clearInterval(progressInterval);
+      setUploadProgress(100);
+
+      if (isForFeatured) {
+        setFeaturedFormData({ ...featuredFormData, [fieldName]: uploadedUrl });
+      } else {
+        setFormData({ ...formData, [fieldName]: uploadedUrl });
+      }
+    } catch (error) {
+      console.error('Upload failed:', error);
+      alert('Erreur lors de l\'upload: ' + (error as Error).message);
+    } finally {
+      setTimeout(() => {
+        setIsUploading(false);
+        setUploadingField(null);
+        setUploadProgress(0);
+      }, 1000);
+    }
+  };
 
   const handleAdd = async () => {
     if (editingId) {
@@ -216,13 +259,41 @@ export default function SceneArtistique({ data, setData, onSave }: { data: CMSDa
                 />
               </div>
               <div className="space-y-2 md:col-span-2">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Image (URL)</label>
-                <input 
-                  type="text" 
-                  value={featuredFormData.image || ''} 
-                  onChange={e => setFeaturedFormData({ ...featuredFormData, image: e.target.value })}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl p-3 focus:border-primary outline-none transition-all"
-                />
+                <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Image (Upload)</label>
+                <div className="flex gap-3">
+                  <label className="flex-1 relative cursor-pointer">
+                    <input 
+                      type="file" 
+                      accept="image/*"
+                      onChange={e => {
+                        const file = e.target.files?.[0];
+                        if (file) handleFileUpload(file, 'image', true);
+                      }}
+                      disabled={isUploading}
+                      className="hidden"
+                    />
+                    <div className="w-full bg-white/5 border border-white/10 border-dashed rounded-xl p-4 hover:bg-white/10 transition-all text-center">
+                      <div className="flex items-center justify-center gap-2 text-xs text-slate-400">
+                        {uploadingField === 'image' && isUploading ? (
+                          <>
+                            <Loader size={14} className="animate-spin" />
+                            Téléchargement: {uploadProgress}%
+                          </>
+                        ) : (
+                          <>
+                            <Upload size={14} />
+                            Cliquez pour uploader l'image
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </label>
+                  {featuredFormData.image && (
+                    <div className="w-20 h-20 rounded-xl overflow-hidden border border-white/10">
+                      <img src={featuredFormData.image} alt="preview" className="w-full h-full object-cover" />
+                    </div>
+                  )}
+                </div>
               </div>
               <div className="space-y-2 md:col-span-2">
                 <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Description Courte</label>
@@ -387,13 +458,41 @@ export default function SceneArtistique({ data, setData, onSave }: { data: CMSDa
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Image Principale (URL)</label>
-                <input 
-                  type="text" 
-                  value={formData.mainImage || ''} 
-                  onChange={e => setFormData({ ...formData, mainImage: e.target.value })}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl p-3 focus:border-primary outline-none transition-all"
-                />
+                <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Image Principale (Upload)</label>
+                <div className="flex gap-3">
+                  <label className="flex-1 relative cursor-pointer">
+                    <input 
+                      type="file" 
+                      accept="image/*"
+                      onChange={e => {
+                        const file = e.target.files?.[0];
+                        if (file) handleFileUpload(file, 'mainImage', false);
+                      }}
+                      disabled={isUploading}
+                      className="hidden"
+                    />
+                    <div className="w-full bg-white/5 border border-white/10 border-dashed rounded-xl p-4 hover:bg-white/10 transition-all text-center">
+                      <div className="flex items-center justify-center gap-2 text-xs text-slate-400">
+                        {uploadingField === 'mainImage' && isUploading ? (
+                          <>
+                            <Loader size={14} className="animate-spin" />
+                            Téléchargement: {uploadProgress}%
+                          </>
+                        ) : (
+                          <>
+                            <Upload size={14} />
+                            Cliquez pour uploader l'image
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </label>
+                  {formData.mainImage && (
+                    <div className="w-20 h-20 rounded-xl overflow-hidden border border-white/10">
+                      <img src={formData.mainImage} alt="preview" className="w-full h-full object-cover" />
+                    </div>
+                  )}
+                </div>
               </div>
               <div className="space-y-2 md:col-span-2">
                 <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Description Longue</label>
