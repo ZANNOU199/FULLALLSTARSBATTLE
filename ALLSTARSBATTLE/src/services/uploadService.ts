@@ -23,13 +23,117 @@ export class UploadService {
   }
 
   /**
-   * Upload un fichier vers Cloudflare R2 via l'API Laravel
+   * Compresse une image avant upload
+   */
+  static async compressImage(
+    file: File,
+    options: {
+      maxWidth?: number;
+      maxHeight?: number;
+      quality?: number; // 0-1
+      format?: 'image/jpeg' | 'image/webp' | 'image/png';
+    } = {}
+  ): Promise<File> {
+    const {
+      maxWidth = 1920,
+      maxHeight = 1920,
+      quality = 0.85,
+      format = 'image/webp'
+    } = options;
+
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onload = (event) => {
+        const img = new Image();
+
+        img.onload = () => {
+          // Calculer les nouvelles dimensions
+          let width = img.width;
+          let height = img.height;
+
+          if (width > maxWidth) {
+            height = (height / width) * maxWidth;
+            width = maxWidth;
+          }
+
+          if (height > maxHeight) {
+            width = (width / height) * maxHeight;
+            height = maxHeight;
+          }
+
+          // Créer un canvas et compresser
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+
+          const ctx = canvas.getContext('2d');
+          if (!ctx) {
+            reject(new Error('Could not get canvas context'));
+            return;
+          }
+
+          ctx.drawImage(img, 0, 0, width, height);
+
+          canvas.toBlob(
+            (blob) => {
+              if (!blob) {
+                reject(new Error('Compression failed'));
+                return;
+              }
+
+              // Créer un nouveau File avec le blob compressé
+              const compressedFile = new File(
+                [blob],
+                file.name.replace(/\.[^.]+$/, '') + '.webp',
+                { type: format, lastModified: Date.now() }
+              );
+
+              console.log(
+                `Compression: ${(file.size / 1024).toFixed(2)}KB → ${(compressedFile.size / 1024).toFixed(2)}KB`
+              );
+
+              resolve(compressedFile);
+            },
+            format,
+            quality
+          );
+        };
+
+        img.onerror = () => {
+          reject(new Error('Could not load image'));
+        };
+
+        img.src = event.target?.result as string;
+      };
+
+      reader.onerror = () => {
+        reject(new Error('Could not read file'));
+      };
+
+      reader.readAsDataURL(file);
+    });
+  }
+
+  /**
+   * Upload un fichier vers Cloudflare R2 via l'API Laravel (avec compression automatique)
    */
   static async uploadFile(file: File, fileName?: string): Promise<string> {
     try {
+      // Compresser l'image si c'est une image
+      let fileToUpload = file;
+      if (this.validateImageFile(file)) {
+        fileToUpload = await this.compressImage(file, {
+          maxWidth: 1920,
+          maxHeight: 1920,
+          quality: 0.85,
+          format: 'image/webp'
+        });
+      }
+
       // Créer FormData pour l'upload
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append('file', fileToUpload);
 
       // Upload via l'API Laravel
       const response = await fetch(`${this.API_BASE_URL}/api/upload/r2`, {

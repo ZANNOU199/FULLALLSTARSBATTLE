@@ -12,6 +12,9 @@ import ArtisticScene from './ArtisticScene';
 import * as LucideIcons from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useThemeApply } from './hooks/useThemeApply';
+import OptimizedImage from './components/OptimizedImage';
+import OptimizedVideo from './components/OptimizedVideo';
+import { usePagination } from './hooks/usePagination';
 
 // Extraire les icônes nécessaires
 const { Menu, X, ChevronsDown, ChevronDown, Verified, Star, Instagram, Facebook, Twitter, Youtube, Calendar, MapPin, ArrowRight, GlassWater, Megaphone, Globe, Mail, Trophy, User } = LucideIcons as any;
@@ -85,12 +88,14 @@ const DancerCard = ({ name, origin, image }: { name: string, origin: string, ima
     whileHover={{ scale: 1.05, y: -10 }}
     className="group relative overflow-hidden aspect-[3/4] bg-surface-dark shadow-2xl transition-all duration-500"
   >
-    <img 
-      src={image} 
-      alt={name} 
-      className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
-      referrerPolicy="no-referrer"
-      loading="lazy"
+    <OptimizedImage
+      src={image}
+      alt={name}
+      className="w-full h-full group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
+      objectFit="cover"
+      quality={85}
+      maxWidth={800}
+      showSkeleton={true}
     />
     <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent opacity-80 group-hover:opacity-40 transition-opacity"></div>
     <div className="absolute bottom-0 left-0 p-6 transform translate-y-2 group-hover:translate-y-0 transition-transform">
@@ -124,11 +129,14 @@ const NewsCard: React.FC<NewsCardProps> = ({ date, title, desc, tag, coverImage,
     className={`group bg-surface-dark border border-white/5 overflow-hidden transition-all duration-500 hover:border-${color}/50 hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)]`}
   >
     <div className="aspect-video bg-zinc-800 relative overflow-hidden">
-      <img 
-        src={coverImage || `https://picsum.photos/seed/${title}/800/450`} 
-        alt={title} 
-        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-        referrerPolicy="no-referrer"
+      <OptimizedImage
+        src={coverImage}
+        alt={title}
+        className="w-full h-full group-hover:scale-110 transition-transform duration-700"
+        objectFit="cover"
+        quality={85}
+        maxWidth={1200}
+        showSkeleton={true}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-surface-dark to-transparent z-10 opacity-60"></div>
       <div className={`absolute top-4 left-4 z-20 ${color === "primary" ? "bg-primary text-background-dark" : "bg-accent-red text-white"} px-3 py-1 text-[10px] font-black tracking-widest`}>
@@ -769,24 +777,34 @@ export default function App() {
         {/* Background elements */}
         <div className="absolute inset-0 z-0">
           {/* Video for Tablet & PC */}
-          <video 
-            key={pageBackgrounds?.hero.videoUrl}
-            autoPlay 
-            loop 
-            muted 
-            playsInline 
-            preload="auto"
-            poster={pageBackgrounds?.hero.imageUrl || "https://i.ibb.co/LhsB2zPT/20260319-190925.jpg"}
-            className="hidden md:block w-full h-full object-cover opacity-50 scale-105"
-          >
-            <source src={pageBackgrounds?.hero.videoUrl || "https://vjs.zencdn.net/v/oceans.mp4"} type="video/mp4" />
-          </video>
+          <div className="hidden md:block w-full h-full absolute">
+            <OptimizedVideo
+              src={pageBackgrounds?.hero.videoUrl}
+              poster={pageBackgrounds?.hero.imageUrl}
+              className="w-full h-full opacity-50 scale-105"
+              muted={true}
+              autoPlay={true}
+              loop={true}
+              controls={false}
+              loading="eager"
+              quality="medium"
+            />
+          </div>
           
           {/* Photo for Mobile */}
-          <div 
-            className="md:hidden w-full h-full bg-cover bg-center opacity-60 scale-110"
-            style={{ backgroundImage: `url("${pageBackgrounds?.hero.imageUrl || 'https://i.ibb.co/LhsB2zPT/20260319-190925.jpg'}")` }}
-          ></div>
+          {pageBackgrounds?.hero.imageUrl && (
+            <div className="md:hidden w-full h-full absolute">
+              <OptimizedImage
+                src={pageBackgrounds.hero.imageUrl}
+                alt="Hero background"
+                className="w-full h-full opacity-60 scale-110"
+                objectFit="cover"
+                loading="eager"
+                quality={75}
+                maxWidth={1080}
+              />
+            </div>
+          )}
           
           <div className="absolute inset-0 bg-gradient-to-b from-background-dark/70 via-background-dark/20 to-background-dark/80"></div>
           <div className="absolute inset-0 grainy-bg opacity-20"></div>
@@ -878,7 +896,7 @@ export default function App() {
             <div className="absolute -top-10 -left-10 w-32 h-32 bg-accent-red/20 rounded-full blur-3xl"></div>
             <div className="relative z-10 aspect-video w-full bg-cover bg-center rounded-sm border-l-4 border-primary overflow-hidden">
               <img 
-                src={pageBackgrounds?.competition?.imageUrl || "https://picsum.photos/seed/dance/800/450"} 
+                src={pageBackgrounds?.competition?.imageUrl || ''} 
                 alt="Competition" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
@@ -1062,7 +1080,7 @@ export default function App() {
 
       {/* VIP EXPERIENCE */}
       <section id="vip" className="py-24 relative">
-        <div className="absolute inset-0 bg-cover bg-fixed opacity-20" style={{ backgroundImage: `url('${pageBackgrounds?.vip?.imageUrl || "https://picsum.photos/seed/vip/1920/1080"}')` }}></div>
+        <div className="absolute inset-0 bg-cover bg-fixed opacity-20" style={{ backgroundImage: pageBackgrounds?.vip?.imageUrl ? `url('${pageBackgrounds.vip.imageUrl}')` : 'none' }}></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="bg-gradient-to-br from-surface-dark to-black border border-primary/30 p-12 lg:p-20 relative overflow-hidden">
             <div className="absolute -right-20 -top-20 w-64 h-64 border-[1px] border-primary/20 rounded-full"></div>
@@ -1109,11 +1127,14 @@ export default function App() {
               <div className="relative group">
                 <div className="absolute -inset-1 bg-gradient-to-r from-primary to-accent-red rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
                 <div className="relative bg-black rounded-lg p-4">
-                  <img 
-                    src={pageBackgrounds?.vip?.imageUrl || "https://picsum.photos/seed/viplounge/600/400"} 
-                    alt="VIP Experience" 
+                  <OptimizedImage
+                    src={pageBackgrounds?.vip?.imageUrl}
+                    alt="VIP Experience"
                     className="w-full h-auto rounded"
-                    referrerPolicy="no-referrer"
+                    objectFit="cover"
+                    quality={85}
+                    maxWidth={600}
+                    showSkeleton={true}
                   />
                 </div>
               </div>
@@ -1132,50 +1153,49 @@ export default function App() {
             </div>
             <a href="#media" onClick={navigateTo('media')} className="text-slate-500 hover:text-white transition-colors uppercase font-bold text-xs tracking-widest pb-2 underline decoration-primary underline-offset-8 cursor-pointer">Accéder à la galerie</a>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {/* Get photos from CMS, display first 6 */}
-            {mediaItems
-              .filter(item => item.type === 'photo')
-              .sort((a, b) => b.year - a.year) // Most recent first
-              .slice(0, 6)
-              .map((media, idx) => (
-                <div 
-                  key={media.id} 
-                  className={`bg-surface-dark overflow-hidden group ${idx === 1 ? 'md:row-span-2 aspect-square md:aspect-auto' : 'aspect-square'}`}
-                >
-                  <img 
-                    src={media.url} 
-                    alt={media.title || `Photo ${idx + 1}`}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
-                    referrerPolicy="no-referrer"
-                    loading="lazy"
-                  />
+
+          {/* Media Gallery with Pagination - Display only 6 items at a time */}
+          {mediaItems.filter(item => item.type === 'photo').length > 0 ? (
+            <div className="space-y-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {mediaItems
+                  .filter(item => item.type === 'photo')
+                  .sort((a, b) => b.year - a.year)
+                  .slice(0, 6)
+                  .map((media, idx) => (
+                    <div 
+                      key={media.id}
+                      className={`bg-surface-dark overflow-hidden group relative ${idx === 1 ? 'md:row-span-2 aspect-square md:aspect-auto' : 'aspect-square'}`}
+                    >
+                      <OptimizedImage
+                        src={media.url}
+                        alt={media.title || `Photo ${idx + 1}`}
+                        className="w-full h-full group-hover:scale-110 transition-transform duration-500"
+                        objectFit="cover"
+                        quality={80}
+                        maxWidth={1000}
+                        loading="lazy"
+                        showSkeleton={true}
+                      />
+                    </div>
+                  ))}
+              </div>
+              {mediaItems.filter(item => item.type === 'photo').length > 6 && (
+                <div className="flex justify-center pt-8">
+                  <button 
+                    onClick={navigateTo('media')}
+                    className="px-8 py-3 bg-primary hover:bg-primary/80 text-background-dark font-black uppercase tracking-widest rounded-lg transition-all transform hover:scale-105"
+                  >
+                    Voir tous les médias
+                  </button>
                 </div>
-              ))}
-            {/* Fallback if no media items */}
-            {mediaItems.filter(item => item.type === 'photo').length === 0 && (
-              <>
-                <div className="aspect-square bg-surface-dark overflow-hidden group">
-                  <img src="https://picsum.photos/seed/m1/400/400" alt="Media" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" referrerPolicy="no-referrer" />
-                </div>
-                <div className="aspect-square md:aspect-auto md:row-span-2 bg-surface-dark overflow-hidden group">
-                  <img src="https://picsum.photos/seed/m2/400/800" alt="Media" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" referrerPolicy="no-referrer" />
-                </div>
-                <div className="aspect-square bg-surface-dark overflow-hidden group">
-                  <img src="https://picsum.photos/seed/m3/400/400" alt="Media" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" referrerPolicy="no-referrer" />
-                </div>
-                <div className="aspect-square bg-surface-dark overflow-hidden group">
-                  <img src="https://picsum.photos/seed/m4/400/400" alt="Media" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" referrerPolicy="no-referrer" />
-                </div>
-                <div className="aspect-square bg-surface-dark overflow-hidden group">
-                  <img src="https://picsum.photos/seed/m5/400/400" alt="Media" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" referrerPolicy="no-referrer" />
-                </div>
-                <div className="aspect-square bg-surface-dark overflow-hidden group">
-                  <img src="https://picsum.photos/seed/m6/400/400" alt="Media" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" referrerPolicy="no-referrer" />
-                </div>
-              </>
-            )}
-          </div>
+              )}
+            </div>
+          ) : (
+            <div className="text-center py-12 text-slate-400">
+              <p>Aucun média disponible pour le moment</p>
+            </div>
+          )}
         </div>
       </section>
 
