@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cmsService } from './services/cmsService';
 import { Company } from './types';
+import OptimizedImage from './components/OptimizedImage';
 import { 
   ArrowRight, 
   Play, 
@@ -26,7 +27,6 @@ const ArtisticScene = ({ onNavigateToProgram, onNavigateToTickets, pageBackgroun
   const [selectedCompany, setSelectedCompany] = useState<Company | null>(null);
   const [showAllGallery, setShowAllGallery] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [imagesLoaded, setImagesLoaded] = useState(0);
   const prevShowAllGalleryRef = useRef(false);
   const prevSelectedCompanyRef = useRef<Company | null>(null);
 
@@ -81,20 +81,6 @@ const ArtisticScene = ({ onNavigateToProgram, onNavigateToTickets, pageBackgroun
       localStorage.removeItem('artisticSceneState');
     }
   }, [showAllGallery, selectedCompany, currentPage]);
-
-  // Track image loading to know when all images are loaded
-  const totalExpectedImages = companies.length + (selectedCompany?.gallery?.length || 0) + 2; // companies + gallery + featured + hero
-  
-  const handleImageLoad = () => {
-    setImagesLoaded(prev => Math.min(prev + 1, totalExpectedImages));
-  };
-
-  const allImagesLoaded = imagesLoaded >= totalExpectedImages;
-
-  // Reset image counter when companies/selected company changes
-  useEffect(() => {
-    setImagesLoaded(0);
-  }, [companies, selectedCompany]);
 
   // Scroll to top when viewing company details
   useEffect(() => {
@@ -188,13 +174,16 @@ const ArtisticScene = ({ onNavigateToProgram, onNavigateToTickets, pageBackgroun
                                 <Eye className="text-primary w-6 h-6" />
                               </div>
                             </div>
-                            <img 
-                            className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 ease-out" 
-                            src={company.mainImage} 
-                            alt={company.name}
-                            referrerPolicy="no-referrer"
-                            onLoad={handleImageLoad}
-                            loading="lazy"
+                            <OptimizedImage
+                              src={company.mainImage}
+                              alt={company.name}
+                              className="w-full h-full grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 ease-out"
+                              objectFit="cover"
+                              referrerPolicy="no-referrer"
+                              loading="lazy"
+                              quality={80}
+                              maxWidth={600}
+                              showSkeleton={false}
                             />
                             <div className="absolute bottom-2 left-2 z-20">
                               <span className="bg-primary text-background-dark text-[8px] font-black px-2 py-0.5 uppercase tracking-widest">
@@ -361,11 +350,16 @@ const ArtisticScene = ({ onNavigateToProgram, onNavigateToTickets, pageBackgroun
                             <Eye className="text-primary w-6 h-6" />
                           </div>
                         </div>
-                        <img 
-                          className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 ease-out" 
-                          src={company.mainImage} 
+                        <OptimizedImage
+                          src={company.mainImage}
                           alt={company.name}
+                          className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 ease-out"
+                          objectFit="cover"
                           referrerPolicy="no-referrer"
+                          loading="lazy"
+                          quality={80}
+                          maxWidth={600}
+                          showSkeleton={false}
                         />
                         <div className="absolute bottom-4 left-4 z-20">
                           <span className="bg-primary text-background-dark text-[9px] font-black px-3 py-1 uppercase tracking-widest shadow-xl">
@@ -414,14 +408,16 @@ const ArtisticScene = ({ onNavigateToProgram, onNavigateToTickets, pageBackgroun
                     <div className="absolute -bottom-4 -right-4 w-24 h-24 border-b-2 border-r-2 border-accent-pink/50"></div>
                     
                     <div className="relative overflow-hidden aspect-video rounded-sm shadow-2xl group">
-                      <img 
-                        className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100" 
-                        src={featuredPiece?.image || "https://lh3.googleusercontent.com/aida-public/AB6AXuDFFVjlS0aV2aTZ_NOUWSPOLFwvZDL53_dHLHupDNuVMhBZlkX7CnONhZG-SOJnA70FigEjAj6fHlw1dX_QNjvlouaXTV7FpZAXArqfjERLDvl6Cy48tFNGGL6rFGW1y4K1v_8gLWpXw9U-t6RhMPGVxdPc9kfXz5lgGmOZsIdsyqxJ8XtocNNGz91LRaDnMusjC2cud0R5XhBaE_0Ifh_vQJNugwvgwOBYr3hxh492ZauvzD8RKjUl3QeOwy71EzcXE5PeEQ3CspOm"} 
+                      <OptimizedImage
+                        src={featuredPiece?.image || "https://lh3.googleusercontent.com/aida-public/AB6AXuDFFVjlS0aV2aTZ_NOUWSPOLFwvZDL53_dHLHupDNuVMhBZlkX7CnONhZG-SOJnA70FigEjAj6fHlw1dX_QNjvlouaXTV7FpZAXArqfjERLDvl6Cy48tFNGGL6rFGW1y4K1v_8gLWpXw9U-t6RhMPGVxdPc9kfXz5lgGmOZsIdsyqxJ8XtocNNGz91LRaDnMusjC2cud0R5XhBaE_0Ifh_vQJNugwvgwOBYr3hxh492ZauvzD8RKjUl3QeOwy71EzcXE5PeEQ3CspOm"}
                         alt={featuredPiece?.title || "L'éveil des ombres"}
+                        className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100"
+                        objectFit="cover"
                         referrerPolicy="no-referrer"
-                        onLoad={handleImageLoad}
                         loading="lazy"
-                      />
+                        quality={85}
+                        maxWidth={1200}
+                        showSkeleton={false}
                       <div className="absolute inset-0 bg-gradient-to-t from-background-dark/80 via-transparent to-transparent"></div>
                       
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
@@ -511,12 +507,16 @@ const ArtisticScene = ({ onNavigateToProgram, onNavigateToTickets, pageBackgroun
                     animate={{ scale: 1 }}
                     className="relative aspect-[16/10] overflow-hidden rounded-sm border border-white/5"
                   >
-                    <img 
-                      src={selectedCompany.mainImage} 
+                    <OptimizedImage
+                      src={selectedCompany.mainImage}
                       alt={selectedCompany.name}
                       className="w-full h-full object-cover"
+                      objectFit="cover"
                       referrerPolicy="no-referrer"
-                      onLoad={handleImageLoad}
+                      loading="eager"
+                      quality={90}
+                      maxWidth={1400}
+                      showSkeleton={false}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-background-dark/60 to-transparent"></div>
                     <div className="absolute bottom-6 left-6">
@@ -533,7 +533,17 @@ const ArtisticScene = ({ onNavigateToProgram, onNavigateToTickets, pageBackgroun
                         transition={{ delay: 0.2 + i * 0.1 }}
                         className="aspect-square overflow-hidden rounded-sm border border-white/5 grayscale hover:grayscale-0 transition-all cursor-pointer"
                       >
-                        <img src={img} alt="Gallery" className="w-full h-full object-cover" referrerPolicy="no-referrer" onLoad={handleImageLoad} />
+                        <OptimizedImage
+                          src={img}
+                          alt="Gallery"
+                          className="w-full h-full object-cover"
+                          objectFit="cover"
+                          referrerPolicy="no-referrer"
+                          loading="lazy"
+                          quality={80}
+                          maxWidth={400}
+                          showSkeleton={false}
+                        />
                       </motion.div>
                     ))}
                   </div>

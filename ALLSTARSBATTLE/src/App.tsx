@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, ComponentType } from 'react';
+import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import Competition from './Competition';
 import Dancers from './Dancers';
 import Judges from './Judges';
@@ -464,13 +465,42 @@ import AdminDashboard from './admin/AdminDashboard';
 import { cmsService } from './services/cmsService';
 import { GlobalConfig, MediaItem } from './types';
 
-export default function App() {
+const AppContent = () => {
   // Apply theme colors from CMS
   useThemeApply();
 
-  const [currentPage, setCurrentPage] = useState<'home' | 'competition' | 'dancers' | 'judges' | 'media' | 'history' | 'tickets' | 'program' | 'news' | 'artistic' | 'contact' | 'partners' | 'participate' | 'admin'>('home');
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Get current page from URL
+  const getCurrentPageFromUrl = (): 'home' | 'competition' | 'dancers' | 'judges' | 'media' | 'history' | 'tickets' | 'program' | 'news' | 'artistic' | 'contact' | 'partners' | 'participate' | 'admin' | 'faq' => {
+    const path = location.pathname.slice(1) || 'home'; // Remove leading slash
+    const pathToPage: Record<string, typeof currentPage> = {
+      '': 'home',
+      'competition': 'competition',
+      'dancers': 'dancers',
+      'judges': 'judges',
+      'media': 'media',
+      'history': 'history',
+      'tickets': 'tickets',
+      'program': 'program',
+      'news': 'news',
+      'artistic': 'artistic',
+      'contact': 'contact',
+      'partners': 'partners',
+      'participate': 'participate',
+      'admin': 'admin',
+      'faq': 'faq'
+    };
+    return pathToPage[path] || 'home';
+  };
+
+  const [currentPage, setCurrentPage] = useState<'home' | 'competition' | 'dancers' | 'judges' | 'media' | 'history' | 'tickets' | 'program' | 'news' | 'artistic' | 'contact' | 'partners' | 'participate' | 'admin' | 'faq'>(getCurrentPageFromUrl());
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
-  const [selectedArticleId, setSelectedArticleId] = useState<string | undefined>(undefined);
+  const [selectedArticleId, setSelectedArticleId] = useState<string | undefined>(() => {
+    const urlParams = new URLSearchParams(location.search);
+    return urlParams.get('article') || undefined;
+  });
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [config, setConfig] = useState<GlobalConfig | null>(null);
   const [pageBackgrounds, setPageBackgrounds] = useState<any>(null);
@@ -483,23 +513,54 @@ export default function App() {
   const [mediaItems, setMediaItems] = useState<MediaItem[]>([]);
   const [partnerData, setPartnerData] = useState<any>(null);
   const [participateData, setParticipateData] = useState<any>(null);
-  const [selectedMediaYear, setSelectedMediaYear] = useState<number>(2026);
+  const [selectedMediaYear, setSelectedMediaYear] = useState<number>(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const year = urlParams.get('year');
+    return year ? parseInt(year) : 2026;
+  });
 
-  // Load navigation state from localStorage on app start
+  // Listen for browser back/forward navigation
   useEffect(() => {
-    const savedPage = localStorage.getItem('currentPage');
-    const savedArticleId = localStorage.getItem('selectedArticleId');
-    const savedMediaYear = localStorage.getItem('selectedMediaYear');
-    
-    if (savedPage) {
-      setCurrentPage(savedPage as any);
-    }
-    if (savedArticleId) {
-      setSelectedArticleId(savedArticleId);
-    }
-    if (savedMediaYear) {
-      setSelectedMediaYear(parseInt(savedMediaYear));
-    }
+    const handlePopState = () => {
+      const currentPath = window.location.pathname.slice(1) || 'home';
+      const urlParams = new URLSearchParams(window.location.search);
+      const articleId = urlParams.get('article');
+      const year = urlParams.get('year');
+
+      const pathToPage: Record<string, typeof currentPage> = {
+        '': 'home',
+        'competition': 'competition',
+        'dancers': 'dancers',
+        'judges': 'judges',
+        'media': 'media',
+        'history': 'history',
+        'tickets': 'tickets',
+        'program': 'program',
+        'news': 'news',
+        'artistic': 'artistic',
+        'contact': 'contact',
+        'partners': 'partners',
+        'participate': 'participate',
+        'admin': 'admin',
+        'faq': 'faq'
+      };
+
+      const pageFromUrl = pathToPage[currentPath] || 'home';
+      setCurrentPage(pageFromUrl);
+      
+      if (articleId) {
+        setSelectedArticleId(articleId);
+      } else {
+        setSelectedArticleId(undefined);
+      }
+      
+      if (year) {
+        setSelectedMediaYear(parseInt(year));
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
   // Save navigation state to localStorage whenever it changes
@@ -605,6 +666,29 @@ export default function App() {
     setSelectedArticleId(articleId);
     setIsMenuOpen(false);
     
+    // Update URL using React Router
+    const pageToPath: Record<string, string> = {
+      'home': '/',
+      'competition': '/competition',
+      'dancers': '/dancers',
+      'judges': '/judges',
+      'media': '/media',
+      'history': '/history',
+      'tickets': '/tickets',
+      'program': '/program',
+      'news': '/news',
+      'artistic': '/artistic',
+      'contact': '/contact',
+      'partners': '/partners',
+      'participate': '/participate',
+      'admin': '/admin',
+      'faq': '/faq'
+    };
+    
+    const path = pageToPath[page] || '/';
+    const url = articleId ? `${path}?article=${articleId}` : path;
+    navigate(url);
+    
     if (anchor) {
       setTimeout(() => {
         const element = document.getElementById(anchor.replace('#', ''));
@@ -615,12 +699,32 @@ export default function App() {
     }
   };
 
-  const navigateToMediaYear = (year: number) => (e: React.MouseEvent) => {
-    e.preventDefault();
-    setSelectedMediaYear(year);
-    window.scrollTo(0, 0);
-    setCurrentPage('media');
-    setIsMenuOpen(false);
+  const changePage = (page: typeof currentPage, articleId?: string) => {
+    setCurrentPage(page);
+    setSelectedArticleId(articleId);
+    
+    // Update URL using React Router
+    const pageToPath: Record<string, string> = {
+      'home': '/',
+      'competition': '/competition',
+      'dancers': '/dancers',
+      'judges': '/judges',
+      'media': '/media',
+      'history': '/history',
+      'tickets': '/tickets',
+      'program': '/program',
+      'news': '/news',
+      'artistic': '/artistic',
+      'contact': '/contact',
+      'partners': '/partners',
+      'participate': '/participate',
+      'admin': '/admin',
+      'faq': '/faq'
+    };
+    
+    const path = pageToPath[page] || '/';
+    const url = articleId ? `${path}?article=${articleId}` : path;
+    navigate(url);
   };
   const [scrolled, setScrolled] = useState(false);
   const [bracketScale, setBracketScale] = useState(1);
@@ -1344,7 +1448,7 @@ export default function App() {
   ) : currentPage === 'competition' ? (
     <Competition />
   ) : currentPage === 'dancers' ? (
-    <Dancers onViewPerformances={() => setCurrentPage('media')} pageBackgrounds={pageBackgrounds} />
+    <Dancers onViewPerformances={() => changePage('media')} pageBackgrounds={pageBackgrounds} />
   ) : currentPage === 'judges' ? (
     <Judges />
   ) : currentPage === 'history' ? (
@@ -1352,29 +1456,29 @@ export default function App() {
   ) : currentPage === 'tickets' ? (
     <Tickets />
   ) : currentPage === 'program' ? (
-    <Program onReserveTickets={() => setCurrentPage('tickets')} />
+    <Program onReserveTickets={() => changePage('tickets')} />
   ) : currentPage === 'news' ? (
-    <News onBack={() => setCurrentPage('home')} initialArticleId={selectedArticleId} />
+    <News onBack={() => changePage('home')} initialArticleId={selectedArticleId} />
   ) : currentPage === 'artistic' ? (
     <ArtisticScene 
-      onNavigateToProgram={() => setCurrentPage('program')} 
-      onNavigateToTickets={() => setCurrentPage('tickets')}
+      onNavigateToProgram={() => changePage('program')} 
+      onNavigateToTickets={() => changePage('tickets')}
       pageBackgrounds={pageBackgrounds}
       featuredPiece={featuredPiece}
     />
   ) : currentPage === 'contact' ? (
-    <Contact onNavigateToFAQ={() => setCurrentPage('faq')} pageBackgrounds={pageBackgrounds} />
+    <Contact onNavigateToFAQ={() => changePage('faq')} pageBackgrounds={pageBackgrounds} />
   ) : currentPage === 'participate' ? (
-    <Participate onBack={() => setCurrentPage('home')} data={participateData} pageBackgrounds={pageBackgrounds} />
+    <Participate onBack={() => changePage('home')} data={participateData} pageBackgrounds={pageBackgrounds} />
   ) : currentPage === 'partners' ? (
     <Partners onContactClick={navigateTo('contact')} />
   ) : currentPage === 'admin' ? (
     <AdminDashboard onLogout={() => {
       setIsAdminLoggedIn(false);
-      setCurrentPage('home');
+      changePage('home');
     }} />
   ) : currentPage === 'faq' ? (
-    <FAQ onNavigateBack={() => setCurrentPage('home')} />
+    <FAQ onNavigateBack={() => changePage('home')} />
   ) : (
     <Media selectedYear={selectedMediaYear} onYearChange={setSelectedMediaYear} pageBackgrounds={pageBackgrounds} />
   )}
@@ -1464,5 +1568,13 @@ export default function App() {
       </footer>
       )}
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
   );
 }
