@@ -39,7 +39,16 @@ export default function SceneArtistique({ data, setData, onSave }: { data: CMSDa
       if (isForFeatured) {
         setFeaturedFormData({ ...featuredFormData, [fieldName]: uploadedUrl });
       } else {
-        setFormData({ ...formData, [fieldName]: uploadedUrl });
+        // Check if it's a gallery image
+        if (fieldName.startsWith('gallery_')) {
+          const currentGallery = formData.gallery || [];
+          setFormData({ 
+            ...formData, 
+            gallery: [...currentGallery, uploadedUrl]
+          });
+        } else {
+          setFormData({ ...formData, [fieldName]: uploadedUrl });
+        }
       }
     } catch (error) {
       console.error('Upload failed:', error);
@@ -494,6 +503,67 @@ export default function SceneArtistique({ data, setData, onSave }: { data: CMSDa
                   )}
                 </div>
               </div>
+              <div className="space-y-2 md:col-span-2">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Galerie d'Images (Upload Multiple)</label>
+                <div className="space-y-4">
+                  <label className="flex-1 relative cursor-pointer">
+                    <input 
+                      type="file" 
+                      accept="image/*"
+                      multiple
+                      onChange={e => {
+                        const files = Array.from(e.target.files || []);
+                        files.forEach(file => {
+                          if (file) {
+                            handleFileUpload(file, `gallery_${Date.now()}_${Math.random()}`, false);
+                          }
+                        });
+                      }}
+                      disabled={isUploading}
+                      className="hidden"
+                    />
+                    <div className="w-full bg-white/5 border border-white/10 border-dashed rounded-xl p-6 hover:bg-white/10 transition-all text-center cursor-pointer">
+                      <div className="flex items-center justify-center gap-2 text-xs text-slate-400">
+                        {isUploading && uploadingField?.startsWith('gallery') ? (
+                          <>
+                            <Loader size={14} className="animate-spin" />
+                            Téléchargement: {uploadProgress}%
+                          </>
+                        ) : (
+                          <>
+                            <Upload size={14} />
+                            Cliquez ou glissez des images pour la galerie
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </label>
+                  
+                  {formData.gallery && formData.gallery.length > 0 && (
+                    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
+                      {formData.gallery.map((img, idx) => (
+                        <div key={idx} className="relative group">
+                          <div className="w-full aspect-square rounded-lg overflow-hidden border border-white/10">
+                            <img src={img} alt={`gallery-${idx}`} className="w-full h-full object-cover" />
+                          </div>
+                          <button 
+                            onClick={() => {
+                              setFormData({
+                                ...formData,
+                                gallery: formData.gallery?.filter((_, i) => i !== idx) || []
+                              });
+                            }}
+                            className="absolute -top-2 -right-2 bg-accent-red text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <X size={14} />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+
               <div className="space-y-2 md:col-span-2">
                 <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Description Longue</label>
                 <textarea 
