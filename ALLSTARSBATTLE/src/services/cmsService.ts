@@ -12,8 +12,8 @@ const initialData: CMSData = {
       pieceTitle: 'Éveil Urbain',
       description: 'Une exploration des mouvements urbains dans un contexte contemporain.',
       bio: 'Fondée en 2010, cette compagnie repousse les limites du hip-hop.',
-      mainImage: 'https://picsum.photos/seed/dance1/800/600',
-      gallery: ['https://picsum.photos/seed/dance2/800/600', 'https://picsum.photos/seed/dance3/800/600'],
+      mainImage: '',
+      gallery: [],
       performanceDate: '2026-08-14',
       performanceTime: '18:00'
     }
@@ -21,7 +21,7 @@ const initialData: CMSData = {
   featuredPiece: {
     id: '1',
     title: "L'ÉVEIL DES OMBRES",
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDFFVjlS0aV2aTZ_NOUWSPOLFwvZDL53_dHLHupDNuVMhBZlkX7CnONhZG-SOJnA70FigEjAj6fHlw1dX_QNjvlouaXTV7FpZAXArqfjERLDvl6Cy48tFNGGL6rFGW1y4K1v_8gLWpXw9U-t6RhMPGVxdPc9kfXz5lgGmOZsIdsyqxJ8XtocNNGz91LRaDnMusjC2cud0R5XhBaE_0Ifh_vQJNugwvgwOBYr3hxh492ZauvzD8RKjUl3QeOwy71EzcXE5PeEQ3CspOm',
+    image: '',
     duration: '45 MIN',
     choreographer: 'K. AFRIKA',
     music: 'LIVE DJ SET',
@@ -40,7 +40,7 @@ const initialData: CMSData = {
       countryCode: 'jp',
       specialty: 'Power Moves',
       bio: 'Champion du monde 2024, connu pour sa vitesse incroyable.',
-      photo: 'https://picsum.photos/seed/ryu/400/600',
+      photo: '',
       socialLinks: { instagram: '@bboyryu' },
       category: 'dancer'
     }
@@ -70,7 +70,7 @@ const initialData: CMSData = {
         title: 'LANCEMENT OFFICIEL DU TOGO 2026',
         content: 'Découvrez les coulisses de la préparation de l\'événement le plus attendu de l\'année à Lomé.',
         category: 'OFFICIEL',
-        coverImage: 'https://picsum.photos/seed/news1/800/450',
+        coverImage: '',
         date: '12 Janvier 2026',
         tag: 'EVENT'
       },
@@ -79,7 +79,7 @@ const initialData: CMSData = {
         title: 'LINEUP DES ARTISTES DÉVOILÉ',
         content: 'Les plus grands noms de la scène Hip-Hop internationale confirment leur présence pour le festival.',
         category: 'TALENTS',
-        coverImage: 'https://picsum.photos/seed/news2/800/450',
+        coverImage: '',
         date: '05 Février 2026',
         tag: 'TALENTS'
       },
@@ -88,7 +88,7 @@ const initialData: CMSData = {
         title: 'DISPONIBILITÉ DES TICKETS',
         content: 'La billetterie en ligne est désormais ouverte. Réservez vos pass Early Bird avant épuisement.',
         category: 'BILLETTERIE',
-        coverImage: 'https://picsum.photos/seed/news3/800/450',
+        coverImage: '',
         date: '20 Mars 2026',
         tag: 'BILLETTERIE'
       }
@@ -185,10 +185,10 @@ const initialData: CMSData = {
       subtitle: 'The Legends Who Defined ASBI'
     },
     timeline: [
-      { id: '1', year: '2024', title: 'L\'Éveil de Lomé', champion: 'B-BOY RYU', description: 'Une édition mémorable au Japon.', image: 'https://picsum.photos/seed/hist1/800/600' }
+      { id: '1', year: '2024', title: 'L\'Éveil de Lomé', champion: 'B-BOY RYU', description: 'Une édition mémorable au Japon.', image: '' }
     ],
     legends: [
-      { id: '1', name: 'Storm', bio: 'Légende du breaking européen.', photo: 'https://picsum.photos/seed/legend1/400/600' }
+      { id: '1', name: 'Storm', bio: 'Légende du breaking européen.', photo: '' }
     ]
   },
   contact: {
@@ -208,15 +208,15 @@ const initialData: CMSData = {
   },
   partners: {
     logos: [
-      { id: '1', name: 'Partenaire Institutionnel 1', logo: 'https://picsum.photos/seed/instit1/200/200', category: 'Institutional' },
-      { id: '2', name: 'Partenaire Institutionnel 2', logo: 'https://picsum.photos/seed/instit2/200/200', category: 'Institutional' },
-      { id: '3', name: 'Partenaire Institutionnel 3', logo: 'https://picsum.photos/seed/instit3/200/200', category: 'Institutional' },
-      { id: '4', name: 'Partenaire Institutionnel 4', logo: 'https://picsum.photos/seed/instit4/200/200', category: 'Institutional' },
-      { id: '5', name: 'Sponsor Majeur 1', logo: 'https://picsum.photos/seed/sponsor1/200/200', category: 'Main', tier: 'Sponsor Platine' },
-      { id: '6', name: 'Sponsor Majeur 2', logo: 'https://picsum.photos/seed/sponsor2/200/200', category: 'Main', tier: 'Sponsor Or' },
-      { id: '7', name: 'Sponsor Majeur 3', logo: 'https://picsum.photos/seed/sponsor3/200/200', category: 'Main', tier: 'Sponsor Argent' },
-      { id: '8', name: 'Média Partenaire 1', logo: 'https://picsum.photos/seed/media1/200/200', category: 'Media' },
-      { id: '9', name: 'Média Partenaire 2', logo: 'https://picsum.photos/seed/media2/200/200', category: 'Media' }
+      { id: '1', name: 'Partenaire Institutionnel 1', logo: '', category: 'Institutional' },
+      { id: '2', name: 'Partenaire Institutionnel 2', logo: '', category: 'Institutional' },
+      { id: '3', name: 'Partenaire Institutionnel 3', logo: '', category: 'Institutional' },
+      { id: '4', name: 'Partenaire Institutionnel 4', logo: '', category: 'Institutional' },
+      { id: '5', name: 'Sponsor Majeur 1', logo: '', category: 'Main', tier: 'Sponsor Platine' },
+      { id: '6', name: 'Sponsor Majeur 2', logo: '', category: 'Main', tier: 'Sponsor Or' },
+      { id: '7', name: 'Sponsor Majeur 3', logo: '', category: 'Main', tier: 'Sponsor Argent' },
+      { id: '8', name: 'Média Partenaire 1', logo: '', category: 'Media' },
+      { id: '9', name: 'Média Partenaire 2', logo: '', category: 'Media' }
     ],
     sponsoringPdfUrl: '#',
     cta: {
@@ -232,7 +232,7 @@ const initialData: CMSData = {
       type: 'photo',
       title: 'Finale ASBI 2026 - Junior vs Flash',
       description: 'Moment épique de la finale avec l\'énergie maximale du public',
-      url: 'https://picsum.photos/seed/asbi26_1/800/600',
+      url: '',
       tag: 'archive',
       thumbnail: ''
     },
@@ -242,7 +242,7 @@ const initialData: CMSData = {
       type: 'photo',
       title: 'Demi-finale Poule A',
       description: 'Action intense lors de la demi-finale de la poule A',
-      url: 'https://picsum.photos/seed/asbi26_2/800/600',
+      url: '',
       tag: 'archive',
       thumbnail: ''
     },
@@ -252,7 +252,7 @@ const initialData: CMSData = {
       type: 'photo',
       title: 'Huitième de finale - Round 1',
       description: 'Premier round des huitièmes de finale',
-      url: 'https://picsum.photos/seed/asbi26_3/800/600',
+      url: '',
       tag: 'archive',
       thumbnail: ''
     },
@@ -262,8 +262,8 @@ const initialData: CMSData = {
       type: 'video',
       title: 'Grande Finale : Junior vs Flash | Edition 2026',
       description: 'Une bataille épique pour le titre de champion d\'Afrique. Intensité maximum au Palais des Congrès.',
-      url: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-      thumbnail: 'https://picsum.photos/seed/asbi26_video1/800/600',
+      url: '',
+      thumbnail: '',
       duration: '12:45',
       tag: 'Replay'
     },
@@ -273,8 +273,8 @@ const initialData: CMSData = {
       type: 'video',
       title: 'Aftermovie Officiel : L\'énergie de Lomé',
       description: 'Plongez dans les coulisses et l\'ambiance électrique de l\'ASBI Togo 2026.',
-      url: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-      thumbnail: 'https://picsum.photos/seed/asbi26_video2/800/600',
+      url: '',
+      thumbnail: '',
       duration: '04:20',
       tag: 'Exclusif'
     },
@@ -284,7 +284,7 @@ const initialData: CMSData = {
       type: 'photo',
       title: 'Moments forts ASBI 2024',
       description: 'Archives de la compétition 2024',
-      url: 'https://picsum.photos/seed/asbi24_1/800/600',
+      url: '',
       tag: 'archive',
       thumbnail: ''
     }
@@ -310,8 +310,8 @@ const initialData: CMSData = {
       title: 'ALL STARS BATTLE INTERNATIONAL',
       subtitle: 'Le Trône. Le Respect. La Légende.',
       location: 'TOGO 2026',
-      backgroundImage: 'https://i.ibb.co/LhsB2zPT/20260319-190925.jpg',
-      videoUrl: 'https://vjs.zencdn.net/v/oceans.mp4'
+      backgroundImage: '',
+      videoUrl: ''
     },
     competition: {
       dateStart: '14 - 16 AOÛT 2026',
@@ -406,50 +406,50 @@ const initialData: CMSData = {
   },
   pageBackgrounds: {
     hero: {
-      imageUrl: 'https://images.unsplash.com/photo-1547153760-18fc86324498?auto=format&fit=crop&q=80&w=1920',
-      videoUrl: 'https://vjs.zencdn.net/v/oceans.mp4',
+      imageUrl: '',
+      videoUrl: '',
       width: 1920,
       height: 1080,
       lastModified: new Date().toISOString()
     },
     artisticScene: {
-      imageUrl: 'https://picsum.photos/seed/artistic-bg/1920/1080',
+      imageUrl: '',
       width: 1920,
       height: 1080,
       lastModified: new Date().toISOString()
     },
     dancers: {
-      imageUrl: 'https://picsum.photos/seed/dancers-bg/1920/1080',
+      imageUrl: '',
       width: 1920,
       height: 1080,
       lastModified: new Date().toISOString()
     },
     media: {
-      imageUrl: 'https://picsum.photos/seed/media-bg/1920/1080',
+      imageUrl: '',
       width: 1920,
       height: 1080,
       lastModified: new Date().toISOString()
     },
     contact: {
-      imageUrl: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&q=80&w=2000',
+      imageUrl: '',
       width: 1920,
       height: 1080,
       lastModified: new Date().toISOString()
     },
     competition: {
-      imageUrl: 'https://picsum.photos/seed/dance/800/450',
+      imageUrl: '',
       width: 800,
       height: 450,
       lastModified: new Date().toISOString()
     },
     vip: {
-      imageUrl: 'https://picsum.photos/seed/viplounge/600/400',
+      imageUrl: '',
       width: 600,
       height: 400,
       lastModified: new Date().toISOString()
     },
     participate: {
-      imageUrl: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=60&w=1920',
+      imageUrl: '',
       width: 1920,
       height: 1080,
       lastModified: new Date().toISOString()
@@ -458,29 +458,29 @@ const initialData: CMSData = {
   siteAssets: {
     backgrounds: {
       'hero-bg': {
-        url: 'https://picsum.photos/seed/hero-background/1920/1080',
-        size: '2.3 MB',
+        url: '',
+        size: '',
         width: 1920,
         height: 1080,
         type: 'image'
       },
       'competition-bg': {
-        url: 'https://picsum.photos/seed/competition-bg/1920/1080',
-        size: '1.8 MB',
+        url: '',
+        size: '',
         width: 1920,
         height: 1080,
         type: 'image'
       },
       'dancers-bg': {
-        url: 'https://picsum.photos/seed/dancers-background/1920/1080',
-        size: '2.1 MB',
+        url: '',
+        size: '',
         width: 1920,
         height: 1080,
         type: 'image'
       },
       'partners-bg': {
-        url: 'https://picsum.photos/seed/partners-bg/1920/1080',
-        size: '1.9 MB',
+        url: '',
+        size: '',
         width: 1920,
         height: 1080,
         type: 'image'
@@ -488,22 +488,22 @@ const initialData: CMSData = {
     },
     illustrations: {
       'about-section': {
-        url: 'https://picsum.photos/seed/about-illustration/800/600',
-        size: '0.8 MB',
+        url: '',
+        size: '',
         width: 800,
         height: 600,
         type: 'image'
       },
       'vip-section': {
-        url: 'https://picsum.photos/seed/vip-illustration/800/600',
-        size: '0.9 MB',
+        url: '',
+        size: '',
         width: 800,
         height: 600,
         type: 'image'
       },
       'press-section': {
-        url: 'https://picsum.photos/seed/press-illustration/800/600',
-        size: '0.7 MB',
+        url: '',
+        size: '',
         width: 800,
         height: 600,
         type: 'image'
@@ -511,21 +511,21 @@ const initialData: CMSData = {
     },
     videos: {
       'hero-video': {
-        url: 'https://videos.pexels.com/video-files/3209828/3209828-sd_960_540_25fps.mp4',
-        size: '5.2 MB',
-        duration: '30s',
+        url: '',
+        size: '',
+        duration: '',
         type: 'video'
       },
       'promo-video': {
-        url: 'https://videos.pexels.com/video-files/3209828/3209828-sd_960_540_25fps.mp4',
-        size: '3.8 MB',
-        duration: '15s',
+        url: '',
+        size: '',
+        duration: '',
         type: 'video'
       },
       'archive-video': {
-        url: 'https://videos.pexels.com/video-files/3209828/3209828-sd_960_540_25fps.mp4',
-        size: '4.5 MB',
-        duration: '45s',
+        url: '',
+        size: '',
+        duration: '',
         type: 'video'
       }
     }
@@ -536,7 +536,7 @@ const initialData: CMSData = {
       name: 'Elom Kodjo',
       role: 'Directeur Fondateur & Producteur',
       bio: 'Visionnaire et activiste culturel, Elom a fondé l\'ASBI pour propulser le breaking africain sur la scène mondiale.',
-      photo: 'https://picsum.photos/seed/elom/400/500',
+      photo: '',
       socialLinks: {
         instagram: '@elomkodjo',
         facebook: 'elomkodjo',
@@ -548,7 +548,7 @@ const initialData: CMSData = {
       name: 'Sena Ayivi',
       role: 'Coordinatrice Artistique',
       bio: 'Experte en production artistique, Sena orchestre chaque détail pour créer une expérience inoubliable.',
-      photo: 'https://picsum.photos/seed/sena/400/500',
+      photo: '',
       socialLinks: {
         instagram: '@senaayivi',
         facebook: 'senaayivi'
