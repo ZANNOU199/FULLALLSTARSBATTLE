@@ -418,20 +418,21 @@ const ArtisticScene = ({ onNavigateToProgram, onNavigateToTickets, pageBackgroun
                         quality={85}
                         maxWidth={1200}
                         showSkeleton={false}
-                      <div className="absolute inset-0 bg-gradient-to-t from-background-dark/80 via-transparent to-transparent"></div>
-                      
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                        <button className="w-20 h-20 rounded-full bg-primary text-background-dark flex items-center justify-center hover:scale-110 transition-transform shadow-2xl">
-                          <Play className="w-8 h-8 fill-current ml-1" />
-                        </button>
-                      </div>
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background-dark/80 via-transparent to-transparent"></div>
+                    
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                      <button className="w-20 h-20 rounded-full bg-primary text-background-dark flex items-center justify-center hover:scale-110 transition-transform shadow-2xl">
+                        <Play className="w-8 h-8 fill-current ml-1" />
+                      </button>
                     </div>
-                  </motion.div>
+                  </div>
+                </motion.div>
 
-                  <motion.div 
-                    initial={{ opacity: 0, x: 30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
+                <motion.div 
+                  initial={{ opacity: 0, x: 30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
                     className="flex flex-col gap-8 md:gap-10"
                   >
                     <div>
