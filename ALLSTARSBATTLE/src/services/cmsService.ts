@@ -713,32 +713,45 @@ export const cmsService = {
   },
 
   saveData: async (data: CMSData) => {
-    console.log('cmsService.saveData called with data:', data);
+    console.log('[CMS Service] saveData called with data:', data);
     try {
       // First, save to backend
-      console.log('Making POST request to /cms/data');
+      console.log('[CMS Service] Making POST request to /cms/data');
       const response = await api.post('/cms/data', data);
-      console.log('POST response status:', response.status);
-      console.log('POST response data:', response.data);
+      console.log('[CMS Service] POST response status:', response.status);
+      console.log('[CMS Service] POST response data:', response.data);
       
-      if (response.status === 200) {
+      if (response.status === 200 || response.status === 201) {
         // Reload fresh data from backend after successful save
-        console.log('Reloading fresh data from backend');
+        console.log('[CMS Service] Save successful! Reloading fresh data from backend');
         const freshData = await api.get('/cms/data');
         const backendData = freshData.data;
-        console.log('Fresh backend data:', backendData);
+        console.log('[CMS Service] Fresh backend data loaded:', backendData);
         
         // Cache fresh data locally
         localStorage.setItem(STORAGE_KEY, JSON.stringify(backendData));
+        console.log('[CMS Service] Data cached to localStorage');
         
         // Emit custom event with fresh data for real-time updates
         window.dispatchEvent(new CustomEvent('cmsDataChanged', { detail: backendData }));
+        return backendData;
+      } else {
+        console.warn('[CMS Service] Unexpected status code:', response.status);
       }
     } catch (error: any) {
-      console.error('cmsService: Failed to save CMS data to API:', error?.response?.data || error?.message);
+      console.error('[CMS Service] Failed to save CMS data to API:');
+      console.error('[CMS Service] Error response:', error?.response?.data);
+      console.error('[CMS Service] Error message:', error?.message);
+      console.error('[CMS Service] Error status:', error?.response?.status);
+      console.error('[CMS Service] Full error:', error);
+      
       // Fallback: still save to localStorage even if backend fails
+      console.warn('[CMS Service] Falling back to localStorage only');
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
       window.dispatchEvent(new CustomEvent('cmsDataChanged', { detail: data }));
+      
+      // Re-throw error so caller knows it failed
+      throw error;
     }
   },
 

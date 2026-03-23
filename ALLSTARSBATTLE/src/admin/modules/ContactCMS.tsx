@@ -18,7 +18,7 @@ export default function ContactCMS({ data, setData, onSave }: { data: CMSData, s
     faqTitle: 'Foire Aux Questions'
   });
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const updatedData = {
       ...data,
       contact: {
@@ -27,14 +27,21 @@ export default function ContactCMS({ data, setData, onSave }: { data: CMSData, s
       }
     };
     
-    setData(updatedData);
-    
-    // Save to database
-    if (onSave) {
-      onSave(updatedData);
-    } else {
-      // Fallback if no onSave provided
-      alert('Configuration Contact sauvegardée localement!');
+    // Save to database FIRST before updating local state
+    try {
+      if (onSave) {
+        await onSave(updatedData);
+        // Only update local state after successful backend save
+        setData(updatedData);
+      } else {
+        // Fallback if no onSave provided
+        setData(updatedData);
+        alert('Configuration Contact sauvegardée localement!');
+      }
+    } catch (error) {
+      console.error('ContactCMS: Failed to save:', error);
+      alert('Erreur lors de la sauvegarde. Vérifiez votre connexion.');
+      // Don't update local state if backend fails
     }
   };
 

@@ -50,10 +50,19 @@ export default function ParticipateAdmin({ data, setData, onSave }: { data: CMSD
 
   const handleSave = async () => {
     setSaveStatus('saving');
-    if (onSave) {
-      await onSave(data);
+    try {
+      if (onSave) {
+        await onSave(data);
+        setSaveStatus('saved');
+      } else {
+        setSaveStatus('saved');
+      }
+    } catch (error) {
+      console.error('ParticipateAdmin: Failed to save:', error);
+      setSaveStatus('idle');
+      alert('Erreur lors de la sauvegarde. Vérifiez votre connexion.');
+      return;
     }
-    setSaveStatus('saved');
     setTimeout(() => setSaveStatus('idle'), 2000);
   };
 

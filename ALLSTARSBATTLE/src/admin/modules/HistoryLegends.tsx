@@ -82,7 +82,7 @@ export default function HistoryLegends({ data, setData }: { data: CMSData, setDa
     }
   };
 
-  const handleAddTimeline = () => {
+  const handleAddTimeline = async () => {
     const newEvent: TimelineEvent = {
       id: Date.now().toString(),
       year: timelineFormData.year || '',
@@ -92,14 +92,21 @@ export default function HistoryLegends({ data, setData }: { data: CMSData, setDa
       image: timelineFormData.image || 'https://picsum.photos/seed/hist/800/600'
     };
     const updatedData = { ...data, history: { ...data.history, timeline: [...data.history.timeline, newEvent] } };
-    setData(updatedData);
-    setIsAdding(false); // Fermer le formulaire après enregistrement
-    setTimelineFormData({});
-    setEditingId(null); // Réinitialiser l'édition
-    saveToBackend(updatedData);
+    
+    // Save to backend FIRST before updating local state
+    try {
+      await saveToBackend(updatedData);
+      setData(updatedData);
+      setIsAdding(false); // Fermer le formulaire après enregistrement
+      setTimelineFormData({});
+      setEditingId(null); // Réinitialiser l'édition
+    } catch (error) {
+      console.error('Failed to add timeline event:', error);
+      // Don't update local state if backend fails
+    }
   };
 
-  const handleEditTimeline = () => {
+  const handleEditTimeline = async () => {
     if (!editingId) return;
     const updatedData = {
       ...data,
@@ -110,11 +117,18 @@ export default function HistoryLegends({ data, setData }: { data: CMSData, setDa
         )
       }
     };
-    setData(updatedData);
-    setIsAdding(false); // Fermer le formulaire après enregistrement
-    setTimelineFormData({});
-    setEditingId(null);
-    saveToBackend(updatedData);
+    
+    // Save to backend FIRST before updating local state
+    try {
+      await saveToBackend(updatedData);
+      setData(updatedData);
+      setIsAdding(false); // Fermer le formulaire après enregistrement
+      setTimelineFormData({});
+      setEditingId(null);
+    } catch (error) {
+      console.error('Failed to edit timeline event:', error);
+      // Don't update local state if backend fails
+    }
   };
 
   const startEditTimeline = (event: TimelineEvent) => {
@@ -123,7 +137,7 @@ export default function HistoryLegends({ data, setData }: { data: CMSData, setDa
     setIsAdding(true); // Ouvrir le formulaire automatiquement
   };
 
-  const handleAddLegend = () => {
+  const handleAddLegend = async () => {
     const newLegend: Legend = {
       id: Date.now().toString(),
       name: legendFormData.name || '',
@@ -135,13 +149,20 @@ export default function HistoryLegends({ data, setData }: { data: CMSData, setDa
       type: legendFormData.type as 'champion-1v1' | 'footwork' | 'powermoves' | 'last-chance' | 'crew-vs-crew' | '2v2' | undefined
     };
     const updatedData = { ...data, history: { ...data.history, legends: [...data.history.legends, newLegend] } };
-    setData(updatedData);
-    setIsAdding(false);
-    setLegendFormData({});
-    saveToBackend(updatedData);
+    
+    // Save to backend FIRST before updating local state
+    try {
+      await saveToBackend(updatedData);
+      setData(updatedData);
+      setIsAdding(false);
+      setLegendFormData({});
+    } catch (error) {
+      console.error('Failed to add legend:', error);
+      // Don't update local state if backend fails
+    }
   };
 
-  const handleEditLegend = () => {
+  const handleEditLegend = async () => {
     if (!editingId) return;
     const updatedData = {
       ...data,
@@ -152,13 +173,20 @@ export default function HistoryLegends({ data, setData }: { data: CMSData, setDa
         )
       }
     };
-    setData(updatedData);
-    setEditingId(null);
-    setLegendFormData({});
-    saveToBackend(updatedData);
+    
+    // Save to backend FIRST before updating local state
+    try {
+      await saveToBackend(updatedData);
+      setData(updatedData);
+      setEditingId(null);
+      setLegendFormData({});
+    } catch (error) {
+      console.error('Failed to edit legend:', error);
+      // Don't update local state if backend fails
+    }
   };
 
-  const handleDeleteLegend = (legendId: string) => {
+  const handleDeleteLegend = async (legendId: string) => {
     const updatedData = {
       ...data,
       history: {
@@ -166,11 +194,18 @@ export default function HistoryLegends({ data, setData }: { data: CMSData, setDa
         legends: data.history.legends.filter(l => l.id !== legendId)
       }
     };
-    setData(updatedData);
-    saveToBackend(updatedData);
+    
+    // Save to backend FIRST before updating local state
+    try {
+      await saveToBackend(updatedData);
+      setData(updatedData);
+    } catch (error) {
+      console.error('Failed to delete legend:', error);
+      // Don't update local state if backend fails
+    }
   };
 
-  const handleDeleteTimeline = (eventId: string) => {
+  const handleDeleteTimeline = async (eventId: string) => {
     const updatedData = {
       ...data,
       history: {
@@ -178,8 +213,15 @@ export default function HistoryLegends({ data, setData }: { data: CMSData, setDa
         timeline: data.history.timeline.filter(e => e.id !== eventId)
       }
     };
-    setData(updatedData);
-    saveToBackend(updatedData);
+    
+    // Save to backend FIRST before updating local state
+    try {
+      await saveToBackend(updatedData);
+      setData(updatedData);
+    } catch (error) {
+      console.error('Failed to delete timeline event:', error);
+      // Don't update local state if backend fails
+    }
   };
 
   const handleSaveConfig = () => {

@@ -119,21 +119,27 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
   // Manual save function - called only when user explicitly saves
   const manualSave = async (dataToSave: CMSData) => {
-    console.log('manualSave called with dataToSave:', dataToSave);
+    console.log('[Admin Dashboard] manualSave called');
+    console.log('[Admin Dashboard] Data to save:', dataToSave);
     setSaveStatus('saving');
     try {
-      console.log('Calling cmsService.saveData...');
-      await cmsService.saveData(dataToSave);
-      console.log('cmsService.saveData completed successfully');
+      console.log('[Admin Dashboard] Calling cmsService.saveData...');
+      const result = await cmsService.saveData(dataToSave);
+      console.log('[Admin Dashboard] cmsService.saveData completed successfully');
+      console.log('[Admin Dashboard] Result:', result);
+      
       // Reload fresh data from backend after successful save
+      console.log('[Admin Dashboard] Reloading fresh data from backend');
       const freshData = await cmsService.getData();
-      console.log('Fresh data loaded:', freshData);
+      console.log('[Admin Dashboard] Fresh data loaded:', freshData);
       setData(freshData);
+      
       setSaveStatus('saved');
       setTimeout(() => setSaveStatus('idle'), 2000);
     } catch (error) {
-      console.error('Save error:', error);
+      console.error('[Admin Dashboard] Save error:', error);
       setSaveStatus('idle');
+      alert('Erreur lors de la sauvegarde. Détails: ' + (error as any)?.message);
     }
   };
 

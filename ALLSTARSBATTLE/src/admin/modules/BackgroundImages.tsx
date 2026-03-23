@@ -146,7 +146,12 @@ export default function BackgroundImages({ data, setData, onSave }: { data: CMSD
   };
 
   const handleSave = async () => {
-    if (!editingPage || !formData.imageUrl) return;
+    if (!editingPage || !formData.imageUrl) {
+      console.warn('[BackgroundImages] handleSave: Missing editingPage or imageUrl');
+      return;
+    }
+
+    console.log('[BackgroundImages] handleSave: Starting save for page:', editingPage);
 
     const updatedBackground: PageBackground = {
       imageUrl: formData.imageUrl || '',
@@ -166,20 +171,32 @@ export default function BackgroundImages({ data, setData, onSave }: { data: CMSD
       }
     };
 
-    // Update local state
-    setData(updatedData);
+    console.log('[BackgroundImages] Updated data prepared:', updatedData);
 
-    // Send complete data to backend
-    if (onSave) {
-      await onSave(updatedData);
+    // CRITICAL: Send to backend FIRST before updating UI
+    // This ensures data is actually persisted to database
+    try {
+      if (onSave) {
+        console.log('[BackgroundImages] Sending data to backend via onSave...');
+        await onSave(updatedData);
+        console.log('[BackgroundImages] Backend save successful!');
+      }
+      
+      // Only update local state AFTER successful backend save
+      console.log('[BackgroundImages] Updating local state...');
+      setData(updatedData);
+      
+      setSaved(true);
+      setTimeout(() => {
+        setSaved(false);
+        setEditingPage(null);
+        setFormData({});
+      }, 1500);
+    } catch (error) {
+      console.error('[BackgroundImages] Failed to save to backend:', error);
+      alert('Erreur lors de la sauvegarde: ' + (error as any)?.message);
+      // Don't update local state if backend fails
     }
-
-    setSaved(true);
-    setTimeout(() => {
-      setSaved(false);
-      setEditingPage(null);
-      setFormData({});
-    }, 1500);
   };
 
   const handleCancel = () => {

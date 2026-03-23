@@ -19,14 +19,18 @@ export default function ThemeSettings({ data, setData, onSave }: { data: CMSData
       theme: themeData
     };
 
-    setData(updatedData);
-
-    if (onSave) {
-      await onSave(updatedData);
+    try {
+      if (onSave) {
+        await onSave(updatedData);
+      }
+      // Only update local state after successful backend save
+      setData(updatedData);
+      setIsSaved(true);
+      setTimeout(() => setIsSaved(false), 2000);
+    } catch (error) {
+      console.error('ThemeSettings: Failed to save:', error);
+      alert('Erreur lors de la sauvegarde. Vérifiez votre connexion.');
     }
-
-    setIsSaved(true);
-    setTimeout(() => setIsSaved(false), 2000);
   };
 
   const handleReset = () => {
