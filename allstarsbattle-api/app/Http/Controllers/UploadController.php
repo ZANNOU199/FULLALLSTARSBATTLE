@@ -24,9 +24,10 @@ class UploadController extends Controller
                 'url' => config('filesystems.disks.r2.url')
             ]);
 
-            // Validation du fichier
+            // Validation du fichier - Accepte images et vidéos
+            // Images: max 10MB, Vidéos: max 100MB
             $validator = Validator::make($request->all(), [
-                'file' => 'required|file|max:10240|mimes:jpeg,jpg,png,gif,webp', // 10MB max
+                'file' => 'required|file|max:102400|mimes:jpeg,jpg,png,gif,webp,mp4,webm,ogg,mov,quicktime', // 100MB pour les vidéos
             ]);
 
             if ($validator->fails()) {

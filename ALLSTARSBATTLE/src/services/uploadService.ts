@@ -126,7 +126,7 @@ export class UploadService {
   }
 
   /**
-   * Upload un fichier vers Cloudflare R2 via l'API Laravel (avec compression automatique)
+   * Upload un fichier vers Cloudflare R2 via l'API Laravel (avec compression automatique pour les images)
    */
   static async uploadFile(file: File, fileName?: string): Promise<string> {
     try {
@@ -144,29 +144,42 @@ export class UploadService {
       // Créer FormData pour l'upload
       const formData = new FormData();
       formData.append('file', fileToUpload);
+      if (fileName) {
+        formData.append('fileName', fileName);
+      }
 
       // Upload via l'API Laravel
       const response = await fetch(`${this.API_BASE_URL}/api/upload/r2`, {
         method: 'POST',
         body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      const data = await response.json().catch(() => {
+        throw new Error(`Erreur serveur: ${response.status} ${response.statusText}`);
       });
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ message: 'Erreur inconnue' }));
-        throw new Error(errorData.message || `Upload failed: ${response.status}`);
+        console.error('Upload error response:', data);
+        throw new Error(data.message || data.error || `Upload échoué: ${response.status}`);
       }
 
-      const data = await response.json();
-
       if (!data.success) {
-        throw new Error(data.message || 'Upload failed');
+        throw new Error(data.message || data.error || 'Upload failed');
+      }
+
+      if (!data.url) {
+        throw new Error('Pas d\'URL retournée par le serveur');
       }
 
       return data.url;
 
     } catch (error) {
-      console.error('Upload error:', error);
-      throw new Error('Erreur lors de l\'upload du fichier');
+      const errorMessage = error instanceof Error ? error.message : 'Erreur inconnue';
+      console.error('Upload error:', errorMessage);
+      throw error;
     }
   }
 }

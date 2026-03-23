@@ -8,36 +8,67 @@ export default function BackgroundImages({ data, setData, onSave }: { data: CMSD
   const [editingPage, setEditingPage] = useState<keyof typeof data.pageBackgrounds | null>(null);
   const [formData, setFormData] = useState<Partial<PageBackground>>({});
   const [saved, setSaved] = useState(false);
-  const [isUploading, setIsUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [uploadProgressImage, setUploadProgressImage] = useState(0);
+  const [isUploadingVideo, setIsUploadingVideo] = useState(false);
+  const [uploadProgressVideo, setUploadProgressVideo] = useState(0);
   const formRef = useRef<HTMLDivElement>(null);
 
-  // Fonction pour uploader un fichier
-  const handleFileUpload = async (file: File): Promise<string> => {
+  // Fonction pour uploader un fichier image
+  const handleImageUpload = async (file: File): Promise<string> => {
     if (!UploadService.validateImageFile(file)) {
       throw new Error('Fichier invalide. Seules les images (JPEG, PNG, WebP, GIF) de moins de 10MB sont acceptées.');
     }
 
-    setIsUploading(true);
-    setUploadProgress(0);
+    setIsUploadingImage(true);
+    setUploadProgressImage(0);
 
     try {
       // Simuler la progression (puisque fetch ne supporte pas nativement la progression)
       const progressInterval = setInterval(() => {
-        setUploadProgress(prev => Math.min(prev + 10, 90));
+        setUploadProgressImage(prev => Math.min(prev + 10, 90));
       }, 200);
 
       const fileName = UploadService.generateFileName(file.name);
       const uploadedUrl = await UploadService.uploadFile(file, fileName);
 
       clearInterval(progressInterval);
-      setUploadProgress(100);
+      setUploadProgressImage(100);
 
       return uploadedUrl;
     } finally {
       setTimeout(() => {
-        setIsUploading(false);
-        setUploadProgress(0);
+        setIsUploadingImage(false);
+        setUploadProgressImage(0);
+      }, 1000);
+    }
+  };
+
+  // Fonction pour uploader un fichier vidéo
+  const handleVideoUpload = async (file: File): Promise<string> => {
+    if (!UploadService.validateVideoFile(file)) {
+      throw new Error('Fichier vidéo invalide. Formats acceptés: MP4, WebM, OGG (max 100MB)');
+    }
+
+    setIsUploadingVideo(true);
+    setUploadProgressVideo(0);
+
+    try {
+      const progressInterval = setInterval(() => {
+        setUploadProgressVideo(prev => Math.min(prev + 5, 90));
+      }, 300);
+
+      const fileName = UploadService.generateFileName(file.name);
+      const uploadedUrl = await UploadService.uploadFile(file, fileName);
+
+      clearInterval(progressInterval);
+      setUploadProgressVideo(100);
+
+      return uploadedUrl;
+    } finally {
+      setTimeout(() => {
+        setIsUploadingVideo(false);
+        setUploadProgressVideo(0);
       }, 1000);
     }
   };
@@ -174,31 +205,31 @@ export default function BackgroundImages({ data, setData, onSave }: { data: CMSD
                       const file = e.target.files?.[0];
                       if (file) {
                         try {
-                          const uploadedUrl = await handleFileUpload(file);
+                          const uploadedUrl = await handleImageUpload(file);
                           setFormData({ ...formData, imageUrl: uploadedUrl });
                         } catch (error) {
                           alert(error instanceof Error ? error.message : 'Erreur lors de l\'upload');
                         }
                       }
                     }}
-                    disabled={isUploading}
+                    disabled={isUploadingImage}
                     className="w-full bg-white/5 border border-white/10 rounded-xl p-3 focus:border-primary outline-none transition-all text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-black hover:file:bg-primary/80 disabled:opacity-50"
                   />
-                  {isUploading && (
+                  {isUploadingImage && (
                     <div className="w-full bg-white/10 rounded-lg p-2">
                       <div className="flex items-center justify-between text-sm text-slate-300 mb-1">
-                        <span>Upload en cours...</span>
-                        <span>{uploadProgress}%</span>
+                        <span>Upload image en cours...</span>
+                        <span>{uploadProgressImage}%</span>
                       </div>
                       <div className="w-full bg-white/20 rounded-full h-2">
                         <div
                           className="bg-primary h-2 rounded-full transition-all duration-300"
-                          style={{ width: `${uploadProgress}%` }}
+                          style={{ width: `${uploadProgressImage}%` }}
                         ></div>
                       </div>
                     </div>
                   )}
-                  {formData.imageUrl && !isUploading && (
+                  {formData.imageUrl && !isUploadingImage && (
                     <div className="flex items-center gap-2 text-green-400 text-sm">
                       <Upload size={16} />
                       Image uploadée avec succès
@@ -221,48 +252,31 @@ export default function BackgroundImages({ data, setData, onSave }: { data: CMSD
                         const file = e.target.files?.[0];
                         if (file) {
                           try {
-                            if (!UploadService.validateVideoFile(file)) {
-                              throw new Error('Fichier vidéo invalide. Formats acceptés: MP4, WebM, OGG (max 100MB)');
-                            }
-                            setIsUploading(true);
-                            setUploadProgress(0);
-                            const progressInterval = setInterval(() => {
-                              setUploadProgress(prev => Math.min(prev + 5, 90));
-                            }, 300);
-                            const fileName = UploadService.generateFileName(file.name);
-                            const uploadedUrl = await UploadService.uploadFile(file, fileName);
-                            clearInterval(progressInterval);
-                            setUploadProgress(100);
+                            const uploadedUrl = await handleVideoUpload(file);
                             setFormData({ ...formData, videoUrl: uploadedUrl });
-                            setTimeout(() => {
-                              setIsUploading(false);
-                              setUploadProgress(0);
-                            }, 1000);
                           } catch (error) {
                             alert(error instanceof Error ? error.message : 'Erreur lors de l\'upload de la vidéo');
-                            setIsUploading(false);
-                            setUploadProgress(0);
                           }
                         }
                       }}
-                      disabled={isUploading}
+                      disabled={isUploadingVideo}
                       className="w-full bg-white/5 border border-white/10 rounded-xl p-3 focus:border-primary outline-none transition-all text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-black hover:file:bg-primary/80 disabled:opacity-50"
                     />
-                    {isUploading && (
+                    {isUploadingVideo && (
                       <div className="w-full bg-white/10 rounded-lg p-2">
                         <div className="flex items-center justify-between text-sm text-slate-300 mb-1">
                           <span>Upload vidéo en cours...</span>
-                          <span>{uploadProgress}%</span>
+                          <span>{uploadProgressVideo}%</span>
                         </div>
                         <div className="w-full bg-white/20 rounded-full h-2">
                           <div
                             className="bg-primary h-2 rounded-full transition-all duration-300"
-                            style={{ width: `${uploadProgress}%` }}
+                            style={{ width: `${uploadProgressVideo}%` }}
                           ></div>
                         </div>
                       </div>
                     )}
-                    {formData.videoUrl && !isUploading && (
+                    {formData.videoUrl && !isUploadingVideo && (
                       <div className="flex items-center gap-2 text-green-400 text-sm">
                         <Upload size={16} />
                         Vidéo uploadée avec succès
