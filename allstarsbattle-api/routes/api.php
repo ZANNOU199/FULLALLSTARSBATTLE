@@ -24,6 +24,42 @@ use App\Http\Controllers\Api\UploadController;
 Route::get('/cms/data', [CMSController::class, 'getData']);
 Route::post('/cms/data', [CMSController::class, 'saveData']);
 
+// Debug endpoint to test if API is working
+Route::get('/test', function () {
+    return response()->json([
+        'status' => 'ok',
+        'message' => 'API is working!'
+    ]);
+});
+
+// Debug endpoint to test POST
+Route::post('/test-save', function (Request $request) {
+    \Log::info('=== TEST SAVE REQUEST ===');
+    \Log::info('Received data:', $request->all());
+    
+    // Try to save test data to database
+    try {
+        \DB::table('global_config')->updateOrCreate(
+            ['key' => 'test_data'],
+            ['value' => json_encode($request->all())]
+        );
+        
+        // Verify it was saved
+        $saved = \DB::table('global_config')->where('key', 'test_data')->first();
+        
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Test data saved successfully',
+            'saved_data' => $saved
+        ], 200);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+});
+
 // Participants management endpoints (for admin panel)
 Route::post('/cms/participants', [CMSController::class, 'storeParticipant']);
 Route::put('/cms/participants/{id}', [CMSController::class, 'updateParticipant']);
