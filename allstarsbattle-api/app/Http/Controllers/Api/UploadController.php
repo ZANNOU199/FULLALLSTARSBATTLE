@@ -52,39 +52,54 @@ class UploadController extends Controller
 
             \Log::info('Attempting upload to R2', ['path' => $path]);
 
-            // Debug credentials
+            // Vérifier la configuration R2
+            $accountId = config('cloudflare.r2_account_id');
+            $accessKeyId = config('cloudflare.r2_access_key_id');
+            $secretAccessKey = config('cloudflare.r2_secret_access_key');
+            $bucketName = config('cloudflare.r2_bucket_name');
+            $publicUrl = config('cloudflare.r2_public_url');
+
             \Log::info('R2 Credentials Debug', [
-                'R2_ACCESS_KEY_ID' => env('R2_ACCESS_KEY_ID') ? 'SET' : 'NOT SET',
-                'R2_SECRET_ACCESS_KEY' => env('R2_SECRET_ACCESS_KEY') ? 'SET' : 'NOT SET',
-                'R2_ACCOUNT_ID' => env('R2_ACCOUNT_ID') ? 'SET' : 'NOT SET',
-                'R2_BUCKET_NAME' => env('R2_BUCKET_NAME') ? 'SET' : 'NOT SET',
-                'R2_PUBLIC_URL' => env('R2_PUBLIC_URL') ? 'SET' : 'NOT SET',
+                'R2_ACCOUNT_ID' => $accountId ? 'SET' : 'NOT SET',
+                'R2_ACCESS_KEY_ID' => $accessKeyId ? 'SET' : 'NOT SET',
+                'R2_SECRET_ACCESS_KEY' => $secretAccessKey ? 'SET' : 'NOT SET',
+                'R2_BUCKET_NAME' => $bucketName ? 'SET' : 'NOT SET',
+                'R2_PUBLIC_URL' => $publicUrl ? 'SET' : 'NOT SET',
             ]);
+
+            if (!$accountId || !$accessKeyId || !$secretAccessKey || !$bucketName || !$publicUrl) {
+                \Log::error('R2 Configuration missing', ['config' => [
+                    'account_id' => $accountId,
+                    'bucket_name' => $bucketName,
+                    'public_url' => $publicUrl
+                ]]);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Configuration Cloudflare R2 manquante'
+                ], 500);
+            }
 
             // Créer le client S3 pour R2
             $s3Client = new S3Client([
                 'version' => 'latest',
                 'region'  => 'auto',
-                'endpoint' => 'https://' . env('R2_ACCOUNT_ID') . '.r2.cloudflarestorage.com',
+                'endpoint' => "https://{$accountId}.r2.cloudflarestorage.com",
                 'credentials' => [
-                    'key'    => env('R2_ACCESS_KEY_ID'),
-                    'secret' => env('R2_SECRET_ACCESS_KEY'),
-                ],
-                'http' => [
-                    'verify' => false, // Temporairement désactiver la vérification SSL
+                    'key'    => $accessKeyId,
+                    'secret' => $secretAccessKey,
                 ],
             ]);
 
             // Upload du fichier
             $result = $s3Client->putObject([
-                'Bucket' => env('R2_BUCKET_NAME'),
+                'Bucket' => $bucketName,
                 'Key'    => $path,
                 'Body'   => fopen($file->getPathname(), 'r'),
                 'ContentType' => $file->getClientMimeType(),
             ]);
 
             // Construire l'URL publique
-            $fileUrl = env('R2_PUBLIC_URL') . '/' . $path;
+            $fileUrl = $publicUrl . '/' . $path;
 
             \Log::info('Upload successful', ['url' => $fileUrl]);
 
