@@ -276,6 +276,23 @@ class CMSController extends Controller
                     \Log::info('Newly created IDs:', ['ids' => $newlyCreatedIds]);
                     \Log::info('All valid IDs:', ['ids' => $allValidIds]);
                     
+                    // Get companies to delete and remove their images from R2 first
+                    $companiesToDelete = Company::whereNotIn('id', $allValidIds)->get();
+                    foreach ($companiesToDelete as $company) {
+                        if ($company->main_image) {
+                            UploadController::deleteFromR2($company->main_image);
+                        }
+                        // Also delete gallery images
+                        $gallery = json_decode($company->gallery, true) ?? [];
+                        if (is_array($gallery)) {
+                            foreach ($gallery as $galleryImage) {
+                                if (is_array($galleryImage) && isset($galleryImage['url'])) {
+                                    UploadController::deleteFromR2($galleryImage['url']);
+                                }
+                            }
+                        }
+                    }
+                    
                     $deletedCount = Company::whereNotIn('id', $allValidIds)->delete();
                     \Log::info('Deleted companies count:', ['count' => $deletedCount]);
                 }
@@ -694,6 +711,17 @@ class CMSController extends Controller
                     $incomingIds[] = $mediaItem->id;
                 }
                 if (!empty($incomingIds)) {
+                    // Get media items to delete and remove their files from R2 first
+                    $mediaToDelete = MediaItem::whereNotIn('id', $incomingIds)->get();
+                    foreach ($mediaToDelete as $media) {
+                        if ($media->url) {
+                            UploadController::deleteFromR2($media->url);
+                        }
+                        if ($media->thumbnail) {
+                            UploadController::deleteFromR2($media->thumbnail);
+                        }
+                    }
+                    
                     MediaItem::whereNotIn('id', $incomingIds)->delete();
                 }
             }
@@ -1099,6 +1127,12 @@ class CMSController extends Controller
     {
         try {
             $participant = Participant::findOrFail($id);
+            
+            // Supprimer l'image de R2 si elle existe
+            if ($participant->photo) {
+                UploadController::deleteFromR2($participant->photo);
+            }
+            
             $participant->delete();
 
             return response()->json(['message' => 'Participant deleted successfully']);
@@ -1166,6 +1200,12 @@ class CMSController extends Controller
     {
         try {
             $article = Article::findOrFail($id);
+            
+            // Supprimer l'image de couverture de R2 si elle existe
+            if ($article->cover_image) {
+                UploadController::deleteFromR2($article->cover_image);
+            }
+            
             $article->delete();
 
             return response()->json(['message' => 'Article deleted successfully']);

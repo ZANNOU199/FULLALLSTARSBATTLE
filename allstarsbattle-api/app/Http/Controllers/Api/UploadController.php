@@ -172,4 +172,65 @@ class UploadController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * Supprime un fichier de Cloudflare R2 en se basant sur son URL complète
+     * Méthode statique pour être utilisée de n'importe où
+     */
+    public static function deleteFromR2(?string $fileUrl): bool
+    {
+        if (!$fileUrl) {
+            \Log::warning('deleteFromR2: No URL provided');
+            return false;
+        }
+
+        try {
+            // Extraire la clé (path) du fichier à partir de l'URL
+            $publicUrl = config('cloudflare.r2_public_url');
+            
+            // Si l'URL commence par le public URL, extraire la clé
+            if (strpos($fileUrl, $publicUrl) !== false) {
+                $key = str_replace($publicUrl . '/', '', $fileUrl);
+            } else {
+                \Log::warning('deleteFromR2: URL does not match public URL', ['url' => $fileUrl, 'publicUrl' => $publicUrl]);
+                return false;
+            }
+
+            // Vérifier la configuration R2
+            $accountId = config('cloudflare.r2_account_id');
+            $accessKeyId = config('cloudflare.r2_access_key_id');
+            $secretAccessKey = config('cloudflare.r2_secret_access_key');
+            $bucketName = config('cloudflare.r2_bucket_name');
+
+            if (!$accountId || !$accessKeyId || !$secretAccessKey || !$bucketName) {
+                \Log::error('deleteFromR2: Cloudflare R2 configuration missing');
+                return false;
+            }
+
+            // Créer le client S3 pour R2
+            $s3Client = new S3Client([
+                'version' => 'latest',
+                'region'  => 'auto',
+                'endpoint' => "https://{$accountId}.r2.cloudflarestorage.com",
+                'credentials' => [
+                    'key'    => $accessKeyId,
+                    'secret' => $secretAccessKey,
+                ],
+            ]);
+
+            // Supprimer le fichier
+            $result = $s3Client->deleteObject([
+                'Bucket' => $bucketName,
+                'Key'    => $key,
+            ]);
+
+            \Log::info('R2 file deleted successfully', ['key' => $key]);
+            return true;
+
+        } catch (\Exception $e) {
+            \Log::error('R2 Delete Error: ' . $e->getMessage(), ['url' => $fileUrl]);
+            // Ne pas lever l'exception - la suppression en DB est plus importante que la suppression en R2
+            return false;
+        }
+    }
 }
