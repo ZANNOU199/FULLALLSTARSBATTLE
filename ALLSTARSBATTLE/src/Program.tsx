@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { jsPDF } from 'jspdf';
-import autoTable from 'jspdf-autotable';
 import { cmsService } from './services/cmsService';
 import { 
   Calendar, 
@@ -145,6 +143,11 @@ const Program: React.FC<ProgramProps> = ({ onReserveTickets }) => {
   const generatePDF = async () => {
     setIsGeneratingPDF(true);
     try {
+      // Lazy load jsPDF and autoTable only when user clicks to generate PDF
+      const { jsPDF } = await import('jspdf');
+      const autoTableModule = await import('jspdf-autotable');
+      const autoTable = autoTableModule.default;
+
       const doc = new jsPDF();
       
       // Header

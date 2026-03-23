@@ -1,6 +1,5 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { jsPDF } from 'jspdf';
 import { cmsService } from './services/cmsService';
 import { 
   Theater, 
@@ -93,7 +92,7 @@ const Partners = ({ onContactClick }: PartnersProps) => {
     }
   };
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     if (sponsoringPdfUrl) {
       window.open(sponsoringPdfUrl, '_blank');
       return;
@@ -101,8 +100,11 @@ const Partners = ({ onContactClick }: PartnersProps) => {
     
     setIsDownloading(true);
     
-    setTimeout(() => {
+    setTimeout(async () => {
       try {
+        // Lazy load jsPDF only when user clicks to download
+        const { jsPDF } = await import('jspdf');
+        
         const doc = new jsPDF();
         const primaryColor = '#d35f17';
         

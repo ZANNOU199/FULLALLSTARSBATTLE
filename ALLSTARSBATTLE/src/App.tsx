@@ -1,15 +1,23 @@
-import React, { useState, useEffect, useRef, ComponentType } from 'react';
+import React, { useState, useEffect, useRef, ComponentType, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import Competition from './Competition';
-import Dancers from './Dancers';
-import Judges from './Judges';
-import Media from './Media';
-import History from './History';
-import Tickets from './Tickets';
-import Program from './Program';
-import News from './News';
-import FAQ from './FAQ';
-import ArtisticScene from './ArtisticScene';
+
+// Lazy load page components for optimal performance
+const Competition = lazy(() => import('./Competition'));
+const Dancers = lazy(() => import('./Dancers'));
+const Judges = lazy(() => import('./Judges'));
+const Media = lazy(() => import('./Media'));
+const History = lazy(() => import('./History'));
+const Tickets = lazy(() => import('./Tickets'));
+const Program = lazy(() => import('./Program'));
+const News = lazy(() => import('./News'));
+const ArtisticScene = lazy(() => import('./ArtisticScene'));
+const Contact = lazy(() => import('./Contact'));
+const Partners = lazy(() => import('./Partners'));
+const Participate = lazy(() => import('./Participate'));
+const AdminDashboard = lazy(() => import('./admin/AdminDashboard'));
+const FAQ = lazy(() => import('./FAQ'));
+
+import { LoadingFallback } from './components/LoadingFallback';
 import * as LucideIcons from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useThemeApply } from './hooks/useThemeApply';
@@ -458,10 +466,6 @@ const BracketContent = ({ brackets }: { brackets?: any }) => {
 );
 };
 
-import Contact from './Contact';
-import Partners from './Partners';
-import Participate from './Participate';
-import AdminDashboard from './admin/AdminDashboard';
 import { cmsService } from './services/cmsService';
 import { GlobalConfig, MediaItem } from './types';
 
@@ -1476,41 +1480,69 @@ const AppContent = () => {
       </section>
     </>
   ) : currentPage === 'competition' ? (
-    <Competition />
+    <Suspense fallback={<LoadingFallback />}>
+      <Competition />
+    </Suspense>
   ) : currentPage === 'dancers' ? (
-    <Dancers onViewPerformances={() => changePage('media')} pageBackgrounds={pageBackgrounds} />
+    <Suspense fallback={<LoadingFallback />}>
+      <Dancers onViewPerformances={() => changePage('media')} pageBackgrounds={pageBackgrounds} />
+    </Suspense>
   ) : currentPage === 'judges' ? (
-    <Judges />
+    <Suspense fallback={<LoadingFallback />}>
+      <Judges />
+    </Suspense>
   ) : currentPage === 'history' ? (
-    <History onViewGallery={navigateToMediaYear} />
+    <Suspense fallback={<LoadingFallback />}>
+      <History onViewGallery={navigateToMediaYear} />
+    </Suspense>
   ) : currentPage === 'tickets' ? (
-    <Tickets onNavigateToFAQ={() => changePage('faq')} />
+    <Suspense fallback={<LoadingFallback />}>
+      <Tickets onNavigateToFAQ={() => changePage('faq')} />
+    </Suspense>
   ) : currentPage === 'program' ? (
-    <Program onReserveTickets={() => changePage('tickets')} />
+    <Suspense fallback={<LoadingFallback />}>
+      <Program onReserveTickets={() => changePage('tickets')} />
+    </Suspense>
   ) : currentPage === 'news' ? (
-    <News onBack={() => changePage('home')} initialArticleId={selectedArticleId} />
+    <Suspense fallback={<LoadingFallback />}>
+      <News onBack={() => changePage('home')} initialArticleId={selectedArticleId} />
+    </Suspense>
   ) : currentPage === 'artistic' ? (
-    <ArtisticScene 
-      onNavigateToProgram={() => changePage('program')} 
-      onNavigateToTickets={() => changePage('tickets')}
-      pageBackgrounds={pageBackgrounds}
-      featuredPiece={featuredPiece}
-    />
+    <Suspense fallback={<LoadingFallback />}>
+      <ArtisticScene 
+        onNavigateToProgram={() => changePage('program')} 
+        onNavigateToTickets={() => changePage('tickets')}
+        pageBackgrounds={pageBackgrounds}
+        featuredPiece={featuredPiece}
+      />
+    </Suspense>
   ) : currentPage === 'contact' ? (
-    <Contact onNavigateToFAQ={() => changePage('faq')} pageBackgrounds={pageBackgrounds} />
+    <Suspense fallback={<LoadingFallback />}>
+      <Contact onNavigateToFAQ={() => changePage('faq')} pageBackgrounds={pageBackgrounds} />
+    </Suspense>
   ) : currentPage === 'participate' ? (
-    <Participate onBack={() => changePage('home')} data={participateData} pageBackgrounds={pageBackgrounds} />
+    <Suspense fallback={<LoadingFallback />}>
+      <Participate onBack={() => changePage('home')} data={participateData} pageBackgrounds={pageBackgrounds} />
+    </Suspense>
   ) : currentPage === 'partners' ? (
-    <Partners onContactClick={navigateTo('contact')} />
+    <Suspense fallback={<LoadingFallback />}>
+      <Partners onContactClick={navigateTo('contact')} />
+    </Suspense>
   ) : currentPage === 'admin' ? (
-    <AdminDashboard onLogout={() => {
-      setIsAdminLoggedIn(false);
-      changePage('home');
-    }} />
+    <Suspense fallback={<LoadingFallback />}>
+      <AdminDashboard onLogout={() => {
+        setIsAdminLoggedIn(false);
+        changePage('home');
+      }} />
+    </Suspense>
   ) : currentPage === 'faq' ? (
-    <FAQ onNavigateBack={() => changePage('home')} />
+    <Suspense fallback={<LoadingFallback />}>
+      <FAQ onNavigateBack={() => changePage('home')} />
+    </Suspense>
   ) : (
-    <Media selectedYear={selectedMediaYear} onYearChange={setSelectedMediaYear} pageBackgrounds={pageBackgrounds} />
+    <Suspense fallback={<LoadingFallback />}>
+      <Media selectedYear={selectedMediaYear} onYearChange={setSelectedMediaYear} pageBackgrounds={pageBackgrounds} />
+    </Suspense>
   )}
 
   {/* FOOTER */}
