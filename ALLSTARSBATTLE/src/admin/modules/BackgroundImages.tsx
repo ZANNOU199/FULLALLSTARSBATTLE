@@ -211,16 +211,65 @@ export default function BackgroundImages({ data, setData, onSave }: { data: CMSD
               {editingPage === 'hero' && (
                 <div className="space-y-2">
                   <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 flex items-center gap-2">
-                    <Video size={14} /> URL Vidéo (Hero uniquement)
+                    <Video size={14} /> Vidéo de Fond (Hero uniquement)
                   </label>
-                  <input 
-                    type="text" 
-                    value={formData.videoUrl || ''} 
-                    onChange={e => setFormData({ ...formData, videoUrl: e.target.value })}
-                    placeholder="https://example.com/video.mp4"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl p-3 focus:border-primary outline-none transition-all text-white"
-                  />
-                  <p className="text-[10px] text-slate-500">Vidéo de fond pour la section héros</p>
+                  <div className="space-y-3">
+                    <input
+                      type="file"
+                      accept="video/mp4,video/webm,video/ogg,video/quicktime"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          try {
+                            if (!UploadService.validateVideoFile(file)) {
+                              throw new Error('Fichier vidéo invalide. Formats acceptés: MP4, WebM, OGG (max 100MB)');
+                            }
+                            setIsUploading(true);
+                            setUploadProgress(0);
+                            const progressInterval = setInterval(() => {
+                              setUploadProgress(prev => Math.min(prev + 5, 90));
+                            }, 300);
+                            const fileName = UploadService.generateFileName(file.name);
+                            const uploadedUrl = await UploadService.uploadFile(file, fileName);
+                            clearInterval(progressInterval);
+                            setUploadProgress(100);
+                            setFormData({ ...formData, videoUrl: uploadedUrl });
+                            setTimeout(() => {
+                              setIsUploading(false);
+                              setUploadProgress(0);
+                            }, 1000);
+                          } catch (error) {
+                            alert(error instanceof Error ? error.message : 'Erreur lors de l\'upload de la vidéo');
+                            setIsUploading(false);
+                            setUploadProgress(0);
+                          }
+                        }
+                      }}
+                      disabled={isUploading}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl p-3 focus:border-primary outline-none transition-all text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-black hover:file:bg-primary/80 disabled:opacity-50"
+                    />
+                    {isUploading && (
+                      <div className="w-full bg-white/10 rounded-lg p-2">
+                        <div className="flex items-center justify-between text-sm text-slate-300 mb-1">
+                          <span>Upload vidéo en cours...</span>
+                          <span>{uploadProgress}%</span>
+                        </div>
+                        <div className="w-full bg-white/20 rounded-full h-2">
+                          <div
+                            className="bg-primary h-2 rounded-full transition-all duration-300"
+                            style={{ width: `${uploadProgress}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                    )}
+                    {formData.videoUrl && !isUploading && (
+                      <div className="flex items-center gap-2 text-green-400 text-sm">
+                        <Upload size={16} />
+                        Vidéo uploadée avec succès
+                      </div>
+                    )}
+                  </div>
+                  <p className="text-[10px] text-slate-500">Formats acceptés: MP4, WebM, OGG (max 100MB)</p>
                 </div>
               )}
             </div>

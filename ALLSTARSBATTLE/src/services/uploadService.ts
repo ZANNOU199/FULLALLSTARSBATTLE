@@ -13,6 +13,16 @@ export class UploadService {
   }
 
   /**
+   * Valide un fichier vidéo
+   */
+  static validateVideoFile(file: File): boolean {
+    const allowedTypes = ['video/mp4', 'video/webm', 'video/ogg', 'video/quicktime'];
+    const maxSize = 100 * 1024 * 1024; // 100MB pour les vidéos
+
+    return allowedTypes.includes(file.type) && file.size <= maxSize;
+  }
+
+  /**
    * Génère un nom de fichier unique
    */
   static generateFileName(originalName: string): string {
