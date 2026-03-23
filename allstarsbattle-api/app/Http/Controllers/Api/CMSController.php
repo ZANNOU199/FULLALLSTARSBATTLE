@@ -49,7 +49,7 @@ class CMSController extends Controller
             'globalConfig' => $this->getGlobalConfig(),
             'theme' => $this->getTheme(),
             'pageBackgrounds' => $this->getPageBackgrounds(),
-            'siteAssets' => ['backgrounds' => [], 'illustrations' => [], 'videos' => []],
+            'siteAssets' => $this->getSiteAssets(),
             'participate' => $this->getParticipate(),
             'organizers' => $this->getOrganizers(),
             'organizersConfig' => $this->getOrganizersConfig(),
@@ -647,6 +647,18 @@ class CMSController extends Controller
             }
 
             // Save media items
+            // Save site assets (logo, etc.)
+            $siteAssetsPayload = $payload['siteAssets'] ?? [];
+            if (is_array($siteAssetsPayload)) {
+                if (isset($siteAssetsPayload['logo']) && is_array($siteAssetsPayload['logo'])) {
+                    GlobalConfig::updateOrCreate(
+                        ['key' => 'siteAssets.logo'],
+                        ['value' => json_encode($siteAssetsPayload['logo'])]
+                    );
+                    \Log::info('Saved site logo to database');
+                }
+            }
+
             $mediaPayload = $payload['media'] ?? [];
             if (is_array($mediaPayload) && !empty($mediaPayload)) {
                 $incomingIds = [];
@@ -955,6 +967,22 @@ class CMSController extends Controller
                 'lastModified' => now()->toIso8601String(),
             ],
         ]);
+    }
+
+    private function getSiteAssets()
+    {
+        $logo = $this->getConfigItem('siteAssets.logo', [
+            'url' => '',
+            'alt' => 'All Stars Battle International Logo',
+            'lastModified' => ''
+        ]);
+
+        return [
+            'backgrounds' => [],
+            'illustrations' => [],
+            'videos' => [],
+            'logo' => $logo
+        ];
     }
 
     private function getParticipate()
