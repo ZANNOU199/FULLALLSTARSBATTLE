@@ -811,14 +811,12 @@ const AppContent = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
           <div className="flex justify-between items-center h-full">
             <div className="flex items-center gap-2">
-              {logo?.url ? (
+              {logo?.url && (
                 <img 
                   src={logo.url} 
                   alt={logo.alt || "Site Logo"} 
                   className="h-16 w-auto max-w-[300px] object-contain"
                 />
-              ) : (
-                <div className="h-16 w-16 bg-primary flex items-center justify-center font-heading text-4xl text-background-dark font-bold">AS</div>
               )}
             </div>
             
@@ -1499,14 +1497,12 @@ const AppContent = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
             <div className="col-span-1 md:col-span-1">
-              {logo?.url ? (
+              {logo?.url && (
                 <img 
                   src={logo.url} 
                   alt={logo.alt || "Site Logo"} 
                   className="h-16 w-auto max-w-[200px] object-contain mb-8"
                 />
-              ) : (
-                <div className="h-16 w-16 bg-primary flex items-center justify-center font-heading text-4xl text-background-dark font-bold mb-8">AS</div>
               )}
               <p className="text-slate-400 text-sm leading-relaxed mb-8">
                 {config?.footer.description || 'L\'événement de breakdance ultime qui définit le trône de la culture urbaine en Afrique. Vivez l\'excellence du mouvement, du rythme et de la compétition internationale au cœur du Togo.'}
