@@ -513,7 +513,15 @@ const AppContent = () => {
   const [mediaItems, setMediaItems] = useState<MediaItem[]>([]);
   const [partnerData, setPartnerData] = useState<any>(null);
   const [participateData, setParticipateData] = useState<any>(null);
-  const [logo, setLogo] = useState<any>(null);
+  const [logo, setLogo] = useState<any>(() => {
+    // Load logo from localStorage for instant display on page load
+    try {
+      const cached = localStorage.getItem('asbi_logo');
+      return cached ? JSON.parse(cached) : null;
+    } catch {
+      return null;
+    }
+  });
   const [selectedMediaYear, setSelectedMediaYear] = useState<number>(() => {
     const urlParams = new URLSearchParams(location.search);
     const year = urlParams.get('year');
@@ -594,7 +602,12 @@ const AppContent = () => {
     setMediaItems(data.media || []);
     setPartnerData(data.partners);
     setParticipateData(data.participate);
-    setLogo(data.siteAssets?.logo || null);
+    
+    // Cache logo in localStorage for instant display on next page load
+    if (data.siteAssets?.logo) {
+      localStorage.setItem('asbi_logo', JSON.stringify(data.siteAssets.logo));
+      setLogo(data.siteAssets.logo);
+    }
   };
 
   useEffect(() => {
@@ -625,7 +638,13 @@ const AppContent = () => {
         setMediaItems(updatedData.media || []);
         setPartnerData(updatedData.partners);
         setParticipateData(updatedData.participate);
-        setLogo(updatedData.siteAssets?.logo || null);
+        
+        // Cache logo in localStorage for instant display
+        if (updatedData.siteAssets?.logo) {
+          localStorage.setItem('asbi_logo', JSON.stringify(updatedData.siteAssets.logo));
+          setLogo(updatedData.siteAssets.logo);
+        }
+        
         console.log('App.tsx: Homepage data updated with latest articles from API');
       } catch (error) {
         console.error('Failed to reload homepage data:', error);
@@ -816,6 +835,9 @@ const AppContent = () => {
                   src={logo.url} 
                   alt={logo.alt || "Site Logo"} 
                   className="h-16 w-auto max-w-[300px] object-contain"
+                  fetchPriority="high"
+                  loading="eager"
+                  decoding="async"
                 />
               )}
             </div>
@@ -1502,6 +1524,9 @@ const AppContent = () => {
                   src={logo.url} 
                   alt={logo.alt || "Site Logo"} 
                   className="h-16 w-auto max-w-[200px] object-contain mb-8"
+                  fetchPriority="high"
+                  loading="eager"
+                  decoding="async"
                 />
               )}
               <p className="text-slate-400 text-sm leading-relaxed mb-8">
