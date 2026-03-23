@@ -528,6 +528,11 @@ const initialData: CMSData = {
         duration: '',
         type: 'video'
       }
+    },
+    logo: {
+      url: '',
+      alt: 'All Stars Battle International Logo',
+      lastModified: ''
     }
   },
   organizers: [
@@ -677,7 +682,8 @@ export const cmsService = {
         siteAssets: {
           backgrounds: { ...initialData.siteAssets.backgrounds, ...(apiData.siteAssets?.backgrounds || {}) },
           illustrations: { ...initialData.siteAssets.illustrations, ...(apiData.siteAssets?.illustrations || {}) },
-          videos: { ...initialData.siteAssets.videos, ...(apiData.siteAssets?.videos || {}) }
+          videos: { ...initialData.siteAssets.videos, ...(apiData.siteAssets?.videos || {}) },
+          logo: { ...initialData.siteAssets.logo, ...(apiData.siteAssets?.logo || {}) }
         }
       };
       

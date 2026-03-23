@@ -281,6 +281,7 @@ export interface SiteAssets {
   backgrounds: { [key: string]: ImageAsset };
   illustrations: { [key: string]: ImageAsset };
   videos: { [key: string]: VideoAsset };
+  logo?: ImageAsset;
 }
 
 export interface CMSData {

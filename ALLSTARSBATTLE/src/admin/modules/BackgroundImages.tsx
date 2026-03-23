@@ -12,7 +12,19 @@ export default function BackgroundImages({ data, setData, onSave }: { data: CMSD
   const [uploadProgressImage, setUploadProgressImage] = useState(0);
   const [isUploadingVideo, setIsUploadingVideo] = useState(false);
   const [uploadProgressVideo, setUploadProgressVideo] = useState(0);
+  // Logo-specific states
+  const [isUploadingLogo, setIsUploadingLogo] = useState(false);
+  const [uploadProgressLogo, setUploadProgressLogo] = useState(0);
+  const [savedLogo, setSavedLogo] = useState(false);
+  const [localLogoUrl, setLocalLogoUrl] = useState<string>(data.siteAssets?.logo?.url || '');
   const formRef = useRef<HTMLDivElement>(null);
+
+  // Update local logo when data changes
+  useEffect(() => {
+    if (data.siteAssets?.logo?.url && !localLogoUrl) {
+      setLocalLogoUrl(data.siteAssets.logo.url);
+    }
+  }, [data.siteAssets?.logo?.url]);
 
   // Fonction pour uploader un fichier image
   const handleImageUpload = async (file: File): Promise<string> => {
@@ -69,6 +81,35 @@ export default function BackgroundImages({ data, setData, onSave }: { data: CMSD
       setTimeout(() => {
         setIsUploadingVideo(false);
         setUploadProgressVideo(0);
+      }, 1000);
+    }
+  };
+
+  // Fonction dédiée pour uploader le logo avec ses propres états
+  const handleLogoUpload = async (file: File): Promise<string> => {
+    if (!UploadService.validateImageFile(file)) {
+      throw new Error('Fichier invalide. Seules les images (JPEG, PNG, WebP, GIF) de moins de 10MB sont acceptées.');
+    }
+
+    setIsUploadingLogo(true);
+    setUploadProgressLogo(0);
+
+    try {
+      const progressInterval = setInterval(() => {
+        setUploadProgressLogo(prev => Math.min(prev + 10, 90));
+      }, 200);
+
+      const fileName = UploadService.generateFileName(file.name);
+      const uploadedUrl = await UploadService.uploadFile(file, fileName);
+
+      clearInterval(progressInterval);
+      setUploadProgressLogo(100);
+
+      return uploadedUrl;
+    } finally {
+      setTimeout(() => {
+        setIsUploadingLogo(false);
+        setUploadProgressLogo(0);
       }, 1000);
     }
   };
@@ -399,6 +440,143 @@ export default function BackgroundImages({ data, setData, onSave }: { data: CMSD
         })}
       </div>
 
+      {/* Logo Section */}
+      <div className="bg-gradient-to-r from-accent-red/20 to-primary/20 border border-white/10 rounded-2xl p-8">
+        <h3 className="text-2xl font-heading text-accent-red mb-2">🎨 Logo du Site</h3>
+        <p className="text-slate-400 text-sm">Gérez le logo affichée dans le header du site</p>
+
+        <div className="mt-8">
+          {localLogoUrl || data.siteAssets?.logo?.url ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+              <div className="space-y-4">
+                <div className="bg-black border border-white/10 rounded-xl p-8 flex items-center justify-center h-40">
+                  <img 
+                    src={localLogoUrl || data.siteAssets?.logo?.url || ''} 
+                    alt="Site Logo" 
+                    className="h-32 w-auto object-contain max-w-full"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = 'https://via.placeholder.com/200x100?text=Logo';
+                    }}
+                  />
+                </div>
+                <div className="text-xs text-slate-500 space-y-1">
+                  <p>Format: PNG ou SVG recommandé</p>
+                  <p>Taille optimale: 200x100px ou ratio similaire</p>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+                  <h5 className="text-white font-bold mb-4">Remplacer le logo</h5>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        try {
+                          const uploadedUrl = await handleLogoUpload(file);
+                          setLocalLogoUrl(uploadedUrl);
+                          const updatedData = {
+                            ...data,
+                            siteAssets: {
+                              ...data.siteAssets,
+                              logo: {
+                                url: uploadedUrl,
+                                alt: 'All Stars Battle International Logo',
+                                lastModified: new Date().toISOString()
+                              }
+                            }
+                          };
+                          setData(updatedData);
+                          if (onSave) {
+                            await onSave(updatedData);
+                          }
+                          setSavedLogo(true);
+                          setTimeout(() => setSavedLogo(false), 2000);
+                        } catch (error) {
+                          alert(error instanceof Error ? error.message : 'Erreur lors de l\'upload');
+                        }
+                      }
+                    }}
+                    disabled={isUploadingLogo}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl p-3 focus:border-primary outline-none transition-all text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-black hover:file:bg-primary/80 disabled:opacity-50"
+                  />
+                  {isUploadingLogo && (
+                    <div className="w-full bg-white/10 rounded-lg p-2 mt-3">
+                      <div className="flex items-center justify-between text-sm text-slate-300 mb-1">
+                        <span>Upload en cours...</span>
+                        <span>{uploadProgressLogo}%</span>
+                      </div>
+                      <div className="w-full bg-white/20 rounded-full h-2">
+                        <div
+                          className="bg-primary h-2 rounded-full transition-all duration-300"
+                          style={{ width: `${uploadProgressLogo}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  )}
+                  {savedLogo && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="flex items-center gap-2 text-green-400 text-sm mt-3"
+                    >
+                      <Check size={16} />
+                      Logo mis à jour avec succès!
+                    </motion.div>
+                  )}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="bg-white/5 border-2 border-dashed border-white/20 rounded-2xl p-12 text-center">
+              <ImageIcon size={48} className="mx-auto text-slate-500 mb-4" />
+              <h5 className="text-white font-bold mb-2">Aucun logo uploadé</h5>
+              <p className="text-slate-400 text-sm mb-6">Téléchargez le logo du site pour qu'il s'affiche dans le header</p>
+              <label className="inline-block px-6 py-3 bg-primary text-background-dark font-bold rounded-xl cursor-pointer hover:bg-primary/90 transition-colors text-sm">
+                Choisir une image
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      try {
+                        const uploadedUrl = await handleLogoUpload(file);
+                        setLocalLogoUrl(uploadedUrl);
+                        const updatedData = {
+                          ...data,
+                          siteAssets: {
+                            ...data.siteAssets,
+                            logo: {
+                              url: uploadedUrl,
+                              alt: 'All Stars Battle International Logo',
+                              lastModified: new Date().toISOString()
+                            }
+                          }
+                        };
+                        setData(updatedData);
+                        if (onSave) {
+                          await onSave(updatedData);
+                        }
+                        setSavedLogo(true);
+                        setTimeout(() => setSavedLogo(false), 2000);
+                      } catch (error) {
+                        alert(error instanceof Error ? error.message : 'Erreur lors de l\'upload');
+                      }
+                    }
+                  }}
+                  disabled={isUploadingLogo}
+                  className="hidden"
+                />
+              </label>
+            </div>
+          )}
+        </div>
+      </div>
+
       <div className="bg-[#111] border border-white/10 p-6 rounded-2xl">
         <h4 className="text-sm font-heading text-white mb-4 flex items-center gap-2">
           <ImageIcon size={18} className="text-primary" /> Conseils
@@ -409,6 +587,7 @@ export default function BackgroundImages({ data, setData, onSave }: { data: CMSD
           <li>• La vidéo héros s'affichera en priorité, l'image comme fallback</li>
           <li>• Les URLs doivent être publiquement accessibles (HTTP/HTTPS)</li>
           <li>• Assurez-vous que les images sont bien optimisées pour le web</li>
+          <li>• Pour le logo: formats PNG ou SVG recommandés, size 200x100px optimal</li>
         </ul>
       </div>
     </div>

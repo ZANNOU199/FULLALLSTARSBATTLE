@@ -513,6 +513,7 @@ const AppContent = () => {
   const [mediaItems, setMediaItems] = useState<MediaItem[]>([]);
   const [partnerData, setPartnerData] = useState<any>(null);
   const [participateData, setParticipateData] = useState<any>(null);
+  const [logo, setLogo] = useState<any>(null);
   const [selectedMediaYear, setSelectedMediaYear] = useState<number>(() => {
     const urlParams = new URLSearchParams(location.search);
     const year = urlParams.get('year');
@@ -593,6 +594,7 @@ const AppContent = () => {
     setMediaItems(data.media || []);
     setPartnerData(data.partners);
     setParticipateData(data.participate);
+    setLogo(data.siteAssets?.logo || null);
   };
 
   useEffect(() => {
@@ -623,6 +625,7 @@ const AppContent = () => {
         setMediaItems(updatedData.media || []);
         setPartnerData(updatedData.partners);
         setParticipateData(updatedData.participate);
+        setLogo(updatedData.siteAssets?.logo || null);
         console.log('App.tsx: Homepage data updated with latest articles from API');
       } catch (error) {
         console.error('Failed to reload homepage data:', error);
@@ -808,8 +811,15 @@ const AppContent = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
           <div className="flex justify-between items-center h-full">
             <div className="flex items-center gap-2">
-              <div className="h-10 w-10 bg-primary flex items-center justify-center font-heading text-2xl text-background-dark font-bold">AS</div>
-              <span className="hidden sm:block font-heading text-xl tracking-tighter text-white">ALL STARS BATTLE</span>
+              {logo?.url ? (
+                <img 
+                  src={logo.url} 
+                  alt={logo.alt || "Site Logo"} 
+                  className="h-16 w-auto max-w-[300px] object-contain"
+                />
+              ) : (
+                <div className="h-16 w-16 bg-primary flex items-center justify-center font-heading text-4xl text-background-dark font-bold">AS</div>
+              )}
             </div>
             
             <div className="hidden xl:flex items-center space-x-8">
@@ -1454,7 +1464,7 @@ const AppContent = () => {
   ) : currentPage === 'history' ? (
     <History onViewGallery={navigateToMediaYear} />
   ) : currentPage === 'tickets' ? (
-    <Tickets />
+    <Tickets onNavigateToFAQ={() => changePage('faq')} />
   ) : currentPage === 'program' ? (
     <Program onReserveTickets={() => changePage('tickets')} />
   ) : currentPage === 'news' ? (
@@ -1489,7 +1499,15 @@ const AppContent = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
             <div className="col-span-1 md:col-span-1">
-              <div className="h-16 w-16 bg-primary flex items-center justify-center font-heading text-4xl text-background-dark font-bold mb-8">AS</div>
+              {logo?.url ? (
+                <img 
+                  src={logo.url} 
+                  alt={logo.alt || "Site Logo"} 
+                  className="h-16 w-auto max-w-[200px] object-contain mb-8"
+                />
+              ) : (
+                <div className="h-16 w-16 bg-primary flex items-center justify-center font-heading text-4xl text-background-dark font-bold mb-8">AS</div>
+              )}
               <p className="text-slate-400 text-sm leading-relaxed mb-8">
                 {config?.footer.description || 'L\'événement de breakdance ultime qui définit le trône de la culture urbaine en Afrique. Vivez l\'excellence du mouvement, du rythme et de la compétition internationale au cœur du Togo.'}
               </p>
