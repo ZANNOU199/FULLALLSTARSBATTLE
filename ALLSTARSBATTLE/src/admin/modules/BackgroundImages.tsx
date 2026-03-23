@@ -156,7 +156,9 @@ export default function BackgroundImages({ data, setData, onSave }: { data: CMSD
       lastModified: new Date().toISOString()
     };
 
-    const updatedData = {
+    // IMPORTANT: Create complete data object with all sections
+    // Don't just send pageBackgrounds - send the entire CMSData
+    const updatedData: CMSData = {
       ...data,
       pageBackgrounds: {
         ...data.pageBackgrounds,
@@ -164,8 +166,10 @@ export default function BackgroundImages({ data, setData, onSave }: { data: CMSD
       }
     };
 
+    // Update local state
     setData(updatedData);
 
+    // Send complete data to backend
     if (onSave) {
       await onSave(updatedData);
     }
