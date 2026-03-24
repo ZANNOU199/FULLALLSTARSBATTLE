@@ -21,7 +21,6 @@ import { LoadingFallback } from './components/LoadingFallback';
 import * as LucideIcons from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useThemeApply } from './hooks/useThemeApply';
-import { useMetaTags } from './hooks/useMetaTags';
 import OptimizedImage from './components/OptimizedImage';
 import OptimizedVideo from './components/OptimizedVideo';
 import { usePagination } from './hooks/usePagination';
@@ -474,6 +473,65 @@ const AppContent = () => {
   // Apply theme colors from CMS
   useThemeApply();
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Get current page from URL
+  const getCurrentPageFromUrl = (): 'home' | 'competition' | 'dancers' | 'judges' | 'media' | 'history' | 'tickets' | 'program' | 'news' | 'artistic' | 'contact' | 'partners' | 'participate' | 'admin' | 'faq' => {
+    const path = location.pathname.slice(1) || 'home'; // Remove leading slash
+    const pathToPage: Record<string, any> = {
+      '': 'home',
+      'competition': 'competition',
+      'dancers': 'dancers',
+      'judges': 'judges',
+      'media': 'media',
+      'history': 'history',
+      'tickets': 'tickets',
+      'program': 'program',
+      'news': 'news',
+      'artistic': 'artistic',
+      'contact': 'contact',
+      'partners': 'partners',
+      'participate': 'participate',
+      'admin': 'admin',
+      'faq': 'faq'
+    };
+    return pathToPage[path] || 'home';
+  };
+
+  const [currentPage, setCurrentPage] = useState<'home' | 'competition' | 'dancers' | 'judges' | 'media' | 'history' | 'tickets' | 'program' | 'news' | 'artistic' | 'contact' | 'partners' | 'participate' | 'admin' | 'faq'>(getCurrentPageFromUrl());
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+  const [selectedArticleId, setSelectedArticleId] = useState<string | undefined>(() => {
+    const urlParams = new URLSearchParams(location.search);
+    return urlParams.get('article') || undefined;
+  });
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [config, setConfig] = useState<GlobalConfig | null>(null);
+  const [pageBackgrounds, setPageBackgrounds] = useState<any>(null);
+  const [featuredPiece, setFeaturedPiece] = useState<any>(null);
+  const [stats, setStats] = useState<any[]>([]);
+  const [recentNews, setRecentNews] = useState<any[]>([]);
+  const [participants, setParticipants] = useState<any[]>([]);
+  const [programData, setProgramData] = useState<any[]>([]);
+  const [bracketData, setBracketData] = useState<any>(null);
+  const [mediaItems, setMediaItems] = useState<MediaItem[]>([]);
+  const [partnerData, setPartnerData] = useState<any>(null);
+  const [participateData, setParticipateData] = useState<any>(null);
+  const [logo, setLogo] = useState<any>(() => {
+    // Load logo from localStorage for instant display on page load
+    try {
+      const cached = localStorage.getItem('asbi_logo');
+      return cached ? JSON.parse(cached) : null;
+    } catch {
+      return null;
+    }
+  });
+  const [selectedMediaYear, setSelectedMediaYear] = useState<number>(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const year = urlParams.get('year');
+    return year ? parseInt(year) : 2026;
+  });
+
   // Meta tags configuration for each page
   const getMetaTagsConfig = () => {
     const baseUrl = 'https://allstarsbattle.com';
@@ -584,74 +642,110 @@ const AppContent = () => {
   // Update meta tags when page changes
   useEffect(() => {
     const config = getMetaTagsConfig();
-    useMetaTags({
-      title: config.title,
-      description: config.description,
-      image: config.image,
-      url: config.url,
-      type: config.type,
-      twitterHandle: '@allstarsbattle'
-    });
-  }, [currentPage]);
+    
+    // Mettre à jour le titre
+    document.title = config.title;
 
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  // Get current page from URL
-  const getCurrentPageFromUrl = (): 'home' | 'competition' | 'dancers' | 'judges' | 'media' | 'history' | 'tickets' | 'program' | 'news' | 'artistic' | 'contact' | 'partners' | 'participate' | 'admin' | 'faq' => {
-    const path = location.pathname.slice(1) || 'home'; // Remove leading slash
-    const pathToPage: Record<string, typeof currentPage> = {
-      '': 'home',
-      'competition': 'competition',
-      'dancers': 'dancers',
-      'judges': 'judges',
-      'media': 'media',
-      'history': 'history',
-      'tickets': 'tickets',
-      'program': 'program',
-      'news': 'news',
-      'artistic': 'artistic',
-      'contact': 'contact',
-      'partners': 'partners',
-      'participate': 'participate',
-      'admin': 'admin',
-      'faq': 'faq'
-    };
-    return pathToPage[path] || 'home';
-  };
-
-  const [currentPage, setCurrentPage] = useState<'home' | 'competition' | 'dancers' | 'judges' | 'media' | 'history' | 'tickets' | 'program' | 'news' | 'artistic' | 'contact' | 'partners' | 'participate' | 'admin' | 'faq'>(getCurrentPageFromUrl());
-  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
-  const [selectedArticleId, setSelectedArticleId] = useState<string | undefined>(() => {
-    const urlParams = new URLSearchParams(location.search);
-    return urlParams.get('article') || undefined;
-  });
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [config, setConfig] = useState<GlobalConfig | null>(null);
-  const [pageBackgrounds, setPageBackgrounds] = useState<any>(null);
-  const [featuredPiece, setFeaturedPiece] = useState<any>(null);
-  const [stats, setStats] = useState<any[]>([]);
-  const [recentNews, setRecentNews] = useState<any[]>([]);
-  const [participants, setParticipants] = useState<any[]>([]);
-  const [programData, setProgramData] = useState<any[]>([]);
-  const [bracketData, setBracketData] = useState<any>(null);
-  const [mediaItems, setMediaItems] = useState<MediaItem[]>([]);
-  const [partnerData, setPartnerData] = useState<any>(null);
-  const [participateData, setParticipateData] = useState<any>(null);
-  const [logo, setLogo] = useState<any>(() => {
-    // Load logo from localStorage for instant display on page load
-    try {
-      const cached = localStorage.getItem('asbi_logo');
-      return cached ? JSON.parse(cached) : null;
-    } catch {
-      return null;
+    // Mettre à jour ou créer meta description
+    let descTag = document.querySelector('meta[name="description"]');
+    if (!descTag) {
+      descTag = document.createElement('meta');
+      descTag.setAttribute('name', 'description');
+      document.head.appendChild(descTag);
     }
-  });
-  const [selectedMediaYear, setSelectedMediaYear] = useState<number>(() => {
-    const urlParams = new URLSearchParams(location.search);
-    const year = urlParams.get('year');
-    return year ? parseInt(year) : 2026;
-  });
+    descTag.setAttribute('content', config.description);
+
+    // Open Graph - og:title
+    let ogTitle = document.querySelector('meta[property="og:title"]');
+    if (!ogTitle) {
+      ogTitle = document.createElement('meta');
+      ogTitle.setAttribute('property', 'og:title');
+      document.head.appendChild(ogTitle);
+    }
+    ogTitle.setAttribute('content', config.title);
+
+    // Open Graph - og:description
+    let ogDesc = document.querySelector('meta[property="og:description"]');
+    if (!ogDesc) {
+      ogDesc = document.createElement('meta');
+      ogDesc.setAttribute('property', 'og:description');
+      document.head.appendChild(ogDesc);
+    }
+    ogDesc.setAttribute('content', config.description);
+
+    // Open Graph - og:image
+    if (config.image) {
+      let ogImage = document.querySelector('meta[property="og:image"]');
+      if (!ogImage) {
+        ogImage = document.createElement('meta');
+        ogImage.setAttribute('property', 'og:image');
+        document.head.appendChild(ogImage);
+      }
+      ogImage.setAttribute('content', config.image);
+    }
+
+    // Open Graph - og:url
+    if (config.url) {
+      let ogUrl = document.querySelector('meta[property="og:url"]');
+      if (!ogUrl) {
+        ogUrl = document.createElement('meta');
+        ogUrl.setAttribute('property', 'og:url');
+        document.head.appendChild(ogUrl);
+      }
+      ogUrl.setAttribute('content', config.url);
+    }
+
+    // Open Graph - og:type
+    if (config.type) {
+      let ogType = document.querySelector('meta[property="og:type"]');
+      if (!ogType) {
+        ogType = document.createElement('meta');
+        ogType.setAttribute('property', 'og:type');
+        document.head.appendChild(ogType);
+      }
+      ogType.setAttribute('content', config.type);
+    }
+
+    // Twitter - twitter:title
+    let twitterTitle = document.querySelector('meta[name="twitter:title"]');
+    if (!twitterTitle) {
+      twitterTitle = document.createElement('meta');
+      twitterTitle.setAttribute('name', 'twitter:title');
+      document.head.appendChild(twitterTitle);
+    }
+    twitterTitle.setAttribute('content', config.title);
+
+    // Twitter - twitter:description
+    let twitterDesc = document.querySelector('meta[name="twitter:description"]');
+    if (!twitterDesc) {
+      twitterDesc = document.createElement('meta');
+      twitterDesc.setAttribute('name', 'twitter:description');
+      document.head.appendChild(twitterDesc);
+    }
+    twitterDesc.setAttribute('content', config.description);
+
+    // Twitter - twitter:image
+    if (config.image) {
+      let twitterImage = document.querySelector('meta[name="twitter:image"]');
+      if (!twitterImage) {
+        twitterImage = document.createElement('meta');
+        twitterImage.setAttribute('name', 'twitter:image');
+        document.head.appendChild(twitterImage);
+      }
+      twitterImage.setAttribute('content', config.image);
+    }
+
+    // Twitter - twitter:creator
+    if (config.twitterHandle) {
+      let twitterCreator = document.querySelector('meta[name="twitter:creator"]');
+      if (!twitterCreator) {
+        twitterCreator = document.createElement('meta');
+        twitterCreator.setAttribute('name', 'twitter:creator');
+        document.head.appendChild(twitterCreator);
+      }
+      twitterCreator.setAttribute('content', config.twitterHandle);
+    }
+  }, [currentPage]);
 
   // Listen for browser back/forward navigation
   useEffect(() => {
@@ -1188,12 +1282,14 @@ const AppContent = () => {
           <div className="lg:w-1/2 relative">
             <div className="absolute -top-10 -left-10 w-32 h-32 bg-accent-red/20 rounded-full blur-3xl"></div>
             <div className="relative z-10 aspect-video w-full bg-cover bg-center rounded-sm border-l-4 border-primary overflow-hidden">
-              <img 
-                src={pageBackgrounds?.competition?.imageUrl || ''} 
-                alt="Competition" 
-                className="w-full h-full object-cover"
-                referrerPolicy="no-referrer"
-              />
+              {pageBackgrounds?.competition?.imageUrl && (
+                <img 
+                  src={pageBackgrounds.competition.imageUrl} 
+                  alt="Competition" 
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+              )}
             </div>
           </div>
           <div className="lg:w-1/2">
