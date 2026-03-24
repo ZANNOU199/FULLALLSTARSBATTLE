@@ -22,21 +22,11 @@ use App\Http\Controllers\Api\UploadController;
 
 // Health check endpoint for Railway/Vercel
 Route::get('/health', function () {
-    try {
-        // Test database connection
-        \DB::connection()->getPDO();
-        $database = 'connected';
-    } catch (\Exception $e) {
-        $database = 'disconnected: ' . $e->getMessage();
-    }
-    
     return response()->json([
         'status' => 'ok',
-        'database' => $database,
         'timestamp' => now(),
-    ]);
+    ], 200);
 });
-
 // CMS Data Endpoint - MAIN ENDPOINT (matches cmsService.getData() from frontend)
 Route::get('/cms/data', [CMSController::class, 'getData']);
 Route::post('/cms/data', [CMSController::class, 'saveData']);
