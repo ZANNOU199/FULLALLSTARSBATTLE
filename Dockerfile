@@ -46,4 +46,7 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 # Port
 EXPOSE 80
 
+# Build timestamp - forces refresh
+ENV BUILD_TIMESTAMP="2026-03-24T06:45:00Z"
+
 CMD ["apache2-foreground"]
