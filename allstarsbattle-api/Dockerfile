@@ -8,7 +8,9 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     mariadb-client \
     zip unzip \
-    && docker-php-ext-install pdo_mysql pdo_pgsql zip
+    && docker-php-ext-install pdo_mysql pdo_pgsql zip \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -16,72 +18,33 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
-# Set working directory directly to backend
+# Set working directory
 WORKDIR /var/www/html
 
-# Copy only the backend
+# Copy project files
 COPY . .
 
 # Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 
-# Laravel storage & cache permissions
-RUN mkdir -p storage/logs storage/app storage/framework/cache storage/framework/sessions storage/framework/views
-RUN chmod -R 777 storage bootstrap/cache
+# Set permissions
+RUN mkdir -p storage/logs storage/app storage/framework/cache storage/framework/sessions storage/framework/views \
+    && chmod -R 777 storage bootstrap/cache
 
-# Copy env and generate key
+# Copy .env if absent and generate key
 RUN cp .env.example .env || true
 RUN php artisan key:generate --force
 
-# Optimize Laravel
+# Laravel optimization
 RUN php artisan optimize:clear || true
 RUN php artisan config:cache || true
 RUN php artisan route:cache || true
 
-# Correct DocumentRoot for Laravel
+# Set Apache DocumentRoot to public
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 
-# Remove sed commands qui provoquent MPM errors
-# Apache utilisera directement APACHE_DOCUMENT_ROOT
-
-# Expose port 80
+# Expose HTTP
 EXPOSE 80
-
-# Start Apache in foreground
-CMD ["apache2-foreground"]
-RUN php artisan config:cache || true
-RUN php artisan route:cache || true
-
-# Correct DocumentRoot for Laravel
-ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
-
-# Remove sed commands qui provoquent MPM errors
-# Apache utilisera directement APACHE_DOCUMENT_ROOT
-
-# Expose port 80
-EXPOSE 80
-
-# Start Apache in foreground
-CMD ["apache2-foreground"]
->>>>>>> 23e214b (Fix Dockerfile to use Apache with proper config, remove startCommand from railway.json)
-
-# Copy example env and generate app key
-RUN cp .env.example .env || true
-RUN php artisan key:generate --force
-
-# Optimize Laravel
-RUN php artisan optimize:clear || true
-RUN php artisan config:cache || true
-RUN php artisan route:cache || true
-
-# Set Apache DocumentRoot
-ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
-
-# Expose port 80
-EXPOSE 80
-
-# Build timestamp for cache busting
-ENV BUILD_TIMESTAMP="2026-03-24T06:45:00Z"
 
 # Start Apache in foreground
 CMD ["apache2-foreground"]
