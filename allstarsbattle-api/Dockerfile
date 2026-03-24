@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y \
     git \
     curl \
     libpq-dev \
-    mysql-client \
+    mariadb-client \
     && docker-php-ext-install pdo_mysql pdo_pgsql
 
 # Install Composer
