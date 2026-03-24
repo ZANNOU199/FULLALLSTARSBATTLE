@@ -10,9 +10,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 WORKDIR /var/www/html
 COPY . .
 
-# Make docker-entrypoint executable
-RUN chmod +x /var/www/html/docker-entrypoint.sh
-
 RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 RUN mkdir -p storage/logs storage/app storage/framework/cache storage/framework/sessions storage/framework/views \
  && chmod -R 777 storage bootstrap/cache
