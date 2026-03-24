@@ -1,31 +1,17 @@
-FROM php:8.2-cli
+FROM php:8.3-cli
 
-WORKDIR /app
+WORKDIR /var/www
 
-# Force cache invalidation
-RUN echo "Build: $(date +%s)"
+COPY . /var/www/
 
-# System dependencies
-RUN apt-get update && apt-get install -y \
-    git \
-    unzip \
-    curl \
-    libzip-dev \
-    zip \
-    && docker-php-ext-install pdo pdo_mysql zip
+RUN apt-get update -y && apt-get install -y curl zip unzip git libzip-dev &&\
+    docker-php-ext-install pdo_mysql zip
 
-# Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy application
-COPY . .
-
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-ansi
-
-# Generate app key (if not present)
-RUN php artisan key:generate --force || true
+RUN composer install --no-dev --no-interaction
 
 EXPOSE 8080
 
-CMD ["php", "-S", "0.0.0.0:8080", "-t", "public"]
+CMD ["php", "-S", "127.0.0.1:8080", "-t", "public"]
+
