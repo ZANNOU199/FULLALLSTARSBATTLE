@@ -19,8 +19,5 @@ RUN php artisan optimize:clear || true
 RUN php artisan config:cache || true
 RUN php artisan route:clear || true
 
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-
 EXPOSE 8080
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+CMD ["/bin/bash", "-c", "php -S 0.0.0.0:${PORT:-8080} -t public"]
