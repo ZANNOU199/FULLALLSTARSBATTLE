@@ -1,14 +1,11 @@
-FROM php:8.3-apache
+FROM php:8.3-cli
 
 RUN apt-get update && apt-get install -y \
-    git curl libpq-dev mariadb-client libzip-dev zip unzip \
+    git curl libpq-dev libzip-dev zip unzip \
     && docker-php-ext-install pdo_mysql pdo_pgsql zip \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-# Enable mods and disable conflicts
-RUN a2dismod mpm_event mpm_worker || true && a2enmod mpm_prefork rewrite
 
 WORKDIR /var/www/html
 COPY . .
@@ -25,11 +22,6 @@ RUN php artisan optimize:clear || true
 RUN php artisan config:cache || true
 RUN php artisan route:clear || true
 
-# Configure Apache to listen on port 8080 and set DocumentRoot to public
-RUN sed -i 's/Listen 80/Listen 8080/g' /etc/apache2/ports.conf && \
-    sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|g' /etc/apache2/sites-available/000-default.conf && \
-    sed -i 's/<VirtualHost \*:80>/<VirtualHost *:8080>/g' /etc/apache2/sites-available/000-default.conf
-
 EXPOSE 8080
 ENTRYPOINT ["/var/www/html/docker-entrypoint.sh"]
-CMD ["apache2-foreground"]
+CMD ["php", "-S", "0.0.0.0:8080", "-t", "public"]
