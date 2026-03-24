@@ -21,6 +21,7 @@ import { LoadingFallback } from './components/LoadingFallback';
 import * as LucideIcons from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useThemeApply } from './hooks/useThemeApply';
+import { useMetaTags } from './hooks/useMetaTags';
 import OptimizedImage from './components/OptimizedImage';
 import OptimizedVideo from './components/OptimizedVideo';
 import { usePagination } from './hooks/usePagination';
@@ -472,6 +473,126 @@ import { GlobalConfig, MediaItem } from './types';
 const AppContent = () => {
   // Apply theme colors from CMS
   useThemeApply();
+
+  // Meta tags configuration for each page
+  const getMetaTagsConfig = () => {
+    const baseUrl = 'https://allstarsbattle.com';
+    const pageConfigs: Record<string, any> = {
+      home: {
+        title: 'ALL STARS BATTLE 2026 - Compétition Mondiale de Breakdance',
+        description: 'La plus grande compétition de breakdance d\'Afrique. Danseurs d\'élite. Jugement international. Togo 2026.',
+        image: 'https://cdn.example.com/og-image.jpg',
+        url: baseUrl,
+        type: 'website'
+      },
+      competition: {
+        title: 'La Compétition - ALL STARS BATTLE 2026',
+        description: 'Découvrez le format, les brackets et les détails de la compétition mondiale de breakdance.',
+        image: 'https://cdn.example.com/competition.jpg',
+        url: `${baseUrl}/competition`,
+        type: 'website'
+      },
+      dancers: {
+        title: 'Les Danseurs - ALL STARS BATTLE 2026',
+        description: 'Rencontrez les meilleurs b-boys et b-girls du monde participant à la compétition.',
+        image: 'https://cdn.example.com/dancers.jpg',
+        url: `${baseUrl}/dancers`,
+        type: 'website'
+      },
+      judges: {
+        title: 'Les Juges - ALL STARS BATTLE 2026',
+        description: 'Découvrez le panel international de juges avec leur expertise et expérience.',
+        image: 'https://cdn.example.com/judges.jpg',
+        url: `${baseUrl}/judges`,
+        type: 'website'
+      },
+      tickets: {
+        title: 'Billetterie - ALL STARS BATTLE 2026',
+        description: 'Réservez vos billets pour la compétition. Offres VIP et régulières disponibles.',
+        image: 'https://cdn.example.com/tickets.jpg',
+        url: `${baseUrl}/tickets`,
+        type: 'website'
+      },
+      program: {
+        title: 'Programme - ALL STARS BATTLE 2026',
+        description: 'Consultez le programme complet des 3 jours de compétition et d\'événements.',
+        image: 'https://cdn.example.com/program.jpg',
+        url: `${baseUrl}/program`,
+        type: 'website'
+      },
+      news: {
+        title: 'Blog & Actualités - ALL STARS BATTLE 2026',
+        description: 'Retrouvez toutes les actualités et mises à jour sur la compétition.',
+        image: 'https://cdn.example.com/news.jpg',
+        url: `${baseUrl}/news`,
+        type: 'website'
+      },
+      media: {
+        title: 'Galerie Médias - ALL STARS BATTLE 2026',
+        description: 'Photos et vidéos exclusives des éditions précédentes et de la préparation.',
+        image: 'https://cdn.example.com/media.jpg',
+        url: `${baseUrl}/media`,
+        type: 'website'
+      },
+      history: {
+        title: 'Histoire du Festival - ALL STARS BATTLE 2026',
+        description: 'Découvrez l\'histoire riche et l\'évolution du festival All Stars Battle.',
+        image: 'https://cdn.example.com/history.jpg',
+        url: `${baseUrl}/history`,
+        type: 'website'
+      },
+      artistic: {
+        title: 'Scène Artistique - ALL STARS BATTLE 2026',
+        description: 'Découvrez les performances artistiques et événements culturels du festival.',
+        image: 'https://cdn.example.com/artistic.jpg',
+        url: `${baseUrl}/artistic`,
+        type: 'website'
+      },
+      partners: {
+        title: 'Partenaires - ALL STARS BATTLE 2026',
+        description: 'Explorez nos partenaires institutionnels et sponsors officiels.',
+        image: 'https://cdn.example.com/partners.jpg',
+        url: `${baseUrl}/partners`,
+        type: 'website'
+      },
+      participate: {
+        title: 'Participer - ALL STARS BATTLE 2026',
+        description: 'Comment participer à la compétition All Stars Battle 2026. Conditions et inscription.',
+        image: 'https://cdn.example.com/participate.jpg',
+        url: `${baseUrl}/participate`,
+        type: 'website'
+      },
+      contact: {
+        title: 'Contact - ALL STARS BATTLE 2026',
+        description: 'Contactez-nous pour vos questions, partenariats ou demandes spéciales.',
+        image: 'https://cdn.example.com/og-image.jpg',
+        url: `${baseUrl}/contact`,
+        type: 'website'
+      },
+      faq: {
+        title: 'FAQ - ALL STARS BATTLE 2026',
+        description: 'Questions fréquemment posées sur le festival, les billettes et la compétition.',
+        image: 'https://cdn.example.com/og-image.jpg',
+        url: `${baseUrl}/faq`,
+        type: 'website'
+      }
+    };
+
+    return pageConfigs[currentPage] || pageConfigs.home;
+  };
+
+  // Update meta tags when page changes
+  useEffect(() => {
+    const config = getMetaTagsConfig();
+    useMetaTags({
+      title: config.title,
+      description: config.description,
+      image: config.image,
+      url: config.url,
+      type: config.type,
+      twitterHandle: '@allstarsbattle'
+    });
+  }, [currentPage]);
 
   const navigate = useNavigate();
   const location = useLocation();
