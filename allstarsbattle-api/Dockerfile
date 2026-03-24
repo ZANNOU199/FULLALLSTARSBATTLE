@@ -20,7 +20,7 @@ RUN a2enmod rewrite
 WORKDIR /var/www/html
 
 # Copy application files
-COPY . .
+COPY allstarsbattle-api/. .   # <-- On copie seulement le backend
 
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
@@ -40,8 +40,6 @@ RUN php artisan route:cache || true
 
 # Set Apache DocumentRoot
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
-RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-enabled/*.conf
 
 # Expose port 80
 EXPOSE 80
@@ -51,4 +49,3 @@ ENV BUILD_TIMESTAMP="2026-03-24T06:45:00Z"
 
 # Start Apache in foreground
 CMD ["apache2-foreground"]
-
