@@ -20,4 +20,5 @@ RUN php artisan config:cache || true
 RUN php artisan route:clear || true
 
 EXPOSE 8080
+ENTRYPOINT []
 CMD ["php", "-S", "0.0.0.0:8080", "-t", "public"]
