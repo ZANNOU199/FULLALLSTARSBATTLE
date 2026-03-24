@@ -6,6 +6,10 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Désactiver tous les MPM sauf prefork (fix pour "More than one MPM loaded")
+RUN a2dismod mpm_event mpm_worker || true
+RUN a2enmod mpm_prefork
 RUN a2enmod rewrite
 
 WORKDIR /var/www/html
@@ -18,7 +22,6 @@ RUN cp .env.example .env || true
 RUN php artisan key:generate --force
 RUN php artisan optimize:clear || true
 RUN php artisan config:cache || true
-# Ne pas faire : php artisan route:cache
 RUN php artisan route:clear || true
 
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
