@@ -7,9 +7,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Désactiver tous les MPM sauf prefork (fix pour "More than one MPM loaded")
-RUN a2dismod mpm_event mpm_worker || true
-RUN a2enmod mpm_prefork
+# Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
 WORKDIR /var/www/html
