@@ -22,10 +22,10 @@ RUN php artisan optimize:clear || true
 RUN php artisan config:cache || true
 RUN php artisan route:clear || true
 
-# Configure Apache to listen on dynamic PORT (Railway default 8080)
-RUN sed -i 's/Listen 80/Listen ${PORT:-8080}/g' /etc/apache2/ports.conf && \
+# Configure Apache to listen on port 8080 and set DocumentRoot to public
+RUN sed -i 's/Listen 80/Listen 8080/g' /etc/apache2/ports.conf && \
     sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|g' /etc/apache2/sites-available/000-default.conf && \
-    sed -i 's/<VirtualHost \*:80>/<VirtualHost *:${PORT:-8080}>/g' /etc/apache2/sites-available/000-default.conf
+    sed -i 's/<VirtualHost \*:80>/<VirtualHost *:8080>/g' /etc/apache2/sites-available/000-default.conf
 
 EXPOSE 8080
 CMD ["apache2-foreground"]
