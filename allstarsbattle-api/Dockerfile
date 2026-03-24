@@ -26,5 +26,4 @@ RUN php artisan route:clear || true
 
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 EXPOSE 80
-ENTRYPOINT ["docker-php-entrypoint"]
 CMD ["apache2-foreground"]
