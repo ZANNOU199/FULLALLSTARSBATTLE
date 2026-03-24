@@ -1,7 +1,7 @@
 FROM php:8.3-apache
 
 RUN apt-get update && apt-get install -y \
-    git curl libpq-dev mariadb-client zip unzip \
+    git curl libpq-dev mariadb-client libzip-dev zip unzip \
     && docker-php-ext-install pdo_mysql pdo_pgsql zip \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
