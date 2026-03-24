@@ -20,4 +20,4 @@ RUN php artisan config:cache || true
 RUN php artisan route:clear || true
 
 EXPOSE 8080
-CMD ["/bin/bash", "-c", "php -S 0.0.0.0:${PORT:-8080} -t public"]
+CMD ["php", "-S", "0.0.0.0:8080", "-t", "public"]
