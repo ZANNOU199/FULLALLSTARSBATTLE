@@ -7,15 +7,11 @@ RUN apt-get update && apt-get install -y \
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Enable Apache mod_rewrite
-RUN a2enmod rewrite
+# Enable mods and disable conflicts
+RUN a2dismod mpm_event mpm_worker || true && a2enmod mpm_prefork rewrite
 
 WORKDIR /var/www/html
 COPY . .
-
-# Copy and make entrypoint executable
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 RUN mkdir -p storage/logs storage/app storage/framework/cache storage/framework/sessions storage/framework/views \
@@ -26,6 +22,10 @@ RUN php artisan optimize:clear || true
 RUN php artisan config:cache || true
 RUN php artisan route:clear || true
 
-ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+# Configure Apache to listen on dynamic PORT (Railway default 8080)
+RUN sed -i 's/Listen 80/Listen ${PORT:-8080}/g' /etc/apache2/ports.conf && \
+    sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|g' /etc/apache2/sites-available/000-default.conf && \
+    sed -i 's/<VirtualHost \*:80>/<VirtualHost *:${PORT:-8080}>/g' /etc/apache2/sites-available/000-default.conf
+
 EXPOSE 8080
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+CMD ["apache2-foreground"]
