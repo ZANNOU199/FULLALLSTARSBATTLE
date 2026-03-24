@@ -15,6 +15,10 @@ RUN a2enmod rewrite
 WORKDIR /var/www/html
 COPY . .
 
+# Copy and make entrypoint executable
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
 RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 RUN mkdir -p storage/logs storage/app storage/framework/cache storage/framework/sessions storage/framework/views \
  && chmod -R 777 storage bootstrap/cache
@@ -26,4 +30,4 @@ RUN php artisan route:clear || true
 
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 EXPOSE 80
-CMD apache2-foreground
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
