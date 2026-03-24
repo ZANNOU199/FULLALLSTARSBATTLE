@@ -19,5 +19,8 @@ RUN php artisan optimize:clear || true
 RUN php artisan config:cache || true
 RUN php artisan route:clear || true
 
+COPY start.sh /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/start.sh
+
 EXPOSE 8080
-CMD ["php", "-S", "0.0.0.0:8080", "-t", "public"]
+CMD ["/usr/local/bin/start.sh"]
