@@ -2,6 +2,9 @@ FROM php:8.2-cli
 
 WORKDIR /app
 
+# Force cache invalidation
+RUN echo "Build: $(date +%s)"
+
 # System dependencies
 RUN apt-get update && apt-get install -y \
     git \
@@ -9,7 +12,6 @@ RUN apt-get update && apt-get install -y \
     curl \
     libzip-dev \
     zip \
-    mariadb-client \
     && docker-php-ext-install pdo pdo_mysql zip
 
 # Composer
