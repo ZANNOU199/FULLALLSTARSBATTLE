@@ -1,2 +1,3 @@
 #!/bin/bash
-exec php -S 0.0.0.0:8080 -t public
+PORT=${PORT:-8080}
+exec php -S 0.0.0.0:$PORT -t public
