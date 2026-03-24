@@ -16,18 +16,54 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
-# Set working directory
+# Set working directory directly to backend
 WORKDIR /var/www/html
 
-# Copy application files
-COPY allstarsbattle-api/. .   # <-- On copie seulement le backend
+# Copy only the backend
+COPY . .
 
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Create storage directories and set permissions
+# Laravel storage & cache permissions
 RUN mkdir -p storage/logs storage/app storage/framework/cache storage/framework/sessions storage/framework/views
 RUN chmod -R 777 storage bootstrap/cache
+
+# Copy env and generate key
+RUN cp .env.example .env || true
+RUN php artisan key:generate --force
+
+# Optimize Laravel
+RUN php artisan optimize:clear || true
+RUN php artisan config:cache || true
+RUN php artisan route:cache || true
+
+# Correct DocumentRoot for Laravel
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+
+# Remove sed commands qui provoquent MPM errors
+# Apache utilisera directement APACHE_DOCUMENT_ROOT
+
+# Expose port 80
+EXPOSE 80
+
+# Start Apache in foreground
+CMD ["apache2-foreground"]
+RUN php artisan config:cache || true
+RUN php artisan route:cache || true
+
+# Correct DocumentRoot for Laravel
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+
+# Remove sed commands qui provoquent MPM errors
+# Apache utilisera directement APACHE_DOCUMENT_ROOT
+
+# Expose port 80
+EXPOSE 80
+
+# Start Apache in foreground
+CMD ["apache2-foreground"]
+>>>>>>> 23e214b (Fix Dockerfile to use Apache with proper config, remove startCommand from railway.json)
 
 # Copy example env and generate app key
 RUN cp .env.example .env || true
