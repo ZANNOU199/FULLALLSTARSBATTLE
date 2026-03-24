@@ -23,5 +23,4 @@ RUN php artisan config:cache || true
 RUN php artisan route:clear || true
 
 EXPOSE 8080
-ENTRYPOINT ["/var/www/html/docker-entrypoint.sh"]
 CMD ["php", "-S", "0.0.0.0:8080", "-t", "public"]
