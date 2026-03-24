@@ -27,5 +27,5 @@ RUN php artisan config:cache || true
 RUN php artisan route:clear || true
 
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
-EXPOSE 80
+EXPOSE 8080
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
