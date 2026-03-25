@@ -28,7 +28,8 @@ Route::get('/health', fn() => response()->json(['status' => 'ok', 'timestamp' =>
 Route::get('/db-test', function () {
     try {
         DB::connection()->getPdo();
-        return response()->json(['status' => 'DB connected', 'connection' => config('database.default')]);
+        $tables = DB::select('SELECT table_name FROM information_schema.tables WHERE table_schema = \'public\'');
+        return response()->json(['status' => 'DB connected', 'connection' => config('database.default'), 'tables' => array_column($tables, 'table_name')]);
     } catch (\Exception $e) {
         return response()->json(['status' => 'DB error', 'error' => $e->getMessage()], 500);
     }
