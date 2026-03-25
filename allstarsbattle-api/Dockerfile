@@ -1,5 +1,8 @@
 FROM php:8.3-cli
 
+# Force no-cache rebuild
+ARG CACHE_BUST=1
+
 RUN apt-get update && apt-get install -y \
     git curl libpq-dev libzip-dev zip unzip \
     && docker-php-ext-install pdo_mysql pdo_pgsql zip \
