@@ -20,11 +20,4 @@ RUN php artisan config:cache || true
 RUN php artisan route:clear || true
 
 EXPOSE 8080
-
-# Create entrypoint that ignores Railway's startCommand override
-RUN echo '#!/bin/sh' > /start.sh && \
-    echo 'cd /var/www/html' >> /start.sh && \
-    echo 'exec php -S 0.0.0.0:8080 -t /var/www/html/public' >> /start.sh && \
-    chmod +x /start.sh
-
-ENTRYPOINT ["/start.sh"]
+CMD ["php", "-S", "0.0.0.0:8080", "-t", "public"]
