@@ -1,6 +1,6 @@
 // Service pour l'upload vers Cloudflare R2 via API Laravel
 export class UploadService {
-  private static API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+  private static API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://fullallstarsbattle.onrender.com';
 
   /**
    * Valide un fichier image
