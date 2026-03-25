@@ -21,4 +21,4 @@ RUN php artisan route:clear || true
 
 EXPOSE 8080
 ENTRYPOINT []
-CMD ["php", "-S", "127.0.0.1:8080", "-t", "/var/www/html/public"]
+CMD ["php", "-S", "0.0.0.0:8080", "-t", "/var/www/html/public"]
