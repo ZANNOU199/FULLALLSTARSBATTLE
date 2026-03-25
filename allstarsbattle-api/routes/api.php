@@ -24,6 +24,16 @@ use App\Http\Controllers\Api\UploadController;
 Route::get('/', fn() => response()->json(['status' => 'ok']));
 Route::get('/health', fn() => response()->json(['status' => 'ok', 'timestamp' => now()]));
 
+// DB test endpoint
+Route::get('/db-test', function () {
+    try {
+        DB::connection()->getPdo();
+        return response()->json(['status' => 'DB connected', 'connection' => config('database.default')]);
+    } catch (\Exception $e) {
+        return response()->json(['status' => 'DB error', 'error' => $e->getMessage()], 500);
+    }
+});
+
 // CMS Data Endpoint - MAIN ENDPOINT (matches cmsService.getData() from frontend)
 Route::get('/cms/data', [CMSController::class, 'getData']);
 Route::post('/cms/data', [CMSController::class, 'saveData']);
