@@ -22,6 +22,8 @@ use App\Http\Controllers\Api\UploadController;
 
 // Health check endpoint for Railway/Vercel
 Route::get('/', fn() => response()->json(['status' => 'ok']));
+Route::get('/health', fn() => response()->json(['status' => 'ok', 'timestamp' => now()]));
+
 // CMS Data Endpoint - MAIN ENDPOINT (matches cmsService.getData() from frontend)
 Route::get('/cms/data', [CMSController::class, 'getData']);
 Route::post('/cms/data', [CMSController::class, 'saveData']);
