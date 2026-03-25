@@ -24,27 +24,6 @@ use App\Http\Controllers\Api\UploadController;
 Route::get('/', fn() => response()->json(['status' => 'ok']));
 Route::get('/health', fn() => response()->json(['status' => 'ok', 'timestamp' => now()]));
 
-// DB test endpoint
-Route::get('/db-test', function () {
-    try {
-        DB::connection()->getPdo();
-        $tables = DB::select('SELECT table_name FROM information_schema.tables WHERE table_schema = \'public\'');
-        return response()->json(['status' => 'DB connected', 'connection' => config('database.default'), 'tables' => array_column($tables, 'table_name')]);
-    } catch (\Exception $e) {
-        return response()->json(['status' => 'DB error', 'error' => $e->getMessage()], 500);
-    }
-});
-
-// Run migrate endpoint (temporary for Render)
-Route::get('/run-migrate', function () {
-    try {
-        \Artisan::call('migrate', ['--force' => true]);
-        return response()->json(['status' => 'Migrations run', 'output' => \Artisan::output()]);
-    } catch (\Exception $e) {
-        return response()->json(['status' => 'Migrate error', 'error' => $e->getMessage()], 500);
-    }
-});
-
 // CMS Data Endpoint - MAIN ENDPOINT (matches cmsService.getData() from frontend)
 Route::get('/cms/data', [CMSController::class, 'getData']);
 Route::post('/cms/data', [CMSController::class, 'saveData']);
