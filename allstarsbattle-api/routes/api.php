@@ -35,6 +35,16 @@ Route::get('/db-test', function () {
     }
 });
 
+// Run migrate endpoint (temporary for Render)
+Route::get('/run-migrate', function () {
+    try {
+        \Artisan::call('migrate', ['--force' => true]);
+        return response()->json(['status' => 'Migrations run', 'output' => \Artisan::output()]);
+    } catch (\Exception $e) {
+        return response()->json(['status' => 'Migrate error', 'error' => $e->getMessage()], 500);
+    }
+});
+
 // CMS Data Endpoint - MAIN ENDPOINT (matches cmsService.getData() from frontend)
 Route::get('/cms/data', [CMSController::class, 'getData']);
 Route::post('/cms/data', [CMSController::class, 'saveData']);
