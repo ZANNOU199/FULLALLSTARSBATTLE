@@ -17,6 +17,7 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-di
 RUN mkdir -p storage/logs storage/app storage/framework/cache storage/framework/sessions storage/framework/views \
  && chmod -R 777 storage bootstrap/cache
 RUN cp .env.example .env || true
+RUN mkdir -p database && touch database/database.sqlite && chmod 666 database/database.sqlite
 RUN php artisan key:generate --force
 RUN php artisan optimize:clear || true
 RUN php artisan config:cache || true
