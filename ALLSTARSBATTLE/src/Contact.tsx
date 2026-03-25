@@ -12,6 +12,7 @@ import {
   Send
 } from 'lucide-react';
 import { cmsService } from './services/cmsService';
+import { API_URL } from './services/api';
 import { GlobalConfig, FAQItem as FAQType } from './types';
 
 interface ContactProps {
@@ -72,7 +73,7 @@ const Contact = ({ onNavigateToFAQ, pageBackgrounds }: ContactProps) => {
     };
 
     try {
-      const response = await fetch('http://localhost:8000/api/cms/contact-messages', {
+      const response = await fetch(`${API_URL}/cms/contact-messages`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

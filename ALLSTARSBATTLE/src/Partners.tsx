@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { cmsService } from './services/cmsService';
+import { API_URL } from './services/api';
 import { 
   Theater, 
   Utensils, 
@@ -72,7 +73,7 @@ const Partners = ({ onContactClick }: PartnersProps) => {
     };
 
     try {
-      const response = await fetch('http://localhost:8000/api/cms/contact-messages', {
+      const response = await fetch(`${API_URL}/cms/contact-messages`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  Users, 
-  Briefcase, 
-  Heart, 
+import {
+  Users,
+  Briefcase,
+  Heart,
   ArrowLeft,
   Send,
   CheckCircle,
@@ -12,8 +12,9 @@ import {
   Phone,
   MapPin,
   Search,
-  ChevronDown
+  ChevronDown,
 } from 'lucide-react';
+import { API_URL } from './services/api';
 
 interface FormData {
   name: string;
@@ -394,7 +395,7 @@ const Participate = ({ onBack, data, pageBackgrounds }: { onBack?: () => void, d
           source: getSourceForType(type)
         };
 
-        const response = await fetch('http://localhost:8000/api/cms/contact-messages', {
+        const response = await fetch(`${API_URL}/cms/contact-messages`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
