@@ -20,5 +20,7 @@ RUN php artisan config:cache || true
 RUN php artisan route:clear || true
 
 EXPOSE 8080
+
+# Use Dockerfile CMD, not startCommand
 ENTRYPOINT []
 CMD ["php", "-S", "0.0.0.0:8080", "-t", "/var/www/html/public"]
