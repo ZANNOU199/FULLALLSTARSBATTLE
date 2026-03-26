@@ -2,15 +2,11 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "cleanUrls": true,
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ],  "routes": [
+  "routes": [
     { "handle": "filesystem" },
     { "src": "/.*", "dest": "/index.html" }
-  ],  "env": {
+  ],
+  "env": {
     "VITE_API_URL": "https://fullallstarsbattle.onrender.com/api",
     "VITE_API_BASE_URL": "https://fullallstarsbattle.onrender.com",
     "VITE_R2_ACCOUNT_ID": "3dc81df555e9106f9b2bbe072abb497b",
