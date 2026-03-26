@@ -33,29 +33,44 @@ class CMSController extends Controller
      */
     public function getData()
     {
-        $cmsData = [
-            'companies' => $this->getCompanies(),
-            'featuredPiece' => $this->getFeaturedPiece(),
-            'participants' => $this->getParticipants(),
-            'program' => $this->getProgram(),
-            'categories' => $this->getCategories(),
-            'blog' => ['articles' => $this->getArticles()],
-            'competition' => $this->getCompetition(),
-            'ticketing' => $this->getTicketing(),
-            'history' => $this->getHistory(),
-            'contact' => $this->getContact(),
-            'partners' => $this->getPartners(),
-            'media' => $this->getMedia(),
-            'globalConfig' => $this->getGlobalConfig(),
-            'theme' => $this->getTheme(),
-            'pageBackgrounds' => $this->getPageBackgrounds(),
-            'siteAssets' => $this->getSiteAssets(),
-            'participate' => $this->getParticipate(),
-            'organizers' => $this->getOrganizers(),
-            'organizersConfig' => $this->getOrganizersConfig(),
-        ];
+        try {
+            $cmsData = [
+                'companies' => $this->getCompanies(),
+                'featuredPiece' => $this->getFeaturedPiece(),
+                'participants' => $this->getParticipants(),
+                'program' => $this->getProgram(),
+                'categories' => $this->getCategories(),
+                'blog' => ['articles' => $this->getArticles()],
+                'competition' => $this->getCompetition(),
+                'ticketing' => $this->getTicketing(),
+                'history' => $this->getHistory(),
+                'contact' => $this->getContact(),
+                'partners' => $this->getPartners(),
+                'media' => $this->getMedia(),
+                'globalConfig' => $this->getGlobalConfig(),
+                'theme' => $this->getTheme(),
+                'pageBackgrounds' => $this->getPageBackgrounds(),
+                'siteAssets' => $this->getSiteAssets(),
+                'participate' => $this->getParticipate(),
+                'organizers' => $this->getOrganizers(),
+                'organizersConfig' => $this->getOrganizersConfig(),
+            ];
 
-        return response()->json($cmsData, 200);
+            return response()->json($cmsData, 200);
+        } catch (\Exception $e) {
+            \Log::error('getData failed', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to load CMS data',
+                'detail' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     private function getCompanies()
@@ -785,28 +800,62 @@ class CMSController extends Controller
             'subtitle' => 'The Legends Who Defined ASBI',
         ]);
 
+        $timeline = TimelineEvent::all()->map(fn($t) => [
+            'id' => (string)$t->id,
+            'year' => $t->year,
+            'title' => $t->title,
+            'champion' => $t->champion,
+            'description' => $t->description,
+            'image' => $t->image,
+        ])->toArray();
+
+        // Provide default timeline if empty
+        if (empty($timeline)) {
+            $timeline = [
+                [
+                    'id' => '1',
+                    'year' => '2024',
+                    'title' => 'Genesis',
+                    'champion' => 'B-BOY SPIRIT',
+                    'description' => 'The beginning of All Stars Battle.',
+                    'image' => 'https://pub-e66e8acef13f47bf90ce3de0d7240052.r2.dev/defaults/timeline-2024.jpg',
+                ],
+            ];
+        }
+
+        $legends = Legend::all()->map(fn($l) => [
+            'id' => (string)$l->id,
+            'name' => $l->name,
+            'bio' => $l->bio,
+            'photo' => $l->photo,
+            'title' => $l->title,
+            'category' => $l->category,
+            'year' => $l->year,
+            'type' => $l->type,
+        ])->toArray();
+
+        // Provide default legends if empty
+        if (empty($legends)) {
+            $legends = [
+                [
+                    'id' => '1',
+                    'name' => 'B-BOY LEGEND',
+                    'bio' => 'A true legend of breakdance.',
+                    'photo' => 'https://pub-e66e8acef13f47bf90ce3de0d7240052.r2.dev/defaults/legend-1.jpg',
+                    'title' => 'Champion',
+                    'category' => 'bboy',
+                    'year' => 2024,
+                    'type' => 'bboy',
+                ],
+            ];
+        }
+
         return [
             'hero' => $hero,
             'stats' => $stats,
             'wallOfFame' => $wallOfFame,
-            'timeline' => TimelineEvent::all()->map(fn($t) => [
-                'id' => (string)$t->id,
-                'year' => $t->year,
-                'title' => $t->title,
-                'champion' => $t->champion,
-                'description' => $t->description,
-                'image' => $t->image,
-            ])->toArray(),
-            'legends' => Legend::all()->map(fn($l) => [
-                'id' => (string)$l->id,
-                'name' => $l->name,
-                'bio' => $l->bio,
-                'photo' => $l->photo,
-                'title' => $l->title,
-                'category' => $l->category,
-                'year' => $l->year,
-                'type' => $l->type,
-            ])->toArray(),
+            'timeline' => $timeline,
+            'legends' => $legends,
         ];
     }
 
