@@ -1671,7 +1671,12 @@ class CMSController extends Controller
 
             return response()->json(['message' => 'Reply sent successfully']);
         } catch (\Exception $e) {
-            \Log::error('Error replying to contact message', ['error' => $e->getMessage()]);
+            \Log::error('Error replying to contact message', [
+                'error' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]);
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
