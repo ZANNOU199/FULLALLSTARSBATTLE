@@ -17,6 +17,11 @@ if (isset($_ENV['DATABASE_URL'])) {
     }
 }
 
+// Force PostgreSQL connection if DB_* variables are set (Render setup)
+if (isset($_ENV['DB_HOST']) && isset($_ENV['DB_DATABASE'])) {
+    $_ENV['DB_CONNECTION'] = 'pgsql';
+}
+
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
