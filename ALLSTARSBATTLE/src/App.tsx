@@ -15,6 +15,7 @@ const Contact = lazy(() => import('./Contact'));
 const Partners = lazy(() => import('./Partners'));
 const Participate = lazy(() => import('./Participate'));
 const AdminDashboard = lazy(() => import('./admin/AdminDashboard'));
+const Login = lazy(() => import('./admin/Login'));
 const FAQ = lazy(() => import('./FAQ'));
 
 import { LoadingFallback } from './components/LoadingFallback';
@@ -479,6 +480,12 @@ const AppContent = () => {
   // Get current page from URL
   const getCurrentPageFromUrl = (): 'home' | 'competition' | 'dancers' | 'judges' | 'media' | 'history' | 'tickets' | 'program' | 'news' | 'artistic' | 'contact' | 'partners' | 'participate' | 'admin' | 'faq' => {
     const path = location.pathname.slice(1) || 'home'; // Remove leading slash
+    
+    // Handle admin sub-routes
+    if (path.startsWith('admin')) {
+      return 'admin';
+    }
+    
     const pathToPage: Record<string, any> = {
       '': 'home',
       'competition': 'competition',
@@ -493,7 +500,6 @@ const AppContent = () => {
       'contact': 'contact',
       'partners': 'partners',
       'participate': 'participate',
-      'admin': 'admin',
       'faq': 'faq'
     };
     return pathToPage[path] || 'home';
@@ -1744,12 +1750,20 @@ const AppContent = () => {
       <Partners onContactClick={navigateTo('contact')} />
     </Suspense>
   ) : currentPage === 'admin' ? (
-    <Suspense fallback={<LoadingFallback />}>
-      <AdminDashboard onLogout={() => {
-        setIsAdminLoggedIn(false);
-        changePage('home');
-      }} />
-    </Suspense>
+    location.pathname === '/admin/login' ? (
+      <Suspense fallback={<LoadingFallback />}>
+        <Login onLoginSuccess={() => changePage('admin')} />
+      </Suspense>
+    ) : (
+      <Suspense fallback={<LoadingFallback />}>
+        <ProtectedRoute>
+          <AdminDashboard onLogout={() => {
+            setIsAdminLoggedIn(false);
+            changePage('home');
+          }} />
+        </ProtectedRoute>
+      </Suspense>
+    )
   ) : currentPage === 'faq' ? (
     <Suspense fallback={<LoadingFallback />}>
       <FAQ onNavigateBack={() => changePage('home')} />
