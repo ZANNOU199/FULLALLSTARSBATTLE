@@ -3,7 +3,6 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Throwable;
 
 // Parse DATABASE_URL for Render
 if (isset($_ENV['DATABASE_URL'])) {
