@@ -14,6 +14,7 @@ WORKDIR /var/www/html
 COPY . .
 
 RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
+# Force rebuild with Sanctum
 RUN mkdir -p storage/logs storage/app storage/framework/cache storage/framework/sessions storage/framework/views \
  && chmod -R 777 storage bootstrap/cache
 RUN cp .env.example .env || true
