@@ -154,7 +154,7 @@ const Contact = ({ onNavigateToFAQ, pageBackgrounds }: ContactProps) => {
                     required
                     name="name"
                     className="bg-surface-dark border border-white/10 text-white rounded-sm p-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none placeholder:text-slate-600 transition-all" 
-                    placeholder="John Doe" 
+                    placeholder="Koffi Mensah" 
                     type="text"
                   />
                 </div>

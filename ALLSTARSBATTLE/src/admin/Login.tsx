@@ -128,11 +128,6 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
           <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest text-center mb-3">
             Accès sécurisé • ASB 2026
           </p>
-          <div className="bg-slate-800 rounded-lg p-3 text-[9px] text-slate-400 space-y-1">
-            <p><strong>Admin par défaut :</strong></p>
-            <p>Email: admin@allstarsbattle.com</p>
-            <p>Mot de passe: admin</p>
-          </div>
         </div>
       </motion.div>
     </div>
