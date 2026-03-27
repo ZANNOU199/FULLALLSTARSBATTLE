@@ -76,10 +76,10 @@ Route::get('/test-smtp', function () {
         'username' => env('MAIL_USERNAME') ? substr(env('MAIL_USERNAME'), 0, 5) . '***' : 'NOT SET',
         'password_set' => !empty(env('MAIL_PASSWORD')),
         'encryption' => env('MAIL_ENCRYPTION', 'NOT SET'),
+        'from_address' => env('MAIL_FROM_ADDRESS', 'NOT SET'),
     ];
 
     try {
-        // Send test message using Laravel Mail
         $testEmail = env('MAIL_USERNAME');
         if (!$testEmail) {
             return response()->json([
@@ -89,21 +89,22 @@ Route::get('/test-smtp', function () {
             ], 500);
         }
 
-        \Mail::to($testEmail)
-            ->send(new \Illuminate\Mail\Message(function ($m) use ($testEmail) {
-                $m->subject('SMTP Test from All Stars Battle API')
-                  ->line('This is a test message to verify SMTP configuration is working.')
-                  ->line('Sent at: ' . now());
-            }));
+        // Send plain text test email
+        \Mail::to($testEmail)->send(
+            new class {
+                public function __invoke($message) {
+                    $message
+                        ->subject('SMTP Test from All Stars Battle API')
+                        ->text('This is a test message to verify SMTP configuration is working. Sent at: ' . now());
+                }
+            }
+        );
 
-        \Log::info('SMTP Test Result', [
-            'status' => 'success',
-            'config' => $config
-        ]);
+        \Log::info('SMTP Test successful', $config);
 
         return response()->json([
             'status' => 'success',
-            'message' => 'SMTP test email sent successfully',
+            'message' => 'SMTP test email sent successfully!',
             'config' => $config
         ]);
     } catch (\Exception $e) {
@@ -112,13 +113,13 @@ Route::get('/test-smtp', function () {
             'code' => $e->getCode(),
             'file' => $e->getFile(),
             'line' => $e->getLine(),
-            'trace' => substr($e->getTraceAsString(), 0, 500),
+            'trace' => substr($e->getTraceAsString(), 0, 1000),
             'config' => $config
         ]);
 
         return response()->json([
             'status' => 'error',
-            'message' => 'SMTP connection failed',
+            'message' => 'SMTP connection/sending failed',
             'error' => $e->getMessage(),
             'config' => $config
         ], 500);
