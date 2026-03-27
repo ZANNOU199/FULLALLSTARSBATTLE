@@ -1053,10 +1053,11 @@ const AppContent = () => {
                 <img 
                   src={logo.url} 
                   alt={logo.alt || "Site Logo"} 
-                  className="h-16 w-auto max-w-[300px] object-contain"
+                  className="h-16 w-auto max-w-[300px] object-contain cursor-pointer hover:opacity-80 transition-opacity duration-200"
                   fetchPriority="high"
                   loading="eager"
                   decoding="async"
+                  onClick={navigateTo('home')}
                 />
               )}
             </div>
