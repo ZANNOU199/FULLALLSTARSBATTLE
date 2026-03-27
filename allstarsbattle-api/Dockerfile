@@ -1,28 +1,33 @@
-FROM php:8.3-cli
+FROM php:8.3-apache
 
-# Force no-cache rebuild
-ARG CACHE_BUST=1
-
+# Installe les dépendances système nécessaires
 RUN apt-get update && apt-get install -y \
-    git curl libpq-dev libzip-dev zip unzip \
-    && docker-php-ext-install pdo_mysql pdo_pgsql zip \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    libpng-dev libonig-dev libxml2-dev zip unzip git curl libpq-dev \
+    && docker-php-ext-install pdo pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# Active mod_rewrite pour Laravel
+RUN a2enmod rewrite
 
+# Copie le code source dans le conteneur
+COPY . /var/www/html
+
+# Définit le dossier de travail
 WORKDIR /var/www/html
-COPY . .
 
-RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
-# Force rebuild with Sanctum
-RUN mkdir -p storage/logs storage/app storage/framework/cache storage/framework/sessions storage/framework/views \
- && chmod -R 777 storage bootstrap/cache
-RUN cp .env.example .env || true
-RUN mkdir -p database && touch database/database.sqlite && chmod 666 database/database.sqlite
-RUN php artisan key:generate --force
-RUN php artisan optimize:clear || true
-RUN php artisan config:cache || true
-RUN php artisan route:clear || true
+# Installe Composer
+COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
 
-EXPOSE 8080
-CMD ["sh", "-c", "php artisan migrate --force && php artisan db:seed --class=AdminSeeder --force && php artisan config:cache && php artisan route:cache && php -S 0.0.0.0:8080 -t public"]
+# Installe les dépendances PHP
+RUN composer install --no-dev --optimize-autoloader
+
+# Donne les bons droits
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Configure Apache pour pointer sur public/
+RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
+
+# Expose le port 80
+EXPOSE 80
+
+# Commande de démarrage
+CMD ["apache2-foreground"]
