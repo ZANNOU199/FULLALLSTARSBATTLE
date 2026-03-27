@@ -12,7 +12,9 @@
                 <table width="600" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 18px 40px rgba(0,0,0,0.12);border:2px solid #d3a87a;">
                     <tr>
                         <td style="background:#111827;padding:20px 30px;text-align:center;">
-                            <img src="https://yourdomain.com/logo.png" alt="All Stars Battle" width="140" style="display:block;margin:0 auto 10px;" />
+                            <a href="https://all-stars-battle-six.vercel.app" style="display:inline-block;">
+                                <img src="https://pub-e66e8acef13f47bf90ce3de0d7240052.r2.dev/site-assets/logo.png" alt="All Stars Battle" width="140" style="display:block;margin:0 auto 10px;" />
+                            </a>
                             <p style="margin:0;color:#f8e6c2;font-size:14px;letter-spacing:1px;text-transform:uppercase;">All Stars Battle International</p>
                         </td>
                     </tr>

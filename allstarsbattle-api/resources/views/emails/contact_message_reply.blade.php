@@ -11,8 +11,12 @@
             <td align="center">
                 <table width="600" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#ffffff; border-radius:16px; overflow:hidden; box-shadow:0 18px 40px rgba(0,0,0,0.08);">
                     <tr>
-                        <td style="background: linear-gradient(120deg, #1f2937 0%, #4f46e5 100%); padding:26px 30px; color:#fff; text-align:center;">
-                            <h1 style="margin:0; font-size:24px; letter-spacing:0.02em;">Réponse à votre demande</h1>
+                        <td style="background: linear-gradient(120deg, #1f2937 0%, #4f46e5 100%); padding:26px 30px; text-align:center;">
+                            <!-- Logo -->
+                            <a href="https://all-stars-battle-six.vercel.app" style="display:inline-block; margin-bottom:12px;">
+                                <img src="https://pub-e66e8acef13f47bf90ce3de0d7240052.r2.dev/site-assets/logo.png" alt="All Stars Battle" style="max-width:160px; height:auto; display:block;" />
+                            </a>
+                            <h1 style="margin:8px 0 0; font-size:24px; letter-spacing:0.02em; color:#fff;">Réponse à votre demande</h1>
                             <p style="margin:8px 0 0; font-size:14px; color:rgba(255,255,255,0.86);">All Stars Battle International</p>
                         </td>
                     </tr>
