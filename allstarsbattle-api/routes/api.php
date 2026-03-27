@@ -29,7 +29,7 @@ Route::get('/health', fn() => response()->json(['status' => 'ok', 'timestamp' =>
 Route::post('/auth/login', [AuthController::class, 'login']);
 
 // Setup / Initialization (can be called once)
-Route::post('/setup/init-admin', function () {
+Route::match(['get', 'post'], '/setup/init-admin', function () {
     try {
         // Run migrations
         \Artisan::call('migrate', ['--force' => true]);
