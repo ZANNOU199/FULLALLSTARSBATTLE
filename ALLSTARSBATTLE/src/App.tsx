@@ -25,6 +25,7 @@ import { useThemeApply } from './hooks/useThemeApply';
 import OptimizedImage from './components/OptimizedImage';
 import OptimizedVideo from './components/OptimizedVideo';
 import { usePagination } from './hooks/usePagination';
+import ProtectedRoute from './admin/ProtectedRoute';
 
 // Extraire les icônes nécessaires
 const { Menu, X, ChevronsDown, ChevronDown, Verified, Star, Instagram, Facebook, Twitter, Youtube, Calendar, MapPin, ArrowRight, GlassWater, Megaphone, Globe, Mail, Trophy, User } = LucideIcons as any;
