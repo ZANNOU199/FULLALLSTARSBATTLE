@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ParticipantController;
 use App\Http\Controllers\Api\OrganizerController;
 use App\Http\Controllers\Api\ArticleController;
 use App\Http\Controllers\Api\UploadController;
+use App\Http\Controllers\Api\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,48 @@ use App\Http\Controllers\Api\UploadController;
 // Health check endpoint for Railway/Vercel
 Route::get('/', fn() => response()->json(['status' => 'ok']));
 Route::get('/health', fn() => response()->json(['status' => 'ok', 'timestamp' => now()]));
+
+// Authentication Routes (Public)
+Route::post('/auth/login', [AuthController::class, 'login']);
+
+// Setup / Initialization (can be called once)
+Route::post('/setup/init-admin', function () {
+    try {
+        // Run migrations
+        \Artisan::call('migrate', ['--force' => true]);
+        
+        // Run admin seeder
+        \Artisan::call('db:seed', ['--class' => 'Database\Seeders\AdminSeeder', '--force' => true]);
+        
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Initialization completed successfully',
+            'admin_credentials' => [
+                'email' => 'admin@allstarsbattle.com',
+                'password' => 'admin',
+            ],
+        ], 200);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Initialization failed',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
+});
+
+// Protected Authentication Routes (Admin Only)
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/auth/logout', [AuthController::class, 'logout']);
+    Route::get('/auth/me', [AuthController::class, 'me']);
+    
+    // Admin Management Routes (Admin Only)
+    Route::get('/auth/admins', [AuthController::class, 'getAdmins']);
+    Route::post('/auth/admins', [AuthController::class, 'createAdmin']);
+    Route::put('/auth/admins/{id}', [AuthController::class, 'updateAdmin']);
+    Route::delete('/auth/admins/{id}', [AuthController::class, 'deleteAdmin']);
+    Route::put('/auth/users/{id}/toggle-admin', [AuthController::class, 'toggleAdminStatus']);
+});
 
 // CMS Data Endpoint - MAIN ENDPOINT (matches cmsService.getData() from frontend)
 Route::get('/cms/data', [CMSController::class, 'getData']);

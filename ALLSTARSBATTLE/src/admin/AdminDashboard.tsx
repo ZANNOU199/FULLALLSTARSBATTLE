@@ -49,6 +49,7 @@ import ParticipateAdmin from './modules/ParticipateAdmin';
 import BackgroundImages from './modules/BackgroundImages';
 import SiteImagesManager from './modules/SiteImagesManager';
 import OrganizersAdmin from './modules/OrganizersAdmin';
+import AdminsManager from './modules/AdminsManager';
 
 type ModuleId = 
   | 'dashboard' 
@@ -69,7 +70,8 @@ type ModuleId =
   | 'backgrounds'
   | 'siteAssets'
   | 'organizers'
-  | 'contactMessages';
+  | 'contactMessages'
+  | 'admins';
 
 export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [activeModule, setActiveModule] = useState<ModuleId>('dashboard');
@@ -152,6 +154,7 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     { id: 'participate', label: 'Page Participer', icon: UserCheck },
     { id: 'participants', label: 'Participants & Jury', icon: Users },
     { id: 'organizers', label: 'Équipe Organisation', icon: Users },
+    { id: 'admins', label: 'Administrateurs', icon: Users },
     { id: 'program', label: 'Programme & Planning', icon: Calendar },
     { id: 'blog', label: 'Blog & Actualités', icon: FileText },
     { id: 'competition', label: 'Compétition & Brackets', icon: Trophy },
@@ -171,6 +174,7 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
       case 'homepage': return <HomepageContent data={data} setData={setData} onSave={manualSave} />;
       case 'backgrounds': return <BackgroundImages data={data} setData={setData} onSave={manualSave} />;
       case 'siteAssets': return <SiteImagesManager data={data} setData={setData} />;
+      case 'admins': return <AdminsManager />;
       case 'scene': return <SceneArtistique data={data} setData={setData} onSave={manualSave} />;
       case 'participate': return <ParticipateAdmin data={data} setData={setData} onSave={manualSave} />;
       case 'participants': return <ParticipantsJury data={data} setData={setData} />;

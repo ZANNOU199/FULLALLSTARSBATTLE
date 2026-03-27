@@ -4,8 +4,8 @@ import { Lock, User, Loader2 } from 'lucide-react';
 import { motion } from 'motion/react';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('admin@allstarsbattle.com');
+  const [password, setPassword] = useState('admin');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -15,16 +15,36 @@ const Login = () => {
     setIsLoading(true);
     setError('');
 
-    // Simulate login
-    setTimeout(() => {
-      if (email === 'zannoharry@gmail.com' && password === 'admin123') {
-        localStorage.setItem('admin_token', 'fake_token_123');
-        navigate('/admin');
-      } else {
-        setError('Identifiants invalides. Accès réservé à zannoharry@gmail.com');
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.message || 'Erreur de connexion');
+        setIsLoading(false);
+        return;
       }
+
+      // Store token and user info
+      localStorage.setItem('admin_token', data.token);
+      localStorage.setItem('admin_user', JSON.stringify(data.user));
+      
       setIsLoading(false);
-    }, 1500);
+      navigate('/admin');
+    } catch (err) {
+      setError('Erreur réseau. Vérifiez votre connexion.');
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -66,6 +86,7 @@ const Login = () => {
               placeholder="votre@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              disabled={isLoading}
             />
           </div>
 
@@ -80,6 +101,7 @@ const Login = () => {
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              disabled={isLoading}
             />
           </div>
 
@@ -92,12 +114,22 @@ const Login = () => {
           </button>
         </form>
 
-        <div className="mt-10 pt-8 border-t border-white/5 text-center">
-          <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest">
+        <div className="mt-10 pt-8 border-t border-white/5">
+          <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest text-center mb-3">
             Accès sécurisé • ASB 2026
           </p>
+          <div className="bg-slate-800 rounded-lg p-3 text-[9px] text-slate-400 space-y-1">
+            <p><strong>Admin par défaut :</strong></p>
+            <p>Email: admin@allstarsbattle.com</p>
+            <p>Mot de passe: admin</p>
+          </div>
         </div>
       </motion.div>
+    </div>
+  );
+};
+
+export default Login;
     </div>
   );
 };
