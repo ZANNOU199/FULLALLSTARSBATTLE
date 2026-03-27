@@ -22,8 +22,12 @@ use App\Http\Controllers\Api\AuthController;
 */
 
 // Health check endpoint for Railway/Vercel
-Route::get('/', fn() => response()->json(['status' => 'ok']));
-Route::get('/health', fn() => response()->json(['status' => 'ok', 'timestamp' => now()]));
+Route::get('/', function () {
+    return response()->json(['status' => 'ok']);
+});
+Route::get('/health', function () {
+    return response()->json(['status' => 'ok', 'timestamp' => now()]);
+});
 
 // Authentication Routes (Public)
 Route::post('/auth/login', [AuthController::class, 'login']);
