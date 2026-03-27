@@ -91,24 +91,20 @@ Route::get('/test-smtp', function () {
             ], 500);
         }
 
-        // Create inline test mailable
-        $testMailable = new class extends Mailable {
-            public function build()
-            {
-                return $this
-                    ->subject('SMTP Test from All Stars Battle API')
-                    ->text('This is a test message to verify SMTP configuration is working. Sent at: ' . now());
+        // Send raw text email (simplest method)
+        \Mail::raw(
+            'This is a test message to verify SMTP configuration is working. Sent at: ' . now(),
+            function ($message) use ($testEmail) {
+                $message->to($testEmail)
+                    ->subject('SMTP Test from All Stars Battle API');
             }
-        };
-
-        // Send the test email
-        \Mail::to($testEmail)->send($testMailable);
+        );
 
         \Log::info('SMTP Test successful', $config);
 
         return response()->json([
             'status' => 'success',
-            'message' => 'SMTP test email sent successfully!',
+            'message' => 'SMTP test email sent successfully to ' . $testEmail,
             'config' => $config
         ]);
     } catch (\Exception $e) {
