@@ -1092,7 +1092,6 @@ const AppContent = () => {
               <NavLink href="#vip" red onClick={navigateTo('home', '#vip')}>VIP</NavLink>
               <NavLink href="#faq" active={currentPage === 'faq'} onClick={navigateTo('faq')}>FAQ</NavLink>
               <NavLink href="#contact" active={currentPage === 'contact'} onClick={navigateTo('contact')}>Contact</NavLink>
-              <NavLink href="#admin" active={currentPage === 'admin'} red onClick={navigateTo('admin')}>Admin</NavLink>
             </div>
 
             <div className="flex items-center gap-4">
@@ -1149,8 +1148,6 @@ const AppContent = () => {
               <a href="#contact" onClick={navigateTo('contact')} className={`text-3xl font-heading uppercase ${currentPage === 'contact' ? 'text-primary' : 'text-white'}`}>Contact</a>
               
               <a href="#faq" onClick={navigateTo('faq')} className={`text-3xl font-heading uppercase ${currentPage === 'faq' ? 'text-primary' : 'text-white'}`}>FAQ</a>
-              
-              <a href="#admin" onClick={navigateTo('admin')} className={`text-3xl font-heading uppercase ${currentPage === 'admin' ? 'text-primary' : 'text-accent-red'}`}>Admin</a>
             </div>
           </motion.div>
         )}
