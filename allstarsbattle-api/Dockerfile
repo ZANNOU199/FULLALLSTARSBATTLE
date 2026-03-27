@@ -25,4 +25,4 @@ RUN php artisan config:cache || true
 RUN php artisan route:clear || true
 
 EXPOSE 8080
-CMD ["sh", "-c", "php artisan config:cache && php artisan route:cache && php -S 0.0.0.0:8080 -t public"]
+CMD ["sh", "-c", "php parse_db_url.php && php artisan config:cache && php artisan route:cache && php -S 0.0.0.0:8080 -t public"]
