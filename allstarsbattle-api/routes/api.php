@@ -64,6 +64,67 @@ Route::post('/test-save', function (Request $request) {
     }
 });
 
+// TEST SMTP CONFIGURATION
+Route::get('/test-smtp', function () {
+    $config = [
+        'driver' => config('mail.default'),
+        'mailer' => config('mail.default'),
+        'scheme' => config('mail.mailers.smtp.scheme'),
+        'host' => config('mail.mailers.smtp.host'),
+        'port' => config('mail.mailers.smtp.port'),
+        'timeout' => config('mail.mailers.smtp.timeout'),
+        'username' => env('MAIL_USERNAME') ? substr(env('MAIL_USERNAME'), 0, 5) . '***' : 'NOT SET',
+        'password_set' => !empty(env('MAIL_PASSWORD')),
+        'encryption' => env('MAIL_ENCRYPTION', 'NOT SET'),
+    ];
+
+    try {
+        // Send test message using Laravel Mail
+        $testEmail = env('MAIL_USERNAME');
+        if (!$testEmail) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'MAIL_USERNAME is not configured in Render environment',
+                'config' => $config
+            ], 500);
+        }
+
+        \Mail::to($testEmail)
+            ->send(new \Illuminate\Mail\Message(function ($m) use ($testEmail) {
+                $m->subject('SMTP Test from All Stars Battle API')
+                  ->line('This is a test message to verify SMTP configuration is working.')
+                  ->line('Sent at: ' . now());
+            }));
+
+        \Log::info('SMTP Test Result', [
+            'status' => 'success',
+            'config' => $config
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'SMTP test email sent successfully',
+            'config' => $config
+        ]);
+    } catch (\Exception $e) {
+        \Log::error('SMTP Test Error', [
+            'error' => $e->getMessage(),
+            'code' => $e->getCode(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
+            'trace' => substr($e->getTraceAsString(), 0, 500),
+            'config' => $config
+        ]);
+
+        return response()->json([
+            'status' => 'error',
+            'message' => 'SMTP connection failed',
+            'error' => $e->getMessage(),
+            'config' => $config
+        ], 500);
+    }
+});
+
 // Participants management endpoints (for admin panel)
 Route::post('/cms/participants', [CMSController::class, 'storeParticipant']);
 Route::put('/cms/participants/{id}', [CMSController::class, 'updateParticipant']);
