@@ -51,7 +51,8 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
         navigate('/admin');
       }
     } catch (err) {
-      setError('Erreur réseau. Vérifiez votre connexion.');
+      console.error('Login error:', err);
+      setError(`Erreur réseau: ${err instanceof Error ? err.message : 'Connexion impossible'}`);
       setIsLoading(false);
     }
   };
