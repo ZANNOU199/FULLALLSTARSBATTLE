@@ -19,9 +19,9 @@ const SettingsAdmin = () => {
   const [isLoading, setIsLoading] = useState(false);
   
   const [settings, setSettings] = useState({
-    siteTitle: 'All Stars Battle International 2026',
+    siteTitle: 'All Star Battle International 2026',
     siteDescription: 'Le plus grand événement de danse urbaine au Togo.',
-    contactEmail: 'contact@asbi.tg',
+    contactEmail: 'contact@ASB.tg',
     contactPhone: '+228 90 00 00 00',
     address: 'Lomé, Togo',
     socials: {
@@ -32,7 +32,7 @@ const SettingsAdmin = () => {
     },
     hero: {
       title: 'TOGO 2026',
-      subtitle: 'ALL STARS BATTLE INTERNATIONAL',
+      subtitle: 'All STAR BATTLE INTERNATIONAL',
       date: '15 - 20 JUILLET 2026',
       location: 'LOMÉ, TOGO'
     },

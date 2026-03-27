@@ -345,7 +345,7 @@ class CMSController extends Controller
             $competition = Competition::first();
             if (!$competition) {
                 $competition = Competition::create([
-                    'name' => 'All Stars Battle',
+                    'name' => 'All Star Battle',
                     'rules' => $competitionData['rules'] ?? '',
                     'prize_pool' => json_encode($competitionData['prizePool'] ?? []),
                     'brackets' => json_encode($competitionData['brackets'] ?? []),
@@ -451,7 +451,7 @@ class CMSController extends Controller
                 );
                 GlobalConfig::updateOrCreate(
                     ['key' => 'contact.hero.description'],
-                    ['value' => json_encode($contactHero['description'] ?? 'L\'équipe All Stars Battle International est là pour vous accompagner.')]
+                    ['value' => json_encode($contactHero['description'] ?? 'L\'équipe All Star Battle International est là pour vous accompagner.')]
                 );
 
                 GlobalConfig::updateOrCreate(
@@ -489,7 +489,7 @@ class CMSController extends Controller
                 \Log::info('Stats data:', ['stats' => $gc['stats'] ?? 'NOT_FOUND', 'homepageStats' => $gc['homepageStats'] ?? 'NOT_FOUND']);
                 
                 // contact data
-                GlobalConfig::updateOrCreate(['key' => 'contact.email'], ['value' => json_encode($gc['contact']['email'] ?? 'contact@asbi.com')]);
+                GlobalConfig::updateOrCreate(['key' => 'contact.email'], ['value' => json_encode($gc['contact']['email'] ?? 'contact@ASB.com')]);
                 GlobalConfig::updateOrCreate(['key' => 'contact.phone'], ['value' => json_encode($gc['contact']['phone'] ?? '+228 90 00 00 00')]);
                 GlobalConfig::updateOrCreate(['key' => 'contact.address'], ['value' => json_encode($gc['contact']['address'] ?? 'Lomé, Togo')]);
 
@@ -500,12 +500,12 @@ class CMSController extends Controller
                 GlobalConfig::updateOrCreate(['key' => 'socials.youtube'], ['value' => json_encode($gc['socials']['youtube'] ?? '#')]);
 
                 // seo
-                GlobalConfig::updateOrCreate(['key' => 'seo.title'], ['value' => json_encode($gc['seo']['title'] ?? 'All Stars Battle International 2026')]);
+                GlobalConfig::updateOrCreate(['key' => 'seo.title'], ['value' => json_encode($gc['seo']['title'] ?? 'All Star Battle International 2026')]);
                 GlobalConfig::updateOrCreate(['key' => 'seo.description'], ['value' => json_encode($gc['seo']['description'] ?? 'La plus grande compétition de danse urbaine en Afrique.')]);
                 GlobalConfig::updateOrCreate(['key' => 'seo.keywords'], ['value' => json_encode($gc['seo']['keywords'] ?? 'danse, battle, hip-hop, breaking, togo, lomé')]);
 
                 // hero
-                GlobalConfig::updateOrCreate(['key' => 'hero.title'], ['value' => json_encode($gc['hero']['title'] ?? 'ALL STARS BATTLE INTERNATIONAL')]);
+                GlobalConfig::updateOrCreate(['key' => 'hero.title'], ['value' => json_encode($gc['hero']['title'] ?? 'All STAR BATTLE INTERNATIONAL')]);
                 GlobalConfig::updateOrCreate(['key' => 'hero.subtitle'], ['value' => json_encode($gc['hero']['subtitle'] ?? 'Le Trône. Le Respect. La Légende.')]);
                 GlobalConfig::updateOrCreate(['key' => 'hero.location'], ['value' => json_encode($gc['hero']['location'] ?? 'TOGO 2026')]);
                 GlobalConfig::updateOrCreate(['key' => 'hero.backgroundImage'], ['value' => json_encode($gc['hero']['backgroundImage'] ?? 'https://images.unsplash.com/photo-1547153760-18fc86324498')]);
@@ -534,8 +534,8 @@ class CMSController extends Controller
                 GlobalConfig::updateOrCreate(['key' => 'vip.features'], ['value' => json_encode($gc['vip']['features'] ?? [])]);
                 GlobalConfig::updateOrCreate(['key' => 'partners.sectionTitle'], ['value' => json_encode($gc['partners']['sectionTitle'] ?? 'PARTENAIRES & SPONSORS')]);
                 GlobalConfig::updateOrCreate(['key' => 'blog.sectionTitle'], ['value' => json_encode($gc['blog']['sectionTitle'] ?? 'ACTUALITÉS & NEWS')]);
-                GlobalConfig::updateOrCreate(['key' => 'footer.description'], ['value' => json_encode($gc['footer']['description'] ?? 'All Stars Battle International')]);
-                GlobalConfig::updateOrCreate(['key' => 'footer.copyright'], ['value' => json_encode($gc['footer']['copyright'] ?? '© 2026 ASBI. Tous droits réservés.')]);
+                GlobalConfig::updateOrCreate(['key' => 'footer.description'], ['value' => json_encode($gc['footer']['description'] ?? 'All Star Battle International')]);
+                GlobalConfig::updateOrCreate(['key' => 'footer.copyright'], ['value' => json_encode($gc['footer']['copyright'] ?? '© 2026 ASB. Tous droits réservés.')]);
 
                 // Theme colors (Legacy support from globalConfig.theme)
                 if (isset($gc['theme']) && is_array($gc['theme'])) {
@@ -797,7 +797,7 @@ class CMSController extends Controller
 
         $wallOfFame = $this->getConfigItem('history.wallOfFame', [
             'title' => 'WALL OF FAME',
-            'subtitle' => 'The Legends Who Defined ASBI',
+            'subtitle' => 'The Legends Who Defined ASB',
         ]);
 
         $timeline = TimelineEvent::all()->map(fn($t) => [
@@ -817,7 +817,7 @@ class CMSController extends Controller
                     'year' => '2024',
                     'title' => 'Genesis',
                     'champion' => 'B-BOY SPIRIT',
-                    'description' => 'The beginning of All Stars Battle.',
+                    'description' => 'The beginning of All Star Battle.',
                     'image' => 'https://pub-e66e8acef13f47bf90ce3de0d7240052.r2.dev/defaults/timeline-2024.jpg',
                 ],
             ];
@@ -880,7 +880,7 @@ class CMSController extends Controller
             'hero' => [
                 'title' => $this->getConfigItem('contact.hero.title', 'Besoin '),
                 'titleHighlight' => $this->getConfigItem('contact.hero.titleHighlight', 'd\'aide ?'),
-                'description' => $this->getConfigItem('contact.hero.description', 'L\'équipe All Stars Battle International est là pour vous accompagner.'),
+                'description' => $this->getConfigItem('contact.hero.description', 'L\'équipe All Star Battle International est là pour vous accompagner.'),
             ],
             'sections' => [
                 'coordinatesTitle' => $this->getConfigItem('contact.sections.coordinatesTitle', 'Coordonnées'),
@@ -932,7 +932,7 @@ class CMSController extends Controller
     {
         return [
             'contact' => [
-                'email' => $this->getConfigItem('contact.email', 'contact@asbi.com'),
+                'email' => $this->getConfigItem('contact.email', 'contact@ASB.com'),
                 'phone' => $this->getConfigItem('contact.phone', '+228 90 00 00 00'),
                 'address' => $this->getConfigItem('contact.address', 'Lomé, Togo'),
             ],
@@ -943,12 +943,12 @@ class CMSController extends Controller
                 'youtube' => $this->getConfigItem('socials.youtube', '#'),
             ],
             'seo' => [
-                'title' => $this->getConfigItem('seo.title', 'All Stars Battle International 2026'),
+                'title' => $this->getConfigItem('seo.title', 'All Star Battle International 2026'),
                 'description' => $this->getConfigItem('seo.description', 'La plus grande compétition de danse urbaine en Afrique.'),
                 'keywords' => $this->getConfigItem('seo.keywords', 'danse, battle, hip-hop, breaking, togo, lomé'),
             ],
             'hero' => [
-                'title' => $this->getConfigItem('hero.title', 'ALL STARS BATTLE INTERNATIONAL'),
+                'title' => $this->getConfigItem('hero.title', 'All STAR BATTLE INTERNATIONAL'),
                 'subtitle' => $this->getConfigItem('hero.subtitle', 'Le Trône. Le Respect. La Légende.'),
                 'location' => $this->getConfigItem('hero.location', 'TOGO 2026'),
                 'backgroundImage' => $this->getConfigItem('hero.backgroundImage', 'https://images.unsplash.com/photo-1547153760-18fc86324498'),
@@ -970,8 +970,8 @@ class CMSController extends Controller
             'partners' => ['sectionTitle' => $this->getConfigItem('partners.sectionTitle', 'NOS PARTENAIRES')],
             'blog' => ['sectionTitle' => $this->getConfigItem('blog.sectionTitle', 'ACTUALITÉS')],
             'footer' => [
-                'description' => $this->getConfigItem('footer.description', 'All Stars Battle International'),
-                'copyright' => $this->getConfigItem('footer.copyright', '© 2026 ASBI. Tous droits réservés.'),
+                'description' => $this->getConfigItem('footer.description', 'All Star Battle International'),
+                'copyright' => $this->getConfigItem('footer.copyright', '© 2026 ASB. Tous droits réservés.'),
             ],
             'homepageStats' => $this->getConfigItem('stats', []),
             'eventDate' => $this->getConfigItem('eventDate', '2026-08-14'),
@@ -1050,7 +1050,7 @@ class CMSController extends Controller
     {
         $logo = $this->getConfigItem('siteAssets.logo', [
             'url' => '',
-            'alt' => 'All Stars Battle International Logo',
+            'alt' => 'All Star Battle International Logo',
             'lastModified' => ''
         ]);
 
@@ -1106,7 +1106,7 @@ class CMSController extends Controller
         return [
             'sectionTitle' => $this->getConfigItem('organizers.sectionTitle', 'L\'EQUIPE ORGANISATION'),
             'sectionDescription' => $this->getConfigItem('organizers.sectionDescription', 'Derrière le plus grand événement de breaking d\'Afrique de l\'Ouest...'),
-            'organizationName' => $this->getConfigItem('organizers.organizationName', 'ASBI Togo 2026'),
+            'organizationName' => $this->getConfigItem('organizers.organizationName', 'ASB Togo 2026'),
         ];
     }
 
@@ -1664,7 +1664,17 @@ class CMSController extends Controller
             $message = ContactMessage::findOrFail($id);
             \Log::info('Contact message found for reply', ['message' => $message->toArray()]);
 
-            Mail::to($message->email)->send(new ContactMessageReplyMail($message, $validated['reply_message'], $validated['reply_subject'] ?? null));
+            // Get site logo for email
+            $logoUrl = null;
+            $siteAssets = \DB::table('global_config')->where('key', 'site_assets')->first();
+            if ($siteAssets) {
+                $assets = json_decode($siteAssets->value, true);
+                if (isset($assets['logo'])) {
+                    $logoUrl = is_array($assets['logo']) ? ($assets['logo']['url'] ?? null) : $assets['logo'];
+                }
+            }
+
+            Mail::to($message->email)->send(new ContactMessageReplyMail($message, $validated['reply_message'], $validated['reply_subject'] ?? null, $logoUrl));
             \Log::info('Mail sent to contact', ['email' => $message->email]);
 
             $message->markAsReplied();
@@ -1694,10 +1704,21 @@ class CMSController extends Controller
         ]);
 
         try {
+            // Get site logo for email
+            $logoUrl = null;
+            $siteAssets = \DB::table('global_config')->where('key', 'site_assets')->first();
+            if ($siteAssets) {
+                $assets = json_decode($siteAssets->value, true);
+                if (isset($assets['logo'])) {
+                    $logoUrl = is_array($assets['logo']) ? ($assets['logo']['url'] ?? null) : $assets['logo'];
+                }
+            }
+
             Mail::to($validated['email'])->send(new \App\Mail\AdminContactMessageMail(
                 $validated['subject'],
                 $validated['message'],
-                $validated['name'] ?? null
+                $validated['name'] ?? null,
+                $logoUrl
             ));
 
             // Enregistrer aussi en base pour traçabilité côté admin dans le dashboard

@@ -142,7 +142,7 @@ const initialData: CMSData = {
         price: '5 000', 
         period: 'CFA', 
         tag: 'Accès Standard', 
-        features: ['Accès à toutes les masterclasses', 'Place en tribune standard', 'Accès au village ASBI'], 
+        features: ['Accès à toutes les masterclasses', 'Place en tribune standard', 'Accès au village ASB'], 
         buttonText: 'Réserver mon pass',
         color: 'primary',
         recommended: false,
@@ -182,7 +182,7 @@ const initialData: CMSData = {
     },
     wallOfFame: {
       title: 'WALL OF FAME',
-      subtitle: 'The Legends Who Defined ASBI'
+      subtitle: 'The Legends Who Defined ASB'
     },
     timeline: [
       { id: '1', year: '2024', title: 'L\'Éveil de Lomé', champion: 'B-BOY RYU', description: 'Une édition mémorable au Japon.', image: '' }
@@ -195,7 +195,7 @@ const initialData: CMSData = {
     hero: {
       title: 'Besoin ',
       titleHighlight: 'd\'aide ?',
-      description: 'L\'équipe All Stars Battle International est là pour vous accompagner. Retrouvez nos réponses ou contactez-nous directement.'
+      description: 'L\'équipe All Star Battle International est là pour vous accompagner. Retrouvez nos réponses ou contactez-nous directement.'
     },
     sections: {
       coordinatesTitle: 'Coordonnées',
@@ -230,7 +230,7 @@ const initialData: CMSData = {
       id: '1',
       year: 2026,
       type: 'photo',
-      title: 'Finale ASBI 2026 - Junior vs Flash',
+      title: 'Finale ASB 2026 - Junior vs Flash',
       description: 'Moment épique de la finale avec l\'énergie maximale du public',
       url: '',
       tag: 'archive',
@@ -272,7 +272,7 @@ const initialData: CMSData = {
       year: 2026,
       type: 'video',
       title: 'Aftermovie Officiel : L\'énergie de Lomé',
-      description: 'Plongez dans les coulisses et l\'ambiance électrique de l\'ASBI Togo 2026.',
+      description: 'Plongez dans les coulisses et l\'ambiance électrique de l\'ASB Togo 2026.',
       url: '',
       thumbnail: '',
       duration: '04:20',
@@ -282,7 +282,7 @@ const initialData: CMSData = {
       id: '6',
       year: 2024,
       type: 'photo',
-      title: 'Moments forts ASBI 2024',
+      title: 'Moments forts ASB 2024',
       description: 'Archives de la compétition 2024',
       url: '',
       tag: 'archive',
@@ -291,7 +291,7 @@ const initialData: CMSData = {
   ],
   globalConfig: {
     contact: {
-      email: 'contact@asbi.com',
+      email: 'contact@ASB.com',
       phone: '+228 90 00 00 00',
       address: 'Lomé, Togo'
     },
@@ -302,12 +302,12 @@ const initialData: CMSData = {
       youtube: '#'
     },
     seo: {
-      title: 'All Stars Battle International 2026',
+      title: 'All Star Battle International 2026',
       description: 'La plus grande compétition de danse urbaine en Afrique.',
       keywords: 'danse, battle, hip-hop, breaking, togo, lomé'
     },
     hero: {
-      title: 'ALL STARS BATTLE INTERNATIONAL',
+      title: 'All STAR BATTLE INTERNATIONAL',
       subtitle: 'Le Trône. Le Respect. La Légende.',
       location: 'TOGO 2026',
       backgroundImage: '',
@@ -327,7 +327,7 @@ const initialData: CMSData = {
     },
     vip: {
       sectionTitle: 'EXPÉRIENCE VIP',
-      sectionDescription: 'Plongez au cœur de l\'action avec un accès privilégié. Vivez le All Stars Battle International dans les meilleures conditions possibles.',
+      sectionDescription: 'Plongez au cœur de l\'action avec un accès privilégié. Vivez le All Star Battle International dans les meilleures conditions possibles.',
       features: [
         {
           icon: 'Verified',
@@ -354,7 +354,7 @@ const initialData: CMSData = {
     },
     footer: {
       description: 'L\'événement de breakdance ultime qui définit le trône de la culture urbaine en Afrique. Vivez l\'excellence du mouvement, du rythme et de la compétition internationale au cœur du Togo.',
-      copyright: '© 2026 ALL STARS BATTLE INTERNATIONAL. TOUS DROITS RÉSERVÉS.'
+      copyright: '© 2026 All STAR BATTLE INTERNATIONAL. TOUS DROITS RÉSERVÉS.'
     },
     homepageStats: [
       { label: 'Danseurs Qualifiés', value: '16' },
@@ -531,7 +531,7 @@ const initialData: CMSData = {
     },
     logo: {
       url: '',
-      alt: 'All Stars Battle International Logo',
+      alt: 'All Star Battle International Logo',
       lastModified: ''
     }
   },
@@ -540,7 +540,7 @@ const initialData: CMSData = {
       id: '1',
       name: 'Elom Kodjo',
       role: 'Directeur Fondateur & Producteur',
-      bio: 'Visionnaire et activiste culturel, Elom a fondé l\'ASBI pour propulser le breaking africain sur la scène mondiale.',
+      bio: 'Visionnaire et activiste culturel, Elom a fondé l\'ASB pour propulser le breaking africain sur la scène mondiale.',
       photo: '',
       socialLinks: {
         instagram: '@elomkodjo',
@@ -563,7 +563,7 @@ const initialData: CMSData = {
   organizersConfig: {
     sectionTitle: 'L\'EQUIPE ORGANISATION',
     sectionDescription: 'Derrière le plus grand événement de breaking d\'Afrique de l\'Ouest, se trouve une équipe passionnée d\'activistes culturels et d\'experts en événementiel.',
-    organizationName: 'ASBI Togo 2026'
+    organizationName: 'ASB Togo 2026'
   }
 };
 

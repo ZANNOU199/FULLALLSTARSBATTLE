@@ -116,7 +116,7 @@ const Partners = ({ onContactClick }: PartnersProps) => {
         doc.setTextColor(211, 95, 23); // Primary color
         doc.setFontSize(22);
         doc.setFont('helvetica', 'bold');
-        doc.text('ALL STARS BATTLE INTERNATIONAL 2026', 105, 20, { align: 'center' });
+        doc.text('All STAR BATTLE INTERNATIONAL 2026', 105, 20, { align: 'center' });
         
         doc.setTextColor(255, 255, 255);
         doc.setFontSize(12);
@@ -131,7 +131,7 @@ const Partners = ({ onContactClick }: PartnersProps) => {
         
         doc.setFontSize(11);
         doc.setFont('helvetica', 'normal');
-        const intro = "L'All Stars Battle International est le plus grand événement de breakdance et de culture urbaine en Afrique de l'Ouest. Pour sa version 2026, nous réunissons l'élite mondiale au Palais des Congrès de Lomé pour une compétition sans précédent.";
+        const intro = "L'All Star Battle International est le plus grand événement de breakdance et de culture urbaine en Afrique de l'Ouest. Pour sa version 2026, nous réunissons l'élite mondiale au Palais des Congrès de Lomé pour une compétition sans précédent.";
         const splitIntro = doc.splitTextToSize(intro, 170);
         doc.text(splitIntro, 20, 65);
         

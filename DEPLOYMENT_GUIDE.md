@@ -1,4 +1,4 @@
-# Guide de Déploiement Gratuit - ALL STARS BATTLE
+# Guide de Déploiement Gratuit - All STAR BATTLE
 
 ## Frontend (React) → Vercel
 
@@ -83,7 +83,7 @@ MAIL_USERNAME=votre-email@gmail.com
 MAIL_PASSWORD=votre-app-password
 MAIL_ENCRYPTION=tls
 MAIL_FROM_ADDRESS=votre-email@gmail.com
-MAIL_FROM_NAME=All Stars Battle
+MAIL_FROM_NAME=All Star Battle
 CLOUDFLARE_R2_ACCOUNT_ID=votre-id
 CLOUDFLARE_R2_ACCESS_KEY_ID=votre-key
 CLOUDFLARE_R2_SECRET_ACCESS_KEY=votre-secret

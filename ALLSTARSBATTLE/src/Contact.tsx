@@ -248,7 +248,7 @@ const Contact = ({ onNavigateToFAQ, pageBackgrounds }: ContactProps) => {
               style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuASijU0cQXjQ-d0EeSSHvbh9o9FUKMhSQpZhNf_FBFqR_rmXLZGtPVypj0mSI-ySy6GPUCU1URtO_Fv3GhUqgbxe1x-q9mJqOF2QnaFhcyMu7W7xVond7-TheZD6JpDdFe0LujkMdYzKSZhbwfxOJzztl2LCzBQQGDjM-g0M3pG0afbtWJroan4PCbhMq7gDakVebvIym5omSDnpQdoDW6qGa1I46E6m-D5t3FaXOBj0f3iSBvn82prmbKDEDgA8jn1g7kjcy-pRj8w')" }}
             ></div>
             <div className="absolute bottom-6 left-6 z-20 bg-background-dark/90 backdrop-blur-md border border-primary/30 p-6 rounded-sm shadow-2xl">
-              <p className="text-primary font-black text-sm uppercase tracking-widest mb-1">Siège ASBI Togo</p>
+              <p className="text-primary font-black text-sm uppercase tracking-widest mb-1">Siège ASB Togo</p>
               <p className="text-white text-xs font-light uppercase tracking-wider">{config.contact.address}</p>
             </div>
           </motion.div>

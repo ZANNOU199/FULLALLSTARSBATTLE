@@ -2,7 +2,7 @@ $body = @'
 {
   "globalConfig": {
     "contact": {
-      "email": "contact@asbi.com",
+      "email": "contact@ASB.com",
       "phone": "+228 90 00 00 00",
       "address": "Lomé, Togo"
     },
@@ -13,12 +13,12 @@ $body = @'
       "youtube": "https://youtube.com/allstarsbattle"
     },
     "seo": {
-      "title": "All Stars Battle International 2026",
+      "title": "All Star Battle International 2026",
       "description": "La plus grande compétition de danse urbaine en Afrique.",
       "keywords": "danse, battle, hip-hop, breaking, togo, lomé"
     },
     "hero": {
-      "title": "ALL STARS BATTLE INTERNATIONAL",
+      "title": "All STAR BATTLE INTERNATIONAL",
       "subtitle": "Le Trône. Le Respect. La Légende.",
       "location": "TOGO 2026",
       "backgroundImage": "https://images.unsplash.com/photo-1547153760-18fc86324498",
@@ -55,7 +55,7 @@ $body = @'
     },
     "footer": {
       "description": "L'événement de breakdance ultime qui définit le trône de la culture urbaine en Afrique.",
-      "copyright": "© 2026 ALL STARS BATTLE INTERNATIONAL. TOUS DROITS RÉSERVÉS."
+      "copyright": "© 2026 All STAR BATTLE INTERNATIONAL. TOUS DROITS RÉSERVÉS."
     }
   }
 }

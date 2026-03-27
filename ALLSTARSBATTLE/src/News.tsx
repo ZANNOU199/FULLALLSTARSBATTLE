@@ -38,7 +38,7 @@ export default function News({ onBack, initialArticleId }: NewsProps) {
           tag: a.category,
           content: a.content,
           image: a.coverImage,
-          author: "Admin All Stars", // Default author
+          author: "Admin All Star", // Default author
           category: a.category
         }));
         setArticles(formattedArticles);

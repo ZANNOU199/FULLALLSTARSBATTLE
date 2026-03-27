@@ -96,7 +96,7 @@ Route::get('/test-smtp', function () {
             'This is a test message to verify SMTP configuration is working. Sent at: ' . now(),
             function ($message) use ($testEmail) {
                 $message->to($testEmail)
-                    ->subject('SMTP Test from All Stars Battle API');
+                    ->subject('SMTP Test from All Star Battle API');
             }
         );
 

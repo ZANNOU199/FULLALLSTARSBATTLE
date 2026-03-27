@@ -164,7 +164,7 @@ export default function Blog() {
                   {article.content}
                 </p>
                 <div className="mt-auto pt-6 border-t border-white/5 flex justify-between items-center">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Par Admin ASBI</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Par Admin ASB</span>
                   <button className="text-xs font-bold text-primary hover:underline">Lire la suite</button>
                 </div>
               </div>

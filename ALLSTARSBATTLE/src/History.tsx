@@ -43,7 +43,7 @@ const History = ({ onViewGallery }: HistoryProps) => {
   });
   const [wallOfFameConfig, setWallOfFameConfig] = useState({
     title: 'WALL OF FAME',
-    subtitle: 'The Legends Who Defined ASBI'
+    subtitle: 'The Legends Who Defined ASB'
   });
 
   useEffect(() => {

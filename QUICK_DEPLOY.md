@@ -50,7 +50,7 @@ MAIL_USERNAME=your-email@gmail.com
 MAIL_PASSWORD=your-app-specific-password
 MAIL_ENCRYPTION=tls
 MAIL_FROM_ADDRESS=your-email@gmail.com
-MAIL_FROM_NAME=All Stars Battle
+MAIL_FROM_NAME=All Star Battle
 
 CLOUDFLARE_R2_ACCOUNT_ID=your-id
 CLOUDFLARE_R2_ACCESS_KEY_ID=your-key

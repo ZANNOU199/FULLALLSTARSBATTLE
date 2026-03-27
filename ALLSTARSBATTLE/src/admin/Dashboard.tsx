@@ -30,7 +30,7 @@ const Dashboard = () => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-4xl font-heading text-white uppercase tracking-tight">Tableau de Bord</h1>
-          <p className="text-slate-500 text-sm uppercase tracking-widest mt-1">Bienvenue dans votre espace de gestion ASBI 2026</p>
+          <p className="text-slate-500 text-sm uppercase tracking-widest mt-1">Bienvenue dans votre espace de gestion ASB 2026</p>
         </div>
         <div className="bg-slate-900 border border-white/5 p-4 rounded-xl flex items-center gap-4">
           <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
@@ -106,7 +106,7 @@ const Dashboard = () => {
             </button>
             <div className="pt-6 mt-6 border-t border-white/5">
               <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest mb-4">Support Technique</p>
-              <a href="mailto:support@asbi.tg" className="text-sm text-primary hover:underline">support@asbi.tg</a>
+              <a href="mailto:support@ASB.tg" className="text-sm text-primary hover:underline">support@ASB.tg</a>
             </div>
           </div>
         </div>

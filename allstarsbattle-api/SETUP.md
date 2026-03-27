@@ -159,7 +159,7 @@ curl http://localhost:8000/api/cms/data
 
 Create `.env` with these minimal settings:
 ```ini
-APP_NAME="ASBI API"
+APP_NAME="ASB API"
 APP_ENV=local
 APP_KEY=base64:_generated_by_php_artisan_key:generate_
 APP_DEBUG=true

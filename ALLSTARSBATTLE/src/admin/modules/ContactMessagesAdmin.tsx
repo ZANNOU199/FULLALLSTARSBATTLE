@@ -94,7 +94,7 @@ export default function ContactMessagesAdmin() {
 
     const defaultSubject = selectedMessage.subject
       ? `Réponse à : ${selectedMessage.subject}`
-      : 'Réponse de All Stars Battle International';
+      : 'Réponse de All Star Battle International';
 
     try {
       setReplySending(true);

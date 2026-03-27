@@ -267,7 +267,7 @@ const Home: React.FC<HomeProps> = ({ config, pageBackgrounds, featuredPiece, sta
             transition={{ delay: 0.2 }}
             className="font-heading text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-none mb-4 tracking-tighter text-white text-luxury-glow mt-8"
           >
-            {config?.hero?.title?.split(' ').slice(0, -1).join(' ') || "ALL STARS BATTLE"} <br/>
+            {config?.hero?.title?.split(' ').slice(0, -1).join(' ') || "All STAR BATTLE"} <br/>
             <span className="text-primary">{config?.hero?.title?.split(' ').slice(-1) || "INTERNATIONAL"}</span>
           </motion.div>
           

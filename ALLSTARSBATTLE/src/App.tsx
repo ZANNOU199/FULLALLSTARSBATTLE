@@ -537,98 +537,98 @@ const AppContent = () => {
     const baseUrl = 'https://allstarsbattle.com';
     const pageConfigs: Record<string, any> = {
       home: {
-        title: 'ALL STARS BATTLE 2026 - Compétition Mondiale de Breakdance',
+        title: 'All STAR BATTLE 2026 - Compétition Mondiale de Breakdance',
         description: 'La plus grande compétition de breakdance d\'Afrique. Danseurs d\'élite. Jugement international. Togo 2026.',
         image: 'https://cdn.example.com/og-image.jpg',
         url: baseUrl,
         type: 'website'
       },
       competition: {
-        title: 'La Compétition - ALL STARS BATTLE 2026',
+        title: 'La Compétition - All STAR BATTLE 2026',
         description: 'Découvrez le format, les brackets et les détails de la compétition mondiale de breakdance.',
         image: 'https://cdn.example.com/competition.jpg',
         url: `${baseUrl}/competition`,
         type: 'website'
       },
       dancers: {
-        title: 'Les Danseurs - ALL STARS BATTLE 2026',
+        title: 'Les Danseurs - All STAR BATTLE 2026',
         description: 'Rencontrez les meilleurs b-boys et b-girls du monde participant à la compétition.',
         image: 'https://cdn.example.com/dancers.jpg',
         url: `${baseUrl}/dancers`,
         type: 'website'
       },
       judges: {
-        title: 'Les Juges - ALL STARS BATTLE 2026',
+        title: 'Les Juges - All STAR BATTLE 2026',
         description: 'Découvrez le panel international de juges avec leur expertise et expérience.',
         image: 'https://cdn.example.com/judges.jpg',
         url: `${baseUrl}/judges`,
         type: 'website'
       },
       tickets: {
-        title: 'Billetterie - ALL STARS BATTLE 2026',
+        title: 'Billetterie - All STAR BATTLE 2026',
         description: 'Réservez vos billets pour la compétition. Offres VIP et régulières disponibles.',
         image: 'https://cdn.example.com/tickets.jpg',
         url: `${baseUrl}/tickets`,
         type: 'website'
       },
       program: {
-        title: 'Programme - ALL STARS BATTLE 2026',
+        title: 'Programme - All STAR BATTLE 2026',
         description: 'Consultez le programme complet des 3 jours de compétition et d\'événements.',
         image: 'https://cdn.example.com/program.jpg',
         url: `${baseUrl}/program`,
         type: 'website'
       },
       news: {
-        title: 'Blog & Actualités - ALL STARS BATTLE 2026',
+        title: 'Blog & Actualités - All STAR BATTLE 2026',
         description: 'Retrouvez toutes les actualités et mises à jour sur la compétition.',
         image: 'https://cdn.example.com/news.jpg',
         url: `${baseUrl}/news`,
         type: 'website'
       },
       media: {
-        title: 'Galerie Médias - ALL STARS BATTLE 2026',
+        title: 'Galerie Médias - All STAR BATTLE 2026',
         description: 'Photos et vidéos exclusives des éditions précédentes et de la préparation.',
         image: 'https://cdn.example.com/media.jpg',
         url: `${baseUrl}/media`,
         type: 'website'
       },
       history: {
-        title: 'Histoire du Festival - ALL STARS BATTLE 2026',
-        description: 'Découvrez l\'histoire riche et l\'évolution du festival All Stars Battle.',
+        title: 'Histoire du Festival - All STAR BATTLE 2026',
+        description: 'Découvrez l\'histoire riche et l\'évolution du festival All Star Battle.',
         image: 'https://cdn.example.com/history.jpg',
         url: `${baseUrl}/history`,
         type: 'website'
       },
       artistic: {
-        title: 'Scène Artistique - ALL STARS BATTLE 2026',
+        title: 'Scène Artistique - All STAR BATTLE 2026',
         description: 'Découvrez les performances artistiques et événements culturels du festival.',
         image: 'https://cdn.example.com/artistic.jpg',
         url: `${baseUrl}/artistic`,
         type: 'website'
       },
       partners: {
-        title: 'Partenaires - ALL STARS BATTLE 2026',
+        title: 'Partenaires - All STAR BATTLE 2026',
         description: 'Explorez nos partenaires institutionnels et sponsors officiels.',
         image: 'https://cdn.example.com/partners.jpg',
         url: `${baseUrl}/partners`,
         type: 'website'
       },
       participate: {
-        title: 'Participer - ALL STARS BATTLE 2026',
-        description: 'Comment participer à la compétition All Stars Battle 2026. Conditions et inscription.',
+        title: 'Participer - All STAR BATTLE 2026',
+        description: 'Comment participer à la compétition All Star Battle 2026. Conditions et inscription.',
         image: 'https://cdn.example.com/participate.jpg',
         url: `${baseUrl}/participate`,
         type: 'website'
       },
       contact: {
-        title: 'Contact - ALL STARS BATTLE 2026',
+        title: 'Contact - All STAR BATTLE 2026',
         description: 'Contactez-nous pour vos questions, partenariats ou demandes spéciales.',
         image: 'https://cdn.example.com/og-image.jpg',
         url: `${baseUrl}/contact`,
         type: 'website'
       },
       faq: {
-        title: 'FAQ - ALL STARS BATTLE 2026',
+        title: 'FAQ - All STAR BATTLE 2026',
         description: 'Questions fréquemment posées sur le festival, les billettes et la compétition.',
         image: 'https://cdn.example.com/og-image.jpg',
         url: `${baseUrl}/faq`,
@@ -1213,7 +1213,7 @@ const AppContent = () => {
             transition={{ delay: 0.2 }}
             className="font-heading text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-none mb-4 tracking-tighter text-white text-luxury-glow"
           >
-            {config?.hero.title.split(' ').slice(0, -1).join(' ') || "ALL STARS BATTLE"} <br/>
+            {config?.hero.title.split(' ').slice(0, -1).join(' ') || "All STAR BATTLE"} <br/>
             <span className="text-primary">{config?.hero.title.split(' ').slice(-1) || "INTERNATIONAL"}</span>
           </motion.h1>
           
@@ -1479,7 +1479,7 @@ const AppContent = () => {
                 <span className="text-primary font-bold tracking-[0.5em] uppercase text-xs">Exclusif</span>
                 <h2 className="font-heading text-6xl md:text-8xl text-white mb-6 uppercase leading-none">{config?.vip.sectionTitle?.split(' ').slice(0, -1).join(' ') || 'EXPÉRIENCE'} <span className="text-accent-red">{config?.vip.sectionTitle?.split(' ').slice(-1) || 'VIP'}</span></h2>
                 <p className="text-slate-300 text-lg mb-10 font-light leading-relaxed">
-                  {config?.vip.sectionDescription || 'Plongez au cœur de l\'action avec un accès privilégié. Vivez le All Stars Battle International dans les meilleures conditions possibles.'}
+                  {config?.vip.sectionDescription || 'Plongez au cœur de l\'action avec un accès privilégié. Vivez le All Star Battle International dans les meilleures conditions possibles.'}
                 </p>
                 <div className="space-y-6 mb-12">
                   {config?.vip?.features?.map((feature, idx) => {
@@ -1844,7 +1844,7 @@ const AppContent = () => {
           
           <div className="pt-12 border-t border-white/10 flex flex-col lg:flex-row justify-between items-center gap-8">
             <p className="text-slate-500 text-[10px] uppercase font-black tracking-[0.3em]">
-              {config?.footer.copyright || '© 2026 ALL STARS BATTLE INTERNATIONAL. TOUS DROITS RÉSERVÉS.'}
+              {config?.footer.copyright || '© 2026 All STAR BATTLE INTERNATIONAL. TOUS DROITS RÉSERVÉS.'}
             </p>
             <div className="flex space-x-12 text-[10px] uppercase font-black tracking-[0.3em] text-slate-500">
               <a href="#" onClick={navigateTo('admin')} className="hover:text-primary transition-colors">Administration</a>

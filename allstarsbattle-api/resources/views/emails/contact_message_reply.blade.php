@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Réponse All Stars Battle</title>
+    <title>Réponse All Star Battle</title>
 </head>
 <body style="margin:0;padding:0;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color:#F5F7FA;">
     <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#F5F7FA; padding:30px 0;">
@@ -13,11 +13,11 @@
                     <tr>
                         <td style="background: linear-gradient(120deg, #1f2937 0%, #4f46e5 100%); padding:26px 30px; text-align:center;">
                             <!-- Logo -->
-                            <a href="https://all-stars-battle-six.vercel.app" style="display:inline-block; margin-bottom:12px;">
-                                <img src="https://pub-e66e8acef13f47bf90ce3de0d7240052.r2.dev/site-assets/logo.png" alt="All Stars Battle" style="max-width:160px; height:auto; display:block;" />
+                            <a href="{{ $siteUrl }}" style="display:inline-block; margin-bottom:12px; text-decoration:none;">
+                                <img src="{{ $logoUrl }}" alt="All Star Battle" style="max-width:160px; height:auto; display:block; border-radius:8px;" />
                             </a>
                             <h1 style="margin:8px 0 0; font-size:24px; letter-spacing:0.02em; color:#fff;">Réponse à votre demande</h1>
-                            <p style="margin:8px 0 0; font-size:14px; color:rgba(255,255,255,0.86);">All Stars Battle International</p>
+                            <p style="margin:8px 0 0; font-size:14px; color:rgba(255,255,255,0.86);">All Star Battle International</p>
                         </td>
                     </tr>
                     <tr>
@@ -42,8 +42,8 @@
                     </tr>
                     <tr>
                         <td style="background:#111827; padding:20px 30px; color:#ffffff; text-align:center; font-size:12px;">
-                            <p style="margin:0;">All Stars Battle International - Performance, Création et Compétition</p>
-                            <p style="margin:5px 0 0;">© {{ date('Y') }} All Stars Battle International. Tous droits réservés.</p>
+                            <p style="margin:0;">All Star Battle International - Performance, Création et Compétition</p>
+                            <p style="margin:5px 0 0;">© {{ date('Y') }} All Star Battle International. Tous droits réservés.</p>
                         </td>
                     </tr>
                 </table>

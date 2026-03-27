@@ -32,7 +32,7 @@ export default function HistoryLegends({ data, setData }: { data: CMSData, setDa
     },
     wallOfFame: data.history.wallOfFame || {
       title: 'WALL OF FAME',
-      subtitle: 'The Legends Who Defined ASBI'
+      subtitle: 'The Legends Who Defined ASB'
     }
   });
 

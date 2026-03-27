@@ -156,7 +156,7 @@ const Program: React.FC<ProgramProps> = ({ onReserveTickets }) => {
       
       doc.setTextColor(211, 95, 23); // Primary color
       doc.setFontSize(24);
-      doc.text('ALL STARS BATTLE 2026', 105, 20, { align: 'center' });
+      doc.text('All STAR BATTLE 2026', 105, 20, { align: 'center' });
       
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(12);
@@ -204,7 +204,7 @@ const Program: React.FC<ProgramProps> = ({ onReserveTickets }) => {
       // Footer on last page
       doc.setFontSize(10);
       doc.setTextColor(150, 150, 150);
-      doc.text('© 2026 All Stars Battle International. Tous droits réservés.', 105, 285, { align: 'center' });
+      doc.text('© 2026 All Star Battle International. Tous droits réservés.', 105, 285, { align: 'center' });
 
       doc.save('Programme_AllStarsBattle_2026.pdf');
     } catch (error) {

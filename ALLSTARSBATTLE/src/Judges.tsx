@@ -353,7 +353,7 @@ const Judges = () => {
             </p>
             <div className="mt-8 flex items-center gap-4">
               <div className="w-12 h-0.5 bg-primary"></div>
-              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">{organizersConfig?.organizationName || 'ASBI Togo 2026'}</span>
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">{organizersConfig?.organizationName || 'ASB Togo 2026'}</span>
             </div>
           </div>
           

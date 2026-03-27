@@ -6,7 +6,7 @@ export default function ContactCMS({ data, setData, onSave }: { data: CMSData, s
   const [heroData, setHeroData] = useState(data.contact?.hero || {
     title: 'Besoin ',
     titleHighlight: 'd\'aide ?',
-    description: 'L\'équipe All Stars Battle International est là pour vous accompagner.'
+    description: 'L\'équipe All Star Battle International est là pour vous accompagner.'
   });
 
   const [sectionsData, setSectionsData] = useState(data.contact?.sections || {

@@ -86,7 +86,7 @@ const Competition = () => {
           <div className="w-full md:w-1/3">
             <h2 className="font-heading text-5xl text-white mb-6 leading-none uppercase">Règlement <br/><span className="text-accent-red">Officiel</span></h2>
             <p className="text-slate-400 leading-relaxed mb-8 font-light">
-              Le All Stars Battle International Togo suit les standards internationaux du WDSF Breaking avec un système de jugement "Trivium" adapté pour le spectacle.
+              Le All Star Battle International Togo suit les standards internationaux du WDSF Breaking avec un système de jugement "Trivium" adapté pour le spectacle.
             </p>
             <div className="inline-flex items-center gap-2 text-primary font-bold cursor-pointer hover:underline uppercase text-xs tracking-widest">
               <Download className="w-4 h-4" />

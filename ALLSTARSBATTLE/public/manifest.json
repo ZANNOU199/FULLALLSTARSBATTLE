@@ -1,6 +1,6 @@
 {
-  "name": "ALL STARS BATTLE",
-  "short_name": "ASBI",
+  "name": "All STAR BATTLE",
+  "short_name": "ASB",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",

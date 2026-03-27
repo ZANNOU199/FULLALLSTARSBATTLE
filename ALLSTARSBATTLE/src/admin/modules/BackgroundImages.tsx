@@ -504,7 +504,7 @@ export default function BackgroundImages({ data, setData, onSave }: { data: CMSD
                               ...data.siteAssets,
                               logo: {
                                 url: uploadedUrl,
-                                alt: 'All Stars Battle International Logo',
+                                alt: 'All Star Battle International Logo',
                                 lastModified: new Date().toISOString()
                               }
                             }
@@ -573,7 +573,7 @@ export default function BackgroundImages({ data, setData, onSave }: { data: CMSD
                             ...data.siteAssets,
                             logo: {
                               url: uploadedUrl,
-                              alt: 'All Stars Battle International Logo',
+                              alt: 'All Star Battle International Logo',
                               lastModified: new Date().toISOString()
                             }
                           }

@@ -15,7 +15,7 @@ class GlobalConfigSeeder extends Seeder
     {
         GlobalConfig::create([
             'key' => 'contact_email',
-            'value' => 'contact@asbi.com',
+            'value' => 'contact@ASB.com',
         ]);
 
         GlobalConfig::create([

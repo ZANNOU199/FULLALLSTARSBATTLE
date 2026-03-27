@@ -43,7 +43,7 @@ export default function AdminLayout() {
       <aside className="w-72 border-r border-white/10 bg-zinc-900/50 backdrop-blur-xl sticky top-0 h-screen overflow-y-auto">
         <div className="p-8">
           <h1 className="text-2xl font-black tracking-tighter text-luxury-glow">
-            ASBI <span className="text-primary">CMS</span>
+            ASB <span className="text-primary">CMS</span>
           </h1>
           <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 mt-1">Admin Dashboard</p>
         </div>

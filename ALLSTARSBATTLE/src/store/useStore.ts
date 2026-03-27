@@ -18,7 +18,7 @@ const INITIAL_STATE: CMSState = {
   categories: ['Competition', 'Workshop', 'Show', 'Talk', 'Social'],
   blog: { articles: [] },
   competition: { 
-    rules: 'Règlement officiel de la compétition All Stars Battle International 2026', 
+    rules: 'Règlement officiel de la compétition All Star Battle International 2026', 
     prizePool: [
       { category: 'Champion 1v1', prize: '50,000€' },
       { category: 'Finaliste 1v1', prize: '25,000€' },
@@ -115,7 +115,7 @@ const INITIAL_STATE: CMSState = {
   },
   wallOfFame: {
     title: 'WALL OF FAME',
-    subtitle: 'The Legends Who Defined ASBI'
+    subtitle: 'The Legends Who Defined ASB'
   },
   legends: [
     {
@@ -169,7 +169,7 @@ const INITIAL_STATE: CMSState = {
   ],
   config: {
     contact: {
-      email: 'contact@asbi-togo.com',
+      email: 'contact@ASB-togo.com',
       phone: '+228 90 00 00 00',
       address: 'Lomé, Togo',
       socials: {
@@ -179,12 +179,12 @@ const INITIAL_STATE: CMSState = {
       }
     },
     seo: {
-      title: 'ASBI 2026 | All Stars Battle International',
+      title: 'ASB 2026 | All Star Battle International',
       description: 'Le plus grand événement de culture urbaine en Afrique.',
       keywords: 'dance, battle, breaking, togo, africa'
     },
     hero: {
-      title: 'ALL STARS BATTLE INTERNATIONAL',
+      title: 'All STAR BATTLE INTERNATIONAL',
       subtitle: 'LOMÉ, TOGO | AOÛT 2026',
       backgroundImage: 'https://picsum.photos/seed/hero/1920/1080'
     },

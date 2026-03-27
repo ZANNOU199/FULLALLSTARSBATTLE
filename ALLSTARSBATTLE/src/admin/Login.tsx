@@ -45,7 +45,7 @@ const Login = () => {
             AS
           </div>
           <h1 className="text-3xl font-heading text-white uppercase tracking-tight">Espace Admin</h1>
-          <p className="text-slate-500 text-[10px] font-bold uppercase tracking-[0.3em] mt-2">All Stars Battle International</p>
+          <p className="text-slate-500 text-[10px] font-bold uppercase tracking-[0.3em] mt-2">All Star Battle International</p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-6">
@@ -94,7 +94,7 @@ const Login = () => {
 
         <div className="mt-10 pt-8 border-t border-white/5 text-center">
           <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-            Accès sécurisé • ASBI 2026
+            Accès sécurisé • ASB 2026
           </p>
         </div>
       </motion.div>

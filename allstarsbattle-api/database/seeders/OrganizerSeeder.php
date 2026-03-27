@@ -16,11 +16,11 @@ class OrganizerSeeder extends Seeder
         Organizer::create([
             'name' => 'Kofi Mensah',
             'role' => 'Directeur Général',
-            'bio' => 'Fondateur d\'ASBI avec 15 ans d\'expérience.',
+            'bio' => 'Fondateur d\'ASB avec 15 ans d\'expérience.',
             'photo' => 'https://picsum.photos/seed/kofi/400/400',
             'social_links' => json_encode([
                 'instagram' => '@kofi_asbi',
-                'facebook' => '/asbi.togo',
+                'facebook' => '/ASB.togo',
             ]),
         ]);
 

@@ -12,10 +12,10 @@
                 <table width="600" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 18px 40px rgba(0,0,0,0.12);border:2px solid #d3a87a;">
                     <tr>
                         <td style="background:#111827;padding:20px 30px;text-align:center;">
-                            <a href="https://all-stars-battle-six.vercel.app" style="display:inline-block;">
-                                <img src="https://pub-e66e8acef13f47bf90ce3de0d7240052.r2.dev/site-assets/logo.png" alt="All Stars Battle" width="140" style="display:block;margin:0 auto 10px;" />
+                            <a href="{{ $siteUrl }}" style="display:inline-block; text-decoration:none;">
+                                <img src="{{ $logoUrl }}" alt="All Star Battle" width="140" style="display:block;margin:0 auto 10px; border-radius:8px;" />
                             </a>
-                            <p style="margin:0;color:#f8e6c2;font-size:14px;letter-spacing:1px;text-transform:uppercase;">All Stars Battle International</p>
+                            <p style="margin:0;color:#f8e6c2;font-size:14px;letter-spacing:1px;text-transform:uppercase;">All Star Battle International</p>
                         </td>
                     </tr>
                     <tr>
@@ -29,12 +29,12 @@
                             <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px;margin-bottom:20px;">
                                 <p style="margin:0;color:#334155;font-size:14px;white-space:pre-wrap;">{{ $bodyMessage }}</p>
                             </div>
-                            <p style="margin:0;color:#334155;font-size:14px;">Cordialement,<br>L'équipe All Stars Battle International</p>
+                            <p style="margin:0;color:#334155;font-size:14px;">Cordialement,<br>L'équipe All Star Battle International</p>
                         </td>
                     </tr>
                     <tr>
                         <td style="background:#111827;padding:20px 30px;color:#ffffff;text-align:center;font-size:12px;">
-                            <p style="margin:0;">All Stars Battle International</p>
+                            <p style="margin:0;">All Star Battle International</p>
                         </td>
                     </tr>
                 </table>

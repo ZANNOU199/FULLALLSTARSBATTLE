@@ -49,7 +49,7 @@ export default function OrganizersAdmin({ data, setData, onSave }: { data: CMSDa
   const organizersConfig = data.organizersConfig || {
     sectionTitle: 'L\'EQUIPE ORGANISATION',
     sectionDescription: 'Derrière le plus grand événement de breaking d\'Afrique de l\'Ouest, se trouve une équipe passionnée d\'activistes culturels et d\'experts en événementiel.',
-    organizationName: 'ASBI Togo 2026'
+    organizationName: 'ASB Togo 2026'
   };
 
   const handleUpdateConfig = () => {
@@ -205,7 +205,7 @@ export default function OrganizersAdmin({ data, setData, onSave }: { data: CMSDa
             <Plus size={18} /> Ajouter
           </button>
         </div>
-        <p className="text-slate-400 text-sm mt-3">Gérez les membres de l'équipe organisation du All Stars Battle</p>
+        <p className="text-slate-400 text-sm mt-3">Gérez les membres de l'équipe organisation du All Star Battle</p>
       </div>
 
       {/* Section Configuration */}
@@ -255,7 +255,7 @@ export default function OrganizersAdmin({ data, setData, onSave }: { data: CMSDa
                 value={configFormData.organizationName || ''} 
                 onChange={e => setConfigFormData({ ...configFormData, organizationName: e.target.value })}
                 className="w-full bg-white/5 border border-white/10 rounded-xl p-3 focus:border-blue-400 outline-none transition-all text-white"
-                placeholder="ASBI Togo 2026"
+                placeholder="ASB Togo 2026"
               />
             </div>
             <div className="flex justify-end gap-4 pt-4">

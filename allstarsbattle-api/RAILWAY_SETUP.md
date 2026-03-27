@@ -1,4 +1,4 @@
-# Configuration Railway pour ALL STARS BATTLE API
+# Configuration Railway pour All STAR BATTLE API
 
 ## Structure Déploiement
 
