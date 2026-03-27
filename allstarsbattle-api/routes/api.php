@@ -64,6 +64,8 @@ Route::post('/test-save', function (Request $request) {
     }
 });
 
+use Illuminate\Mail\Mailable;
+
 // TEST SMTP CONFIGURATION
 Route::get('/test-smtp', function () {
     $config = [
@@ -89,16 +91,18 @@ Route::get('/test-smtp', function () {
             ], 500);
         }
 
-        // Send plain text test email
-        \Mail::to($testEmail)->send(
-            new class {
-                public function __invoke($message) {
-                    $message
-                        ->subject('SMTP Test from All Stars Battle API')
-                        ->text('This is a test message to verify SMTP configuration is working. Sent at: ' . now());
-                }
+        // Create inline test mailable
+        $testMailable = new class extends Mailable {
+            public function build()
+            {
+                return $this
+                    ->subject('SMTP Test from All Stars Battle API')
+                    ->text('This is a test message to verify SMTP configuration is working. Sent at: ' . now());
             }
-        );
+        };
+
+        // Send the test email
+        \Mail::to($testEmail)->send($testMailable);
 
         \Log::info('SMTP Test successful', $config);
 
