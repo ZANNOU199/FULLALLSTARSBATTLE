@@ -26,6 +26,7 @@ return [
         'http://127.0.0.1:5173',      // Localhost variation
         'http://127.0.0.1:3000',      // Localhost variation
         'https://all-stars-battle-six.vercel.app',  // Vercel production
+        'https://allstarbattle.vercel.app',         // Nouveau domaine Vercel
         env('FRONTEND_URL', 'http://localhost:5173'),  // Use .env value
     ],
 
