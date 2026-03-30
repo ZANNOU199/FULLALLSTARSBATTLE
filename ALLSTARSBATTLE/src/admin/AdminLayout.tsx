@@ -56,7 +56,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
             <div className="flex items-center gap-2">
               <div className="h-8 w-8 flex items-center justify-center">
                 <img 
-                  src={`${import.meta.env.VITE_API_URL}/logo.png`}
+                  src={`${import.meta.env.VITE_API_URL.replace('/api', '')}/logo.png`}
                   alt="All Star Battle Logo"
                   className="h-full w-full object-contain rounded"
                 />
