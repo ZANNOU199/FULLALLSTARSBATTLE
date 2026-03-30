@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ParticipantController;
 use App\Http\Controllers\Api\OrganizerController;
 use App\Http\Controllers\Api\ArticleController;
 use App\Http\Controllers\Api\UploadController;
+use App\Http\Controllers\Api\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,10 @@ use App\Http\Controllers\Api\UploadController;
 // Health check endpoint for Railway/Vercel
 Route::get('/', fn() => response()->json(['status' => 'ok']));
 Route::get('/health', fn() => response()->json(['status' => 'ok', 'timestamp' => now()]));
+
+// Auth routes
+Route::post('/auth/login', [AuthController::class, 'login']);
+Route::middleware('auth:sanctum')->post('/auth/logout', [AuthController::class, 'logout']);
 
 // CMS Data Endpoint - MAIN ENDPOINT (matches cmsService.getData() from frontend)
 Route::get('/cms/data', [CMSController::class, 'getData']);
