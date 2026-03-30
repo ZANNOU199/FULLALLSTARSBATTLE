@@ -28,6 +28,22 @@ use App\Models\ContactMessage;
 class CMSController extends Controller
 {
     /**
+     * Transform R2 URLs to custom CDN domain for better performance
+     */
+    private function transformR2Url(string $url): string
+    {
+        if (empty($url)) {
+            return $url;
+        }
+
+        // Replace the long R2 domain with custom CDN domain
+        $r2Domain = 'https://pub-e66e8acef13f47bf90ce3de0d7240052.r2.dev';
+        $cdnDomain = 'https://cdn.allstarbattle.dance';
+
+        return str_replace($r2Domain, $cdnDomain, $url);
+    }
+
+    /**
      * Get all CMS data (REST endpoint matching cmsService.getData() from frontend)
      * Returns complete CMSData structure - frontend makes ONE request to get everything
      */
@@ -82,8 +98,10 @@ class CMSController extends Controller
             'pieceTitle' => $c->piece_title,
             'description' => $c->description,
             'bio' => $c->bio,
-            'mainImage' => $c->main_image,
-            'gallery' => json_decode($c->gallery, true) ?? [],
+            'mainImage' => $this->transformR2Url($c->main_image),
+            'gallery' => array_map(fn($img) => is_array($img) && isset($img['url']) ? 
+                ['url' => $this->transformR2Url($img['url'])] + $img : $img, 
+                json_decode($c->gallery, true) ?? []),
             'performanceDate' => $c->performance_date,
             'performanceTime' => $c->performance_time,
         ])->toArray();
@@ -95,7 +113,7 @@ class CMSController extends Controller
         return $piece ? [
             'id' => (string)$piece->id,
             'title' => $piece->title,
-            'image' => $piece->image,
+            'image' => $this->transformR2Url($piece->image),
             'duration' => $piece->duration,
             'choreographer' => $piece->choreographer,
             'music' => $piece->music,
@@ -117,7 +135,7 @@ class CMSController extends Controller
             'countryCode' => $p->country_code,
             'specialty' => $p->specialty,
             'bio' => $p->bio,
-            'photo' => $p->photo,
+            'photo' => $this->transformR2Url($p->photo),
             'socialLinks' => json_decode($p->social_links, true) ?? [],
             'category' => $p->category,
         ])->toArray();
@@ -147,7 +165,7 @@ class CMSController extends Controller
             'title' => $a->title,
             'content' => $a->content,
             'category' => $a->category,
-            'coverImage' => $a->cover_image,
+            'coverImage' => $this->transformR2Url($a->cover_image),
             'date' => $a->date,
             'tag' => $a->tag,
         ])->toArray();
@@ -806,7 +824,7 @@ class CMSController extends Controller
             'title' => $t->title,
             'champion' => $t->champion,
             'description' => $t->description,
-            'image' => $t->image,
+            'image' => $this->transformR2Url($t->image),
         ])->toArray();
 
         // Provide default timeline if empty
@@ -818,7 +836,7 @@ class CMSController extends Controller
                     'title' => 'Genesis',
                     'champion' => 'B-BOY SPIRIT',
                     'description' => 'The beginning of All Star Battle.',
-                    'image' => 'https://pub-e66e8acef13f47bf90ce3de0d7240052.r2.dev/defaults/timeline-2024.jpg',
+                    'image' => $this->transformR2Url('https://pub-e66e8acef13f47bf90ce3de0d7240052.r2.dev/defaults/timeline-2024.jpg'),
                 ],
             ];
         }

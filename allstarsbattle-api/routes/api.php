@@ -70,6 +70,32 @@ Route::get('/clear-cache', function () {
     return response()->json(['status' => 'ok', 'message' => 'Cache vidé']);
 });
 
+// TEMP: Create admin user remotely (à supprimer après usage)
+Route::get('/create-admin', function () {
+    try {
+        $user = \App\Models\User::updateOrCreate(
+            ['email' => 'ad@allstarbattle.dance'],
+            [
+                'name' => 'Administrateur ASB',
+                'password' => bcrypt('admin123'),
+                'is_admin' => true,
+                'email_verified_at' => now(),
+            ]
+        );
+        
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Admin user created: ad@allstarbattle.dance',
+            'user_id' => $user->id
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+});
+
 use Illuminate\Mail\Mailable;
 
 // TEST SMTP CONFIGURATION

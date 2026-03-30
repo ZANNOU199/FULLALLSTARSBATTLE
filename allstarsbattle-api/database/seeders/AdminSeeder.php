@@ -15,15 +15,15 @@ class AdminSeeder extends Seeder
     {
         // Create default admin user
         User::updateOrCreate(
-            ['email' => 'admin@allstarsbattle.com'],
+            ['email' => 'ad@allstarbattle.dance'],
             [
-                'name' => 'Administrateur',
-                'password' => bcrypt('admin'),
+                'name' => 'Administrateur ASB',
+                'password' => bcrypt('admin123'),
                 'is_admin' => true,
                 'email_verified_at' => now(),
             ]
         );
         
-        $this->command->info('Admin user created: admin@allstarsbattle.com / admin');
+        $this->command->info('Admin user created: ad@allstarbattle.dance / admin123');
     }
 }
