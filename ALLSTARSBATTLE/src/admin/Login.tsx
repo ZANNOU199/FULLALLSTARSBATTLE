@@ -8,8 +8,8 @@ interface LoginProps {
 }
 
 const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
-  const [email, setEmail] = useState('ad@allstarbattle.dance');
-  const [password, setPassword] = useState('admin123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -91,7 +91,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
               required
               type="email" 
               className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-primary outline-none transition-all"
-              placeholder="votre@email.com"
+              placeholder="admin@allstarbattle.dance"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               disabled={isLoading}
@@ -106,7 +106,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
               required
               type="password" 
               className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-primary outline-none transition-all"
-              placeholder="••••••••"
+              placeholder="Mot de passe administrateur"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               disabled={isLoading}
