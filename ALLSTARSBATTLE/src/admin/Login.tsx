@@ -8,8 +8,8 @@ interface LoginProps {
 }
 
 const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
-  const [email, setEmail] = useState('admin@allstarsbattle.com');
-  const [password, setPassword] = useState('admin');
+  const [email, setEmail] = useState('ad@allstarbattle.dance');
+  const [password, setPassword] = useState('admin123');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -59,20 +59,18 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
 
   return (
     <div className="min-h-screen bg-background-dark flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute top-0 left-0 w-full h-full">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 blur-[120px] rounded-full" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-accent-red/10 blur-[120px] rounded-full" />
-      </div>
-
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="relative w-full max-w-md bg-slate-900 border border-white/10 rounded-3xl p-8 shadow-2xl backdrop-blur-xl"
       >
         <div className="text-center mb-10">
-          <div className="h-16 w-16 bg-primary mx-auto flex items-center justify-center font-heading text-3xl text-background-dark font-bold rounded-2xl mb-6 shadow-xl shadow-primary/20">
-            AS
+          <div className="h-16 w-16 mx-auto flex items-center justify-center mb-6">
+            <img 
+              src={`${import.meta.env.VITE_API_URL}/logo.png`}
+              alt="All Star Battle Logo"
+              className="h-full w-full object-contain rounded-lg"
+            />
           </div>
           <h1 className="text-3xl font-heading text-white uppercase tracking-tight">Espace Admin</h1>
           <p className="text-slate-500 text-[10px] font-bold uppercase tracking-[0.3em] mt-2">All Star Battle International</p>

@@ -54,7 +54,13 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         <div className="p-6 flex items-center justify-between">
           {isSidebarOpen && (
             <div className="flex items-center gap-2">
-              <div className="h-8 w-8 bg-primary flex items-center justify-center font-heading text-xl text-background-dark font-bold">AS</div>
+              <div className="h-8 w-8 flex items-center justify-center">
+                <img 
+                  src={`${import.meta.env.VITE_API_URL}/logo.png`}
+                  alt="All Star Battle Logo"
+                  className="h-full w-full object-contain rounded"
+                />
+              </div>
               <span className="font-heading text-lg tracking-tighter text-white">ADMIN</span>
             </div>
           )}
