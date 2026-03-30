@@ -83,7 +83,19 @@ function ProfileForm({ currentUser, onClose, onUpdate }: { currentUser: any, onC
 
       if (response.ok) {
         setSuccess('Profil mis à jour avec succès !');
-        onUpdate(data.user);
+        // Update user data safely
+        try {
+          const updatedUser = data.user;
+          localStorage.setItem('admin_user', JSON.stringify(updatedUser));
+          onUpdate(updatedUser);
+        } catch (updateError) {
+          console.error('Error updating user data:', updateError);
+          // Fallback: reload user data from API
+          const userInfo = localStorage.getItem('admin_user');
+          if (userInfo) {
+            onUpdate(JSON.parse(userInfo));
+          }
+        }
         setTimeout(() => {
           onClose();
         }, 1500);
@@ -114,70 +126,70 @@ function ProfileForm({ currentUser, onClose, onUpdate }: { currentUser: any, onC
 
       <div className="space-y-4">
         <div>
-          <label className="text-sm font-bold text-slate-400 uppercase tracking-widest block mb-2">
+          <label className="text-xs sm:text-sm font-bold text-slate-400 uppercase tracking-widest block mb-2">
             Nom complet
           </label>
           <input
             type="text"
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-primary outline-none transition-all"
+            className="w-full bg-white/5 border border-white/10 rounded-xl p-3 sm:p-4 text-white focus:border-primary outline-none transition-all text-sm sm:text-base"
             required
           />
         </div>
 
         <div>
-          <label className="text-sm font-bold text-slate-400 uppercase tracking-widest block mb-2">
+          <label className="text-xs sm:text-sm font-bold text-slate-400 uppercase tracking-widest block mb-2">
             Email
           </label>
           <input
             type="email"
             value={formData.email}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-primary outline-none transition-all"
+            className="w-full bg-white/5 border border-white/10 rounded-xl p-3 sm:p-4 text-white focus:border-primary outline-none transition-all text-sm sm:text-base"
             required
           />
         </div>
 
         <div className="border-t border-white/10 pt-4">
-          <h3 className="text-lg font-bold text-white mb-4">Changer le mot de passe</h3>
+          <h3 className="text-base sm:text-lg font-bold text-white mb-4">Changer le mot de passe</h3>
           
           <div className="space-y-4">
             <div>
-              <label className="text-sm font-bold text-slate-400 uppercase tracking-widest block mb-2">
+              <label className="text-xs sm:text-sm font-bold text-slate-400 uppercase tracking-widest block mb-2">
                 Mot de passe actuel
               </label>
               <input
                 type="password"
                 value={formData.current_password}
                 onChange={(e) => setFormData({ ...formData, current_password: e.target.value })}
-                className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-primary outline-none transition-all"
+                className="w-full bg-white/5 border border-white/10 rounded-xl p-3 sm:p-4 text-white focus:border-primary outline-none transition-all text-sm sm:text-base"
                 placeholder="Laisser vide pour ne pas changer"
               />
             </div>
 
             <div>
-              <label className="text-sm font-bold text-slate-400 uppercase tracking-widest block mb-2">
+              <label className="text-xs sm:text-sm font-bold text-slate-400 uppercase tracking-widest block mb-2">
                 Nouveau mot de passe
               </label>
               <input
                 type="password"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-primary outline-none transition-all"
+                className="w-full bg-white/5 border border-white/10 rounded-xl p-3 sm:p-4 text-white focus:border-primary outline-none transition-all text-sm sm:text-base"
                 placeholder="Laisser vide pour ne pas changer"
               />
             </div>
 
             <div>
-              <label className="text-sm font-bold text-slate-400 uppercase tracking-widest block mb-2">
+              <label className="text-xs sm:text-sm font-bold text-slate-400 uppercase tracking-widest block mb-2">
                 Confirmer le mot de passe
               </label>
               <input
                 type="password"
                 value={formData.password_confirmation}
                 onChange={(e) => setFormData({ ...formData, password_confirmation: e.target.value })}
-                className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-primary outline-none transition-all"
+                className="w-full bg-white/5 border border-white/10 rounded-xl p-3 sm:p-4 text-white focus:border-primary outline-none transition-all text-sm sm:text-base"
                 placeholder="Laisser vide pour ne pas changer"
               />
             </div>
@@ -185,20 +197,20 @@ function ProfileForm({ currentUser, onClose, onUpdate }: { currentUser: any, onC
         </div>
       </div>
 
-      <div className="flex gap-4 pt-4">
+      <div className="flex gap-2 sm:gap-4 pt-4">
         <button
           type="button"
           onClick={onClose}
-          className="flex-1 py-3 px-6 text-slate-400 hover:text-white border border-white/10 rounded-xl transition-colors"
+          className="flex-1 py-2 sm:py-3 px-4 sm:px-6 text-slate-400 hover:text-white border border-white/10 rounded-xl transition-colors text-sm"
         >
           Annuler
         </button>
         <button
           type="submit"
           disabled={isLoading}
-          className="flex-1 py-3 px-6 bg-primary text-background-dark rounded-xl font-bold uppercase tracking-widest text-sm flex items-center justify-center gap-2 hover:bg-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1 py-2 sm:py-3 px-4 sm:px-6 bg-primary text-background-dark rounded-xl font-bold uppercase tracking-widest text-xs sm:text-sm flex items-center justify-center gap-2 hover:bg-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isLoading ? <Loader2 size={16} className="animate-spin" /> : 'Enregistrer'}
+          {isLoading ? <Loader2 size={14} className="animate-spin" /> : 'Enregistrer'}
         </button>
       </div>
     </form>
@@ -241,7 +253,7 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
   // Generate initials from user name
   const getUserInitials = (name: string) => {
-    if (!name) return 'A';
+    if (!name || typeof name !== 'string') return 'A';
     const parts = name.trim().split(' ');
     if (parts.length >= 2) {
       return (parts[0][0] + parts[1][0]).toUpperCase();
@@ -451,7 +463,7 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
               className="w-8 h-8 rounded-full bg-primary/20 border border-primary/50 flex items-center justify-center text-primary font-bold text-xs hover:bg-primary/30 transition-colors cursor-pointer"
               title="Modifier mon profil"
             >
-              {currentUser ? getUserInitials(currentUser.name) : 'A'}
+              {currentUser?.name ? getUserInitials(currentUser.name) : 'A'}
             </button>
           </div>
         </header>
@@ -486,11 +498,11 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-slate-900 border border-white/10 rounded-3xl p-8 w-full max-w-md"
+              className="bg-slate-900 border border-white/10 rounded-3xl p-4 sm:p-6 w-full max-w-sm sm:max-w-md mx-4 max-h-[90vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-heading text-white uppercase tracking-tight">Mon Profil</h2>
+              <div className="flex items-center justify-between mb-4 sm:mb-6">
+                <h2 className="text-xl sm:text-2xl font-heading text-white uppercase tracking-tight">Mon Profil</h2>
                 <button
                   onClick={() => setShowProfileModal(false)}
                   className="p-2 hover:bg-white/5 rounded-lg transition-colors"
