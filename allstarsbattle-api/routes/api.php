@@ -28,6 +28,7 @@ Route::get('/health', fn() => response()->json(['status' => 'ok', 'timestamp' =>
 // Auth routes
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/auth/logout', [AuthController::class, 'logout']);
+Route::middleware('auth:sanctum')->get('/auth/me', [AuthController::class, 'me']);
 
 // CMS Data Endpoint - MAIN ENDPOINT (matches cmsService.getData() from frontend)
 Route::get('/cms/data', [CMSController::class, 'getData']);
