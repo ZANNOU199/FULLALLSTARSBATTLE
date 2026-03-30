@@ -29,6 +29,10 @@ Route::get('/health', fn() => response()->json(['status' => 'ok', 'timestamp' =>
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/auth/logout', [AuthController::class, 'logout']);
 Route::middleware('auth:sanctum')->get('/auth/me', [AuthController::class, 'me']);
+Route::middleware('auth:sanctum')->get('/auth/admins', [AuthController::class, 'getAdmins']);
+Route::middleware('auth:sanctum')->post('/auth/admins', [AuthController::class, 'createAdmin']);
+Route::middleware('auth:sanctum')->put('/auth/admins/{id}', [AuthController::class, 'updateAdmin']);
+Route::middleware('auth:sanctum')->delete('/auth/admins/{id}', [AuthController::class, 'deleteAdmin']);
 
 // CMS Data Endpoint - MAIN ENDPOINT (matches cmsService.getData() from frontend)
 Route::get('/cms/data', [CMSController::class, 'getData']);
