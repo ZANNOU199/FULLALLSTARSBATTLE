@@ -4,10 +4,10 @@ import { Lock, User, Loader2 } from 'lucide-react';
 import { motion } from 'motion/react';
 
 interface LoginProps {
-  onLoginSuccess?: () => void;
+  // Removed onLoginSuccess - now always navigates to /admin
 }
 
-const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
+const Login: React.FC<LoginProps> = () => {
   const [email, setEmail] = useState('ad@allstarbattle.dance');
   const [password, setPassword] = useState('admin123');
   const [isLoading, setIsLoading] = useState(false);
@@ -32,24 +32,25 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
       });
 
       const data = await response.json();
+      console.log('Login: Response data:', data);
 
       if (!response.ok) {
+        console.log('Login: Login failed with status:', response.status);
         setError(data.message || 'Erreur de connexion');
         setIsLoading(false);
         return;
       }
 
+      console.log('Login: Login successful, storing token and user');
       // Store token and user info
       localStorage.setItem('admin_token', data.token);
       localStorage.setItem('admin_user', JSON.stringify(data.user));
       
       setIsLoading(false);
       
-      if (onLoginSuccess) {
-        onLoginSuccess();
-      } else {
-        navigate('/admin');
-      }
+      console.log('Login: Navigating to /admin');
+      // Always navigate to admin dashboard after successful login
+      navigate('/admin');
     } catch (err) {
       console.error('Login error:', err);
       setError(`Erreur réseau: ${err instanceof Error ? err.message : 'Connexion impossible'}`);
@@ -65,7 +66,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
         className="relative w-full max-w-md bg-slate-900 border border-white/10 rounded-3xl p-8 shadow-2xl backdrop-blur-xl"
       >
         <div className="text-center mb-10">
-          <div className="h-16 w-16 mx-auto flex items-center justify-center mb-6">
+          <div className="h-20 w-20 mx-auto flex items-center justify-center mb-6">
             <img 
               src={`${import.meta.env.VITE_API_URL.replace('/api', '')}/logo.png`}
               alt="All Star Battle Logo"

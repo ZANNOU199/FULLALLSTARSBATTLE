@@ -11,13 +11,16 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   useEffect(() => {
     const verifyToken = async () => {
       const token = localStorage.getItem('admin_token');
+      console.log('ProtectedRoute: Verifying token:', token ? 'present' : 'missing');
       
       if (!token) {
+        console.log('ProtectedRoute: No token found, redirecting to login');
         setIsAuthenticated(false);
         return;
       }
 
       try {
+        console.log('ProtectedRoute: Calling /auth/me');
         const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/me`, {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -25,19 +28,23 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
           },
         });
 
+        console.log('ProtectedRoute: /auth/me response status:', response.status);
+        
         if (response.ok) {
           const data = await response.json();
+          console.log('ProtectedRoute: Auth successful, user:', data.user);
           // Update user info
           localStorage.setItem('admin_user', JSON.stringify(data.user));
           setIsAuthenticated(true);
         } else {
+          console.log('ProtectedRoute: Auth failed, clearing tokens');
           // Token is invalid
           localStorage.removeItem('admin_token');
           localStorage.removeItem('admin_user');
           setIsAuthenticated(false);
         }
       } catch (error) {
-        console.error('Auth verification failed:', error);
+        console.error('ProtectedRoute: Auth verification failed:', error);
         setIsAuthenticated(false);
       }
     };

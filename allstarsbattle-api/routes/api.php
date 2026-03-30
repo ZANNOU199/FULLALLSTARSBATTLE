@@ -76,23 +76,27 @@ Route::get('/clear-cache', function () {
     return response()->json(['status' => 'ok', 'message' => 'Cache vidé']);
 });
 
-// TEMP: Create admin user remotely (à supprimer après usage)
-Route::get('/create-admin', function () {
+// TEMP: Debug admin login (à supprimer après test)
+Route::get('/debug-admin', function () {
     try {
-        $user = \App\Models\User::updateOrCreate(
-            ['email' => 'ad@allstarbattle.dance'],
-            [
-                'name' => 'Administrateur ASB',
-                'password' => bcrypt('admin123'),
-                'is_admin' => true,
-                'email_verified_at' => now(),
-            ]
-        );
+        $user = \App\Models\User::where('email', 'ad@allstarbattle.dance')->first();
+        
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Admin user not found'
+            ], 404);
+        }
         
         return response()->json([
             'status' => 'success',
-            'message' => 'Admin user created: ad@allstarbattle.dance',
-            'user_id' => $user->id
+            'user' => [
+                'id' => $user->id,
+                'email' => $user->email,
+                'is_admin' => $user->is_admin,
+                'created_at' => $user->created_at
+            ],
+            'password_hash' => $user->password
         ]);
     } catch (\Exception $e) {
         return response()->json([

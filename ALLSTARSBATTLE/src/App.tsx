@@ -1753,10 +1753,7 @@ const AppContent = () => {
   ) : currentPage === 'admin' ? (
     location.pathname === '/admin/login' ? (
       <Suspense fallback={<LoadingFallback />}>
-        <Login onLoginSuccess={() => {
-          setCurrentPage('admin');
-          navigate('/admin');
-        }} />
+        <Login />
       </Suspense>
     ) : (
       <Suspense fallback={<LoadingFallback />}>
