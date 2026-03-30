@@ -12,7 +12,6 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
   const [password, setPassword] = useState('admin123');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [logoLoaded, setLogoLoaded] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -66,19 +65,11 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
         className="relative w-full max-w-md bg-slate-900 border border-white/10 rounded-3xl p-8 shadow-2xl backdrop-blur-xl"
       >
         <div className="text-center mb-10">
-          <div className="h-28 w-28 mx-auto flex items-center justify-center mb-6">
-            {!logoLoaded && (
-              <div className="h-full w-full bg-primary/20 rounded-lg flex items-center justify-center">
-                <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
-              </div>
-            )}
+          <div className="h-24 w-24 mx-auto flex items-center justify-center mb-6">
             <img 
               src={`${import.meta.env.VITE_API_URL.replace('/api', '')}/logo.png`}
               alt="All Star Battle Logo"
-              className={`h-full w-full object-contain rounded-lg transition-opacity duration-300 ${logoLoaded ? 'opacity-100' : 'opacity-0'}`}
-              loading="eager"
-              onLoad={() => setLogoLoaded(true)}
-              onError={() => setLogoLoaded(true)} // Fallback if image fails
+              className="h-full w-full object-contain rounded-lg"
             />
           </div>
           <h1 className="text-3xl font-heading text-white uppercase tracking-tight">Espace Admin</h1>

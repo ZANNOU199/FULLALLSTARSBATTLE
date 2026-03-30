@@ -54,7 +54,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         <div className="p-6 flex items-center justify-between">
           {isSidebarOpen && (
             <div className="flex items-center gap-2">
-              <div className="h-8 w-8 flex items-center justify-center">
+              <div className="h-10 w-10 flex items-center justify-center">
                 <img 
                   src={`${import.meta.env.VITE_API_URL.replace('/api', '')}/logo.png`}
                   alt="All Star Battle Logo"
