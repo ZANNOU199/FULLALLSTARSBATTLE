@@ -48,6 +48,162 @@ import ContactMessagesAdmin from './modules/ContactMessagesAdmin';
 import ParticipateAdmin from './modules/ParticipateAdmin';
 import BackgroundImages from './modules/BackgroundImages';
 import SiteImagesManager from './modules/SiteImagesManager';
+
+// Profile Form Component
+function ProfileForm({ currentUser, onClose, onUpdate }: { currentUser: any, onClose: () => void, onUpdate: (user: any) => void }) {
+  const [formData, setFormData] = useState({
+    name: currentUser?.name || '',
+    email: currentUser?.email || '',
+    current_password: '',
+    password: '',
+    password_confirmation: '',
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError('');
+    setSuccess('');
+
+    try {
+      const token = localStorage.getItem('admin_token');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/profile`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccess('Profil mis à jour avec succès !');
+        onUpdate(data.user);
+        setTimeout(() => {
+          onClose();
+        }, 1500);
+      } else {
+        setError(data.message || 'Erreur lors de la mise à jour');
+      }
+    } catch (err) {
+      setError('Erreur réseau');
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-6">
+      {error && (
+        <div className="bg-red-500/10 border border-red-500/20 text-red-500 text-sm p-4 rounded-xl">
+          {error}
+        </div>
+      )}
+
+      {success && (
+        <div className="bg-green-500/10 border border-green-500/20 text-green-500 text-sm p-4 rounded-xl">
+          {success}
+        </div>
+      )}
+
+      <div className="space-y-4">
+        <div>
+          <label className="text-sm font-bold text-slate-400 uppercase tracking-widest block mb-2">
+            Nom complet
+          </label>
+          <input
+            type="text"
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-primary outline-none transition-all"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="text-sm font-bold text-slate-400 uppercase tracking-widest block mb-2">
+            Email
+          </label>
+          <input
+            type="email"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-primary outline-none transition-all"
+            required
+          />
+        </div>
+
+        <div className="border-t border-white/10 pt-4">
+          <h3 className="text-lg font-bold text-white mb-4">Changer le mot de passe</h3>
+          
+          <div className="space-y-4">
+            <div>
+              <label className="text-sm font-bold text-slate-400 uppercase tracking-widest block mb-2">
+                Mot de passe actuel
+              </label>
+              <input
+                type="password"
+                value={formData.current_password}
+                onChange={(e) => setFormData({ ...formData, current_password: e.target.value })}
+                className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-primary outline-none transition-all"
+                placeholder="Laisser vide pour ne pas changer"
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-bold text-slate-400 uppercase tracking-widest block mb-2">
+                Nouveau mot de passe
+              </label>
+              <input
+                type="password"
+                value={formData.password}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-primary outline-none transition-all"
+                placeholder="Laisser vide pour ne pas changer"
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-bold text-slate-400 uppercase tracking-widest block mb-2">
+                Confirmer le mot de passe
+              </label>
+              <input
+                type="password"
+                value={formData.password_confirmation}
+                onChange={(e) => setFormData({ ...formData, password_confirmation: e.target.value })}
+                className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-primary outline-none transition-all"
+                placeholder="Laisser vide pour ne pas changer"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex gap-4 pt-4">
+        <button
+          type="button"
+          onClick={onClose}
+          className="flex-1 py-3 px-6 text-slate-400 hover:text-white border border-white/10 rounded-xl transition-colors"
+        >
+          Annuler
+        </button>
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="flex-1 py-3 px-6 bg-primary text-background-dark rounded-xl font-bold uppercase tracking-widest text-sm flex items-center justify-center gap-2 hover:bg-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isLoading ? <Loader2 size={16} className="animate-spin" /> : 'Enregistrer'}
+        </button>
+      </div>
+    </form>
+  );
+}
 import OrganizersAdmin from './modules/OrganizersAdmin';
 import AdminsManager from './modules/AdminsManager';
 
@@ -79,13 +235,31 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
   const [unreadContactCount, setUnreadContactCount] = useState<number>(0);
+  const [showProfileModal, setShowProfileModal] = useState(false);
+  const [currentUser, setCurrentUser] = useState<any>(null);
   const skipAutoSaveRef = useRef(false);  // Flag to skip auto-save after manual saves
+
+  // Generate initials from user name
+  const getUserInitials = (name: string) => {
+    if (!name) return 'A';
+    const parts = name.trim().split(' ');
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    return parts[0].substring(0, 2).toUpperCase();
+  };
 
   useEffect(() => {
     // Load data from API
     cmsService.getData().then(loadedData => {
       setData(loadedData);
     });
+
+    // Load current user info
+    const userInfo = localStorage.getItem('admin_user');
+    if (userInfo) {
+      setCurrentUser(JSON.parse(userInfo));
+    }
 
     const loadUnreadCount = async () => {
       try {
@@ -272,9 +446,13 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
               <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-rose-500 text-white text-xs font-bold">{unreadContactCount}</span>
             </div>
 
-            <div className="w-8 h-8 rounded-full bg-primary/20 border border-primary/50 flex items-center justify-center text-primary font-bold text-xs">
-              ZH
-            </div>
+            <button 
+              onClick={() => setShowProfileModal(true)}
+              className="w-8 h-8 rounded-full bg-primary/20 border border-primary/50 flex items-center justify-center text-primary font-bold text-xs hover:bg-primary/30 transition-colors cursor-pointer"
+              title="Modifier mon profil"
+            >
+              {currentUser ? getUserInitials(currentUser.name) : 'A'}
+            </button>
           </div>
         </header>
 
@@ -293,6 +471,46 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           </AnimatePresence>
         </div>
       </main>
+
+      {/* Profile Modal */}
+      <AnimatePresence>
+        {showProfileModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            onClick={() => setShowProfileModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-slate-900 border border-white/10 rounded-3xl p-8 w-full max-w-md"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-heading text-white uppercase tracking-tight">Mon Profil</h2>
+                <button
+                  onClick={() => setShowProfileModal(false)}
+                  className="p-2 hover:bg-white/5 rounded-lg transition-colors"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              <ProfileForm 
+                currentUser={currentUser} 
+                onClose={() => setShowProfileModal(false)}
+                onUpdate={(updatedUser) => {
+                  setCurrentUser(updatedUser);
+                  localStorage.setItem('admin_user', JSON.stringify(updatedUser));
+                }}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

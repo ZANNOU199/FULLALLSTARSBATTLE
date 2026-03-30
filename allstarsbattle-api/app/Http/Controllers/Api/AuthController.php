@@ -186,6 +186,44 @@ class AuthController extends Controller
     }
 
     /**
+     * Update current user profile
+     */
+    public function updateProfile(Request $request)
+    {
+        $user = $request->user();
+
+        $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'current_password' => 'required_with:password|nullable',
+            'password' => 'nullable|min:6|confirmed',
+        ]);
+
+        // Verify current password if changing password
+        if ($request->password) {
+            if (!Hash::check($request->current_password, $user->password)) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Current password is incorrect',
+                ], 400);
+            }
+        }
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        if ($request->password) {
+            $user->password = bcrypt($request->password);
+        }
+        $user->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Profile updated successfully',
+            'user' => $user,
+        ], 200);
+    }
+
+    /**
      * Toggle admin status for a user (admin only)
      */
     public function toggleAdminStatus(Request $request, $id)
