@@ -91,7 +91,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
               required
               type="email" 
               className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-primary outline-none transition-all"
-              placeholder="admin@allstarbattle.dance"
+              placeholder="votreemail"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               disabled={isLoading}
@@ -106,7 +106,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
               required
               type="password" 
               className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-primary outline-none transition-all"
-              placeholder="Mot de passe administrateur"
+              placeholder="......"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               disabled={isLoading}
