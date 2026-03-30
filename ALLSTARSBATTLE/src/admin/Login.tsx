@@ -65,7 +65,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
         className="relative w-full max-w-md bg-slate-900 border border-white/10 rounded-3xl p-8 shadow-2xl backdrop-blur-xl"
       >
         <div className="text-center mb-10">
-          <div className="h-16 w-16 mx-auto flex items-center justify-center mb-6">
+          <div className="h-20 w-20 mx-auto flex items-center justify-center mb-6">
             <img 
               src={`${import.meta.env.VITE_API_URL.replace('/api', '')}/logo.png`}
               alt="All Star Battle Logo"

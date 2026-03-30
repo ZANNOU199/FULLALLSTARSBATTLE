@@ -1761,9 +1761,31 @@ const AppContent = () => {
     ) : (
       <Suspense fallback={<LoadingFallback />}>
         <ProtectedRoute>
-          <AdminDashboard onLogout={() => {
+          <AdminDashboard onLogout={async () => {
+            // Call backend logout
+            const token = localStorage.getItem('admin_token');
+            if (token) {
+              try {
+                await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`, {
+                  method: 'POST',
+                  headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                  },
+                });
+              } catch (error) {
+                console.error('Logout error:', error);
+              }
+            }
+            
+            // Clear local storage
+            localStorage.removeItem('admin_token');
+            localStorage.removeItem('admin_user');
+            
+            // Reset state and navigate to login
             setIsAdminLoggedIn(false);
-            changePage('home');
+            setCurrentPage('admin');
+            navigate('/admin/login');
           }} />
         </ProtectedRoute>
       </Suspense>
