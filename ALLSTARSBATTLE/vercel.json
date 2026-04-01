@@ -7,8 +7,8 @@
     { "src": "/(.*)", "dest": "/index.html", "status": 200 }
   ],
   "env": {
-    "VITE_API_URL": "https://fullallstarsbattle.onrender.com/api",
-    "VITE_API_BASE_URL": "https://fullallstarsbattle.onrender.com",
+    "VITE_API_URL": "https://api.allstarbattle.dance/api",
+    "VITE_API_BASE_URL": "https://api.allstarbattle.dance",
     "VITE_R2_ACCOUNT_ID": "3dc81df555e9106f9b2bbe072abb497b",
     "VITE_R2_ACCESS_KEY_ID": "76afb1e0d654f85f27e4b14d94098b85",
     "VITE_R2_SECRET_ACCESS_KEY": "cac7e059fc806c56607e99584ff15ee94bf8d86d6b8134824ebc8f0d27d09c02",
