@@ -10,16 +10,6 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     /**
-     * Add CORS headers to response
-     */
-    private function addCorsHeaders($response)
-    {
-        return $response->header('Access-Control-Allow-Origin', 'https://www.allstarbattle.dance')
-                       ->header('Access-Control-Allow-Credentials', 'true')
-                       ->header('Access-Control-Allow-Headers', 'Content-Type, X-CSRF-TOKEN, Authorization')
-                       ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    }
-    /**
      * Login user and create token
      */
     public function login(Request $request)
@@ -47,12 +37,12 @@ class AuthController extends Controller
 
         $token = $user->createToken('admin-token')->plainTextToken;
 
-        return $this->addCorsHeaders(response()->json([
+        return response()->json([
             'status' => 'success',
             'message' => 'Login successful',
             'user' => $user,
             'token' => $token,
-        ], 200));
+        ], 200);
     }
 
     /**

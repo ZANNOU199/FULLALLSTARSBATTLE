@@ -16,7 +16,6 @@ class Kernel extends HttpKernel
     protected $middleware = [
         // \App\Http\Middleware\TrustHosts::class,
         \App\Http\Middleware\TrustProxies::class,
-        \Fruitcake\Cors\HandleCors::class,  // ✅ CORS middleware ajouté
         \App\Http\Middleware\ForceJsonResponse::class,
         \Illuminate\Cookie\Middleware\EncryptCookies::class,
         \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
@@ -44,8 +43,6 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            // CORS middleware for cross-origin requests
-            \Fruitcake\Cors\HandleCors::class,
             // Sanctum middleware for API authentication
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',

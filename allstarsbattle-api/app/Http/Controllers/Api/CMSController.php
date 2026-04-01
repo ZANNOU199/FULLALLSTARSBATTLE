@@ -28,16 +28,6 @@ use App\Models\ContactMessage;
 class CMSController extends Controller
 {
     /**
-     * Add CORS headers to response
-     */
-    private function addCorsHeaders($response)
-    {
-        return $response->header('Access-Control-Allow-Origin', 'https://www.allstarbattle.dance')
-                       ->header('Access-Control-Allow-Credentials', 'true')
-                       ->header('Access-Control-Allow-Headers', 'Content-Type, X-CSRF-TOKEN, Authorization')
-                       ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    }
-    /**
      * Transform R2 URLs - currently returns original URL to avoid SSL issues
      */
     private function transformR2Url(string $url): string
@@ -75,7 +65,7 @@ class CMSController extends Controller
                 'organizersConfig' => $this->getOrganizersConfig(),
             ];
 
-            return $this->addCorsHeaders(response()->json($cmsData, 200));
+            return response()->json($cmsData, 200);
         } catch (\Exception $e) {
             \Log::error('getData failed', [
                 'message' => $e->getMessage(),
@@ -84,11 +74,11 @@ class CMSController extends Controller
                 'trace' => $e->getTraceAsString(),
             ]);
 
-            return $this->addCorsHeaders(response()->json([
+            return response()->json([
                 'status' => 'error',
                 'message' => 'Failed to load CMS data',
                 'detail' => $e->getMessage(),
-            ], 500));
+            ], 500);
         }
     }
 

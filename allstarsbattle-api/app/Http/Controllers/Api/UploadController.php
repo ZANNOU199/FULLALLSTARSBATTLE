@@ -11,16 +11,6 @@ use Aws\S3\S3Client;
 class UploadController extends Controller
 {
     /**
-     * Add CORS headers to response
-     */
-    private function addCorsHeaders($response)
-    {
-        return $response->header('Access-Control-Allow-Origin', 'https://www.allstarbattle.dance')
-                       ->header('Access-Control-Allow-Credentials', 'true')
-                       ->header('Access-Control-Allow-Headers', 'Content-Type, X-CSRF-TOKEN, Authorization')
-                       ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    }
-    /**
      * Upload un fichier vers Cloudflare R2 (méthode simple)
      */
     public function upload(Request $request)
@@ -40,10 +30,10 @@ class UploadController extends Controller
 
             if ($validator->fails()) {
                 \Log::error('Validation failed', ['errors' => $validator->errors()]);
-                return $this->addCorsHeaders(response()->json([
+                return response()->json([
                     'success' => false,
                     'message' => 'Fichier invalide: ' . implode(', ', $validator->errors()->all())
-                ], 400));
+                ], 400);
             }
 
             $file = $request->file('file');
@@ -83,10 +73,10 @@ class UploadController extends Controller
                     'bucket_name' => $bucketName,
                     'public_url' => $publicUrl
                 ]]);
-                return $this->addCorsHeaders(response()->json([
+                return response()->json([
                     'success' => false,
                     'message' => 'Configuration Cloudflare R2 manquante'
-                ], 500));
+                ], 500);
             }
 
             // Créer le client S3 pour R2
@@ -113,21 +103,21 @@ class UploadController extends Controller
 
             \Log::info('Upload successful', ['url' => $fileUrl]);
 
-            return $this->addCorsHeaders(response()->json([
+            return response()->json([
                 'success' => true,
                 'url' => $fileUrl,
                 'fileName' => $fileName,
-            ]));
+            ]);
 
         } catch (\Exception $e) {
             \Log::error('R2 Upload Error: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString()
             ]);
 
-            return $this->addCorsHeaders(response()->json([
+            return response()->json([
                 'success' => false,
                 'message' => 'Erreur lors de l\'upload du fichier: ' . $e->getMessage()
-            ], 500));
+            ], 500);
         }
     }
 
@@ -152,9 +142,9 @@ class UploadController extends Controller
             $publicUrl = config('cloudflare.r2_public_url');
 
             if (!$accountId || !$accessKeyId || !$secretAccessKey || !$bucketName || !$publicUrl) {
-                return $this->addCorsHeaders(response()->json([
+                return response()->json([
                     'error' => 'Configuration Cloudflare R2 manquante'
-                ], 500));
+                ], 500);
             }
 
             // Créer le client S3 pour R2
@@ -183,18 +173,18 @@ class UploadController extends Controller
             // Construire l'URL publique
             $fileUrl = "{$publicUrl}/{$key}";
 
-            return $this->addCorsHeaders(response()->json([
+            return response()->json([
                 'success' => true,
                 'url' => $fileUrl,
                 'fileName' => $fileName,
-            ]));
+            ]);
 
         } catch (\Exception $e) {
             \Log::error('R2 Upload Error: ' . $e->getMessage());
-            
-            return $this->addCorsHeaders(response()->json([
+
+            return response()->json([
                 'error' => 'Erreur lors de l\'upload du fichier: ' . $e->getMessage()
-            ], 500));
+            ], 500);
         }
     }
 

@@ -21,23 +21,25 @@ return [
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [
-        'http://localhost:5173',      // React dev server (Vite)
-        'http://localhost:3000',      // Alternative frontend
-        'http://127.0.0.1:5173',      // Localhost variation
-        'http://127.0.0.1:3000',      // Localhost variation
-        'https://all-stars-battle-six.vercel.app',  // Vercel production
-        'https://allstarbattle.vercel.app',         // Nouveau domaine Vercel
-        'https://allstarbattle.dance',
+        // Production domains
         'https://www.allstarbattle.dance',
-        'https://api.allstarbattle.dance',          // API subdomain
-        'https://*.allstarbattle.dance',            // Wildcard for all subdomains
-        env('FRONTEND_URL', 'http://localhost:5173'),  // Use .env value
+        'https://allstarbattle.dance',
+        'https://allstarbattle.vercel.app',
+
+        // Development domains
+        'http://localhost:5173',
+        'http://127.0.0.1:5173',
+
+        // Environment variable fallback
+        env('FRONTEND_URL'),
     ],
 
     'allowed_origins_patterns' => [
+        // Allow all allstarbattle.dance subdomains
+        '/\.allstarbattle\.dance$/',
+        // Allow localhost with any port
         '/localhost:\d+/',
-        '/127.0.0.1:\d+/',
-        '/\.allstarbattle\.dance$/',                // Allow all allstarbattle.dance subdomains
+        '/127\.0\.0\.1:\d+/',
     ],
 
     'allowed_headers' => ['*'],
