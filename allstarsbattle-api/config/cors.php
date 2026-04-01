@@ -28,13 +28,16 @@ return [
         'https://all-stars-battle-six.vercel.app',  // Vercel production
         'https://allstarbattle.vercel.app',         // Nouveau domaine Vercel
         'https://allstarbattle.dance',
-        'https://www.allstarbattle.dance',        
+        'https://www.allstarbattle.dance',
+        'https://api.allstarbattle.dance',          // API subdomain
+        'https://*.allstarbattle.dance',            // Wildcard for all subdomains
         env('FRONTEND_URL', 'http://localhost:5173'),  // Use .env value
     ],
 
     'allowed_origins_patterns' => [
         '/localhost:\d+/',
         '/127.0.0.1:\d+/',
+        '/\.allstarbattle\.dance$/',                // Allow all allstarbattle.dance subdomains
     ],
 
     'allowed_headers' => ['*'],

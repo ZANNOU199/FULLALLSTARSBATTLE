@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Lock, User, Loader2 } from 'lucide-react';
 import { motion } from 'motion/react';
+import { login } from '../services/api'; // ✅ Import de la fonction login
 
 interface LoginProps {
   onLoginSuccess?: () => void;
@@ -20,24 +21,8 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
     setError('');
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.message || 'Erreur de connexion');
-        setIsLoading(false);
-        return;
-      }
+      // ✅ Utilisation de la fonction login avec CSRF
+      const data = await login(email, password);
 
       // Store token and user info
       localStorage.setItem('admin_token', data.token);

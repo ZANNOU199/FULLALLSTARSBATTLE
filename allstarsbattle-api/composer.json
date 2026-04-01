@@ -8,6 +8,7 @@
     "require": {
         "php": "^8.3",
         "aws/aws-sdk-php": "^3.373",
+        "fruitcake/laravel-cors": "^3.0",  // ✅ Package CORS ajouté
         "laravel/framework": "^13.0",
         "laravel/sanctum": "^4.3",
         "laravel/tinker": "^3.0",
