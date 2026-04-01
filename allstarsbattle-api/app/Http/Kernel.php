@@ -44,6 +44,8 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
+            // CORS middleware for cross-origin requests
+            \Fruitcake\Cors\HandleCors::class,
             // Sanctum middleware for API authentication
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',

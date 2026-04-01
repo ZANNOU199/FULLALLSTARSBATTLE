@@ -18,12 +18,13 @@ return [
         '127.0.0.1:5173',
         'all-stars-battle-six.vercel.app',
         'https://all-stars-battle-six.vercel.app',
-        'allstarbattle.dance',           // ✅ Domaine principal ajouté
-        'https://allstarbattle.dance',   // ✅ HTTPS ajouté
-        'www.allstarbattle.dance',       // ✅ Sous-domaine ajouté
-        'https://www.allstarbattle.dance', // ✅ HTTPS ajouté
-        'api.allstarbattle.dance',       // ✅ API subdomain ajouté
-        'https://api.allstarbattle.dance', // ✅ HTTPS ajouté
+        '*.allstarbattle.dance',         // ✅ Wildcard pour tous les sous-domaines
+        'allstarbattle.dance',           // ✅ Domaine principal
+        'https://allstarbattle.dance',   // ✅ HTTPS
+        'www.allstarbattle.dance',       // ✅ Sous-domaine
+        'https://www.allstarbattle.dance', // ✅ HTTPS
+        'api.allstarbattle.dance',       // ✅ API subdomain
+        'https://api.allstarbattle.dance', // ✅ HTTPS
     ],
 
     /*

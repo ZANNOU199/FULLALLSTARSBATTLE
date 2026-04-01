@@ -28,19 +28,22 @@ use App\Models\ContactMessage;
 class CMSController extends Controller
 {
     /**
-     * Transform R2 URLs to custom CDN domain for better performance
+     * Add CORS headers to response
+     */
+    private function addCorsHeaders($response)
+    {
+        return $response->header('Access-Control-Allow-Origin', 'https://www.allstarbattle.dance')
+                       ->header('Access-Control-Allow-Credentials', 'true')
+                       ->header('Access-Control-Allow-Headers', 'Content-Type, X-CSRF-TOKEN, Authorization')
+                       ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    }
+    /**
+     * Transform R2 URLs - currently returns original URL to avoid SSL issues
      */
     private function transformR2Url(string $url): string
     {
-        if (empty($url)) {
-            return $url;
-        }
-
-        // Replace the long R2 domain with custom CDN domain
-        $r2Domain = 'https://pub-e66e8acef13f47bf90ce3de0d7240052.r2.dev';
-        $cdnDomain = 'https://cdn.allstarbattle.dance';
-
-        return str_replace($r2Domain, $cdnDomain, $url);
+        // Return original R2 URL to avoid SSL certificate issues with custom domain
+        return $url;
     }
 
     /**
@@ -72,7 +75,7 @@ class CMSController extends Controller
                 'organizersConfig' => $this->getOrganizersConfig(),
             ];
 
-            return response()->json($cmsData, 200);
+            return $this->addCorsHeaders(response()->json($cmsData, 200));
         } catch (\Exception $e) {
             \Log::error('getData failed', [
                 'message' => $e->getMessage(),
@@ -81,11 +84,11 @@ class CMSController extends Controller
                 'trace' => $e->getTraceAsString(),
             ]);
 
-            return response()->json([
+            return $this->addCorsHeaders(response()->json([
                 'status' => 'error',
                 'message' => 'Failed to load CMS data',
                 'detail' => $e->getMessage(),
-            ], 500);
+            ], 500));
         }
     }
 

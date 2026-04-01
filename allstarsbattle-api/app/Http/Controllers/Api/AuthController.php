@@ -10,6 +10,16 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     /**
+     * Add CORS headers to response
+     */
+    private function addCorsHeaders($response)
+    {
+        return $response->header('Access-Control-Allow-Origin', 'https://www.allstarbattle.dance')
+                       ->header('Access-Control-Allow-Credentials', 'true')
+                       ->header('Access-Control-Allow-Headers', 'Content-Type, X-CSRF-TOKEN, Authorization')
+                       ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    }
+    /**
      * Login user and create token
      */
     public function login(Request $request)
@@ -22,27 +32,27 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json([
+            return $this->addCorsHeaders(response()->json([
                 'status' => 'error',
                 'message' => 'Invalid credentials',
-            ], 401);
+            ], 401));
         }
 
         if (!$user->is_admin) {
-            return response()->json([
+            return $this->addCorsHeaders(response()->json([
                 'status' => 'error',
                 'message' => 'Only administrators can access this area',
-            ], 403);
+            ], 403));
         }
 
         $token = $user->createToken('admin-token')->plainTextToken;
 
-        return response()->json([
+        return $this->addCorsHeaders(response()->json([
             'status' => 'success',
             'message' => 'Login successful',
             'user' => $user,
             'token' => $token,
-        ], 200);
+        ], 200));
     }
 
     /**
@@ -52,10 +62,10 @@ class AuthController extends Controller
     {
         $request->user()->currentAccessToken()->delete();
 
-        return response()->json([
+        return $this->addCorsHeaders(response()->json([
             'status' => 'success',
             'message' => 'Logged out successfully',
-        ], 200);
+        ], 200));
     }
 
     /**
@@ -63,10 +73,10 @@ class AuthController extends Controller
      */
     public function me(Request $request)
     {
-        return response()->json([
+        return $this->addCorsHeaders(response()->json([
             'status' => 'success',
             'user' => $request->user(),
-        ], 200);
+        ], 200));
     }
 
     /**
@@ -75,18 +85,18 @@ class AuthController extends Controller
     public function getAdmins(Request $request)
     {
         if (!$request->user()->is_admin) {
-            return response()->json([
+            return $this->addCorsHeaders(response()->json([
                 'status' => 'error',
                 'message' => 'Unauthorized',
-            ], 403);
+            ], 403));
         }
 
         $admins = User::where('is_admin', true)->get();
 
-        return response()->json([
+        return $this->addCorsHeaders(response()->json([
             'status' => 'success',
             'admins' => $admins,
-        ], 200);
+        ], 200));
     }
 
     /**
@@ -115,11 +125,11 @@ class AuthController extends Controller
             'email_verified_at' => now(),
         ]);
 
-        return response()->json([
+        return $this->addCorsHeaders(response()->json([
             'status' => 'success',
             'message' => 'Administrator created successfully',
             'admin' => $admin,
-        ], 201);
+        ], 201));
     }
 
     /**
@@ -128,10 +138,10 @@ class AuthController extends Controller
     public function updateAdmin(Request $request, $id)
     {
         if (!$request->user()->is_admin) {
-            return response()->json([
+            return $this->addCorsHeaders(response()->json([
                 'status' => 'error',
                 'message' => 'Unauthorized',
-            ], 403);
+            ], 403));
         }
 
         $admin = User::findOrFail($id);
@@ -149,11 +159,11 @@ class AuthController extends Controller
         }
         $admin->save();
 
-        return response()->json([
+        return $this->addCorsHeaders(response()->json([
             'status' => 'success',
             'message' => 'Administrator updated successfully',
             'admin' => $admin,
-        ], 200);
+        ], 200));
     }
 
     /**
@@ -162,27 +172,27 @@ class AuthController extends Controller
     public function deleteAdmin(Request $request, $id)
     {
         if (!$request->user()->is_admin) {
-            return response()->json([
+            return $this->addCorsHeaders(response()->json([
                 'status' => 'error',
                 'message' => 'Unauthorized',
-            ], 403);
+            ], 403));
         }
 
         // Prevent deleting the last admin
         if (User::where('is_admin', true)->count() <= 1) {
-            return response()->json([
+            return $this->addCorsHeaders(response()->json([
                 'status' => 'error',
                 'message' => 'Cannot delete the last administrator',
-            ], 400);
+            ], 400));
         }
 
         $admin = User::findOrFail($id);
         $admin->delete();
 
-        return response()->json([
+        return $this->addCorsHeaders(response()->json([
             'status' => 'success',
             'message' => 'Administrator deleted successfully',
-        ], 200);
+        ], 200));
     }
 
     /**
@@ -202,10 +212,10 @@ class AuthController extends Controller
         // Verify current password if changing password
         if ($request->password) {
             if (!Hash::check($request->current_password, $user->password)) {
-                return response()->json([
+                return $this->addCorsHeaders(response()->json([
                     'status' => 'error',
                     'message' => 'Current password is incorrect',
-                ], 400);
+                ], 400));
             }
         }
 
@@ -216,11 +226,11 @@ class AuthController extends Controller
         }
         $user->save();
 
-        return response()->json([
+        return $this->addCorsHeaders(response()->json([
             'status' => 'success',
             'message' => 'Profile updated successfully',
             'user' => $user,
-        ], 200);
+        ], 200));
     }
 
     /**
@@ -229,30 +239,30 @@ class AuthController extends Controller
     public function toggleAdminStatus(Request $request, $id)
     {
         if (!$request->user()->is_admin) {
-            return response()->json([
+            return $this->addCorsHeaders(response()->json([
                 'status' => 'error',
                 'message' => 'Unauthorized',
-            ], 403);
+            ], 403));
         }
 
         $user = User::findOrFail($id);
 
         // Prevent demoting the last admin
         if ($user->is_admin && User::where('is_admin', true)->count() <= 1) {
-            return response()->json([
+            return $this->addCorsHeaders(response()->json([
                 'status' => 'error',
                 'message' => 'Cannot demote the last administrator',
-            ], 400);
+            ], 400));
         }
 
         $user->is_admin = !$user->is_admin;
         $user->save();
 
-        return response()->json([
+        return $this->addCorsHeaders(response()->json([
             'status' => 'success',
             'message' => 'Admin status updated successfully',
             'user' => $user,
-        ], 200);
+        ], 200));
     }
 }
 
