@@ -19,11 +19,9 @@ return [
         'localhost:3000',
         '127.0.0.1:3000',
         'all-stars-battle-six.vercel.app',
-
         'allstarbattle.vercel.app',
         'allstarbattle.dance',
         'www.allstarbattle.dance',
->>>>>>> 6deb324 (Fix CORS issues: Add credentials to login and fix Sanctum stateful domains for production)
     ],
 
     /*
