@@ -16,15 +16,14 @@ return [
     'stateful' => [
         'localhost:5173',
         '127.0.0.1:5173',
+        'localhost:3000',
+        '127.0.0.1:3000',
         'all-stars-battle-six.vercel.app',
-        'https://all-stars-battle-six.vercel.app',
-        '*.allstarbattle.dance',         // ✅ Wildcard pour tous les sous-domaines
-        'allstarbattle.dance',           // ✅ Domaine principal
-        'https://allstarbattle.dance',   // ✅ HTTPS
-        'www.allstarbattle.dance',       // ✅ Sous-domaine
-        'https://www.allstarbattle.dance', // ✅ HTTPS
-        'api.allstarbattle.dance',       // ✅ API subdomain
-        'https://api.allstarbattle.dance', // ✅ HTTPS
+
+        'allstarbattle.vercel.app',
+        'allstarbattle.dance',
+        'www.allstarbattle.dance',
+>>>>>>> 6deb324 (Fix CORS issues: Add credentials to login and fix Sanctum stateful domains for production)
     ],
 
     /*

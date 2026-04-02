@@ -21,8 +21,25 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
     setError('');
 
     try {
-      // ✅ Utilisation de la fonction login avec CSRF
-      const data = await login(email, password);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',  // Required for cross-origin requests with cookies
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.message || 'Erreur de connexion');
+        setIsLoading(false);
+        return;
+      }
 
       // Store token and user info
       localStorage.setItem('admin_token', data.token);
