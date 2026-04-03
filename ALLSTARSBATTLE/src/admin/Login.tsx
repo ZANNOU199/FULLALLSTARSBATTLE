@@ -24,8 +24,8 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
-        credentials: 'include',  // Required for cross-origin requests with cookies
         body: JSON.stringify({
           email,
           password,
