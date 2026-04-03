@@ -278,7 +278,7 @@ const Home: React.FC<HomeProps> = ({ config, pageBackgrounds, featuredPiece, sta
             transition={{ delay: 0.4 }}
             className="text-base sm:text-lg md:text-xl font-light tracking-[0.5em] uppercase mb-12 text-slate-400"
           >
-            {config?.hero?.tagline || "Le Trône. Le Respect. La Légende."}
+            {config?.hero?.tagline || "Au-dela . De la . Danse."}
           </motion.p>
 
           <motion.div 

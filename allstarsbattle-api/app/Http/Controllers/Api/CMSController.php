@@ -517,7 +517,7 @@ class CMSController extends Controller
 
                 // hero
                 GlobalConfig::updateOrCreate(['key' => 'hero.title'], ['value' => json_encode($gc['hero']['title'] ?? 'All STAR BATTLE INTERNATIONAL')]);
-                GlobalConfig::updateOrCreate(['key' => 'hero.subtitle'], ['value' => json_encode($gc['hero']['subtitle'] ?? 'Le Trône. Le Respect. La Légende.')]);
+                GlobalConfig::updateOrCreate(['key' => 'hero.subtitle'], ['value' => json_encode($gc['hero']['subtitle'] ?? 'Au-dela . De la . Danse.')]);
                 GlobalConfig::updateOrCreate(['key' => 'hero.location'], ['value' => json_encode($gc['hero']['location'] ?? 'TOGO 2026')]);
                 GlobalConfig::updateOrCreate(['key' => 'hero.backgroundImage'], ['value' => json_encode($gc['hero']['backgroundImage'] ?? 'https://images.unsplash.com/photo-1547153760-18fc86324498')]);
                 GlobalConfig::updateOrCreate(['key' => 'hero.videoUrl'], ['value' => json_encode($gc['hero']['videoUrl'] ?? 'https://vjs.zencdn.net/v/oceans.mp4')]);
@@ -960,7 +960,7 @@ class CMSController extends Controller
             ],
             'hero' => [
                 'title' => $this->getConfigItem('hero.title', 'All STAR BATTLE INTERNATIONAL'),
-                'subtitle' => $this->getConfigItem('hero.subtitle', 'Le Trône. Le Respect. La Légende.'),
+                'subtitle' => $this->getConfigItem('hero.subtitle', 'Au-dela . De la . Danse.'),
                 'location' => $this->getConfigItem('hero.location', 'TOGO 2026'),
                 'backgroundImage' => $this->getConfigItem('hero.backgroundImage', 'https://images.unsplash.com/photo-1547153760-18fc86324498'),
                 'videoUrl' => $this->getConfigItem('hero.videoUrl', 'https://vjs.zencdn.net/v/oceans.mp4'),

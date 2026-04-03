@@ -19,7 +19,7 @@ $body = @'
     },
     "hero": {
       "title": "All STAR BATTLE INTERNATIONAL",
-      "subtitle": "Le Trône. Le Respect. La Légende.",
+      "subtitle": "Au-dela . De la . Danse.",
       "location": "TOGO 2026",
       "backgroundImage": "https://images.unsplash.com/photo-1547153760-18fc86324498",
       "videoUrl": "https://vjs.zencdn.net/v/oceans.mp4"

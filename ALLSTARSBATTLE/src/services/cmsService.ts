@@ -308,7 +308,7 @@ const initialData: CMSData = {
     },
     hero: {
       title: 'All STAR BATTLE INTERNATIONAL',
-      subtitle: 'Le Trône. Le Respect. La Légende.',
+      subtitle: 'Au-dela . De la . Danse.',
       location: 'TOGO 2026',
       backgroundImage: '',
       videoUrl: ''
