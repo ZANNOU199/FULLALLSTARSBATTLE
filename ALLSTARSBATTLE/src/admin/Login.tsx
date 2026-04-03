@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Lock, User, Loader2 } from 'lucide-react';
 import { motion } from 'motion/react';
-import { login } from '../services/api'; // ✅ Import de la fonction login
 
 interface LoginProps {
   onLoginSuccess?: () => void;
@@ -69,7 +68,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
         <div className="text-center mb-10">
           <div className="h-24 w-24 mx-auto flex items-center justify-center mb-6">
             <img 
-              src="https://allstarbattle.dance/logo.png"
+              src="https://www.allstarbattle.dance/logo.png"
               alt="All Star Battle Logo"
               className="h-full w-full object-contain rounded-lg"
             />
