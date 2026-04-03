@@ -20,8 +20,7 @@ return [
         '127.0.0.1:3000',
         'all-stars-battle-six.vercel.app',
         'allstarbattle.vercel.app',
-        'allstarbattle.dance',
-        'www.allstarbattle.dance',
+        // Removed: 'allstarbattle.dance', 'www.allstarbattle.dance' - using token auth instead
     ],
 
     /*
