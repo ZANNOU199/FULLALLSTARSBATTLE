@@ -248,12 +248,11 @@ const History = ({ onViewGallery }: HistoryProps) => {
         <div className="absolute inset-0 z-0">
           <img 
             className="w-full h-full object-cover brightness-90 contrast-110" 
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBd1VTyAZyyZGaq3VJUTbCIx1IiDThn8h-wO9I1BZhj_dPmDpq8TGCvt5HQBTEq7lWaJlOG8kajuntaJ6Iir74MgDLTAWr3cy8XLHGVG28pxHr_E2oHY7hMYFpc1sfe26HnZA2ZI7q1P18lXBLZW0bgqZ3Bhd16m-sJOphITZXDisohjsTGokeXh9_rsuiqFvxrrFXh_a9wTldDbaUA48rqyOPi0uqku-S0_YGtb94_dkhOawO2sRvlwJKOleSukCppSESR_L9RB6EI" 
+            src="https://picsum.photos/1920/1080?random=1" 
             alt="Heritage Background"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/40 to-black/80"></div>
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-background-dark/80 via-transparent to-transparent z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-background-dark/40 via-transparent to-transparent z-10"></div>
         <div className="relative z-20 text-center px-4 w-full max-w-5xl mx-auto">
           <motion.span 
             initial={{ opacity: 0, y: -20 }}
