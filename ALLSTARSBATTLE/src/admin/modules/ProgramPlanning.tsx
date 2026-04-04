@@ -96,7 +96,8 @@ export default function ProgramPlanning({ data, setData }: { data: CMSData, setD
 
     if (data.program.length === 0) {
       newLabel = 'JOUR 01';
-      newDate = new Date().toISOString().split('T')[0];
+      // Leave the first day date empty so the backend can use the configured competition start date.
+      newDate = '';
     } else {
       const lastDay = data.program[data.program.length - 1];
       const lastLabelMatch = lastDay.label.match(/JOUR (\d+)/);
@@ -121,10 +122,12 @@ export default function ProgramPlanning({ data, setData }: { data: CMSData, setD
 
     setIsLoading(true);
     try {
-      const payload = {
-        date: newDate,
+      const payload: any = {
         label: newLabel,
       };
+      if (newDate) {
+        payload.date = newDate;
+      }
 
       console.log('ProgramPlanning: Creating program day via API:', payload);
       await cmsService.addProgramDay(payload);
