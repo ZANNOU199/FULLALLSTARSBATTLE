@@ -974,6 +974,15 @@ const AppContent = () => {
     const url = articleId ? `${path}?article=${articleId}` : path;
     navigate(url);
   };
+  
+  const navigateToMediaYear = (year: number) => (e: React.MouseEvent) => {
+    e.preventDefault();
+    setSelectedMediaYear(year);
+    setCurrentPage('media');
+    navigate(`/media?year=${year}`);
+  };
+
+ 
   const [scrolled, setScrolled] = useState(false);
   const [bracketScale, setBracketScale] = useState(1);
   const [bracketHeight, setBracketHeight] = useState(1600);
