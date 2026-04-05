@@ -224,7 +224,7 @@ const Tickets = ({ onNavigateToFAQ }: { onNavigateToFAQ?: () => void }) => {
                 <Calendar className="text-primary w-10 h-10 shrink-0" />
                 <div>
                   <h4 className="font-bold text-lg mb-1 uppercase tracking-wider">DATES</h4>
-                  <p className="text-slate-400">Du 15 au 20 Décembre 2026</p>
+                  <p className="text-slate-400">19 - 27 JUIN 2026</p>
                 </div>
               </div>
               
@@ -232,7 +232,7 @@ const Tickets = ({ onNavigateToFAQ }: { onNavigateToFAQ?: () => void }) => {
                 <MapPin className="text-accent-red w-10 h-10 shrink-0" />
                 <div>
                   <h4 className="font-bold text-lg mb-1 uppercase tracking-wider">LIEU</h4>
-                  <p className="text-slate-400">Palais des Congrès de Lomé, Togo</p>
+                  <p className="text-slate-400">Lomé & Kpalimé – Togo</p>
                 </div>
               </div>
             </div>
