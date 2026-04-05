@@ -302,7 +302,7 @@ export default function HistoryLegends({ data, setData }: { data: CMSData, setDa
                     className="w-full bg-white/5 border border-white/10 rounded-xl p-3 focus:border-primary outline-none transition-all text-white"
                   >
                     <option value="" className="bg-background-dark">Sélectionner une année</option>
-                    {Array.from({ length: 4 }, (_, i) => 2013 + i).map(year => (
+                    {Array.from({ length: 11 }, (_, i) => 2013 + i).map(year => (
                       <option key={year} value={year.toString()} className="bg-background-dark">{year}</option>
                     ))}
                   </select>
