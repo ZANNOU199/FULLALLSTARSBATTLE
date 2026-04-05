@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { cmsService } from './services/cmsService';
 import { 
@@ -81,6 +81,8 @@ const TICKET_TYPES: Ticket[] = [
 const Tickets = ({ onNavigateToFAQ }: { onNavigateToFAQ?: () => void }) => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [faqs, setFaqs] = useState<any[]>([]);
+  const [eventDate, setEventDate] = useState<string>('');
+  const [competitionLocation, setCompetitionLocation] = useState<string>('');
 
   useEffect(() => {
     const loadData = async () => {
@@ -91,8 +93,12 @@ const Tickets = ({ onNavigateToFAQ }: { onNavigateToFAQ?: () => void }) => {
           a: faq.answer
         }));
         setFaqs(faqData);
+        
+        // Load event date and competition location
+        setEventDate(data.globalConfig?.eventDate || '');
+        setCompetitionLocation(data.globalConfig?.competition?.location || '');
       } catch (error) {
-        console.error('Erreur lors du chargement des FAQs:', error);
+        console.error('Erreur lors du chargement des données:', error);
       }
     };
     loadData();
