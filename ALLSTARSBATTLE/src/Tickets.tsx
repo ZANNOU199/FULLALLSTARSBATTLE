@@ -60,7 +60,7 @@ const TICKET_TYPES: Ticket[] = [
     paymentLink: '#'
   },
   {
-    name: 'VIP',
+    name: 'VIPPP',
     tag: 'PRESTIGE',
     price: '15000 FCFA',
     period: 'Accès élite',
