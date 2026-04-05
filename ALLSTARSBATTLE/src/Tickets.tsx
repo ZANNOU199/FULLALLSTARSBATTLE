@@ -60,7 +60,7 @@ const TICKET_TYPES: Ticket[] = [
     paymentLink: '#'
   },
   {
-    name: 'VIPPP',
+    name: 'VIP',
     tag: 'PRESTIGE',
     price: '15000 FCFA',
     period: 'Accès élite',
@@ -95,7 +95,7 @@ const Tickets = ({ onNavigateToFAQ }: { onNavigateToFAQ?: () => void }) => {
         setFaqs(faqData);
         
         // Load event date and competition location
-        setEventDate(data.globalConfig?.eventDate || '');
+        setEventDate(data.globalConfig?.competition?.dateStart || '');
         setCompetitionLocation(data.globalConfig?.competition?.location || '');
       } catch (error) {
         console.error('Erreur lors du chargement des données:', error);
