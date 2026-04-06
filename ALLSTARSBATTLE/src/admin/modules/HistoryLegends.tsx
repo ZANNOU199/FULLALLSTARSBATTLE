@@ -381,8 +381,8 @@ export default function HistoryLegends({ data, setData }: { data: CMSData, setDa
                 </div>
               </div>
               <div className="flex justify-end gap-4">
-                <button onClick={() => { setIsAdding(false); setEditingId(null); setTimelineFormData({}); }} className="px-6 py-2 text-xs font-bold uppercase tracking-widest text-slate-500">Annuler</button>
-                <button onClick={editingId ? handleEditTimeline : handleAddTimeline} className="px-6 py-2 bg-primary text-background-dark rounded-xl font-bold text-xs uppercase tracking-widest">{editingId ? 'Mettre à Jour' : 'Enregistrer'}</button>
+                <button onClick={() => { setIsAdding(false); setEditingId(null); setTimelineFormData({}); }} className="px-6 py-2 text-xs font-bold uppercase tracking-widest text-slate-500" aria-label="Annuler l'ajout d'événement">Annuler</button>
+                <button onClick={editingId ? handleEditTimeline : handleAddTimeline} className="px-6 py-2 bg-primary text-background-dark rounded-xl font-bold text-xs uppercase tracking-widest" aria-label={editingId ? "Mettre à jour l'événement" : "Enregistrer l'événement"}>{editingId ? 'Mettre à Jour' : 'Enregistrer'}</button>
               </div>
             </div>
           )}
@@ -420,7 +420,7 @@ export default function HistoryLegends({ data, setData }: { data: CMSData, setDa
         <div className="space-y-6">
           <div className="flex justify-between items-center">
             <h4 className="font-heading text-lg flex items-center gap-2"><User size={20} className="text-primary" /> Icônes de la Danse</h4>
-            {!editingId && <button onClick={() => { setIsAdding(true); setLegendFormData({}); }} className="flex items-center gap-2 px-4 py-2 bg-primary text-background-dark font-bold rounded-xl"><Plus size={18} /> Ajouter une Légende</button>}
+            {!editingId && <button onClick={() => { setIsAdding(true); setLegendFormData({}); }} className="flex items-center gap-2 px-4 py-2 bg-primary text-background-dark font-bold rounded-xl" aria-label="Ajouter une nouvelle légende"><Plus size={18} /> Ajouter une Légende</button>}
           </div>
 
           {(isAdding || editingId) && (
@@ -543,8 +543,8 @@ export default function HistoryLegends({ data, setData }: { data: CMSData, setDa
                 </div>
               </div>
               <div className="flex justify-end gap-4">
-                <button onClick={() => { setIsAdding(false); setEditingId(null); setLegendFormData({}); }} className="px-6 py-2 text-xs font-bold uppercase tracking-widest text-slate-500">Annuler</button>
-                <button onClick={editingId ? handleEditLegend : handleAddLegend} className="px-6 py-2 bg-primary text-background-dark rounded-xl font-bold text-xs uppercase tracking-widest">{editingId ? 'Mettre à Jour' : 'Enregistrer'}</button>
+                <button onClick={() => { setIsAdding(false); setEditingId(null); setLegendFormData({}); }} className="px-6 py-2 text-xs font-bold uppercase tracking-widest text-slate-500" aria-label="Annuler l'ajout de légende">Annuler</button>
+                <button onClick={editingId ? handleEditLegend : handleAddLegend} className="px-6 py-2 bg-primary text-background-dark rounded-xl font-bold text-xs uppercase tracking-widest" aria-label={editingId ? "Mettre à jour la légende" : "Enregistrer la légende"}>{editingId ? 'Mettre à Jour' : 'Enregistrer'}</button>
               </div>
             </div>
           )}

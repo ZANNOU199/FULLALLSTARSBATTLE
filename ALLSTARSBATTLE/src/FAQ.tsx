@@ -203,7 +203,7 @@ const FAQ = ({ onNavigateBack }: { onNavigateBack?: () => void }) => {
           onClick={onNavigateBack}
           className="fixed bottom-8 left-8 bg-primary text-background-dark p-4 rounded-full shadow-2xl hover:shadow-primary/50 transition-all duration-300 group z-50"
         >
-          <ArrowLeft className="w-6 h-6 group-hover:-translate-x-1 transition-transform" />
+          <ArrowLeft className="w-6 h-6 group-hover:-translate-x-1 transition-transform" aria-label="Retour à la page précédente" />
         </motion.button>
       )}
     </div>

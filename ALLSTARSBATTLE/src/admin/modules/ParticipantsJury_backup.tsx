@@ -190,7 +190,7 @@ export default function ParticipantsJury({ data, setData }: { data: CMSData, set
         <div className="bg-[#111] border border-white/10 p-8 rounded-2xl space-y-6">
           <div className="flex justify-between items-center">
             <h4 className="font-heading text-lg">{isAdding ? 'Nouveau Participant' : 'Modifier Participant'}</h4>
-            <button onClick={() => { setIsAdding(false); setEditingId(null); setFormData({}); setCountrySearch(''); }} className="text-slate-500 hover:text-white"><X size={20} /></button>
+            <button onClick={() => { setIsAdding(false); setEditingId(null); setFormData({}); setCountrySearch(''); }} className="text-slate-500 hover:text-white" aria-label="Fermer la fenêtre d'ajout"><X size={20} /></button>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -311,8 +311,8 @@ export default function ParticipantsJury({ data, setData }: { data: CMSData, set
                 <img src={participant.photo} alt={participant.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
               </div>
               <div className="flex gap-2">
-                <button onClick={() => startEdit(participant)} className="p-2 hover:bg-white/5 rounded-lg text-slate-400 hover:text-white transition-all"><Edit size={16} /></button>
-                <button onClick={() => handleDelete(participant.id)} className="p-2 hover:bg-white/5 rounded-lg text-slate-400 hover:text-accent-red transition-all"><Trash2 size={16} /></button>
+                <button onClick={() => startEdit(participant)} className="p-2 hover:bg-white/5 rounded-lg text-slate-400 hover:text-white transition-all" aria-label="Modifier le participant"><Edit size={16} /></button>
+                <button onClick={() => handleDelete(participant.id)} className="p-2 hover:bg-white/5 rounded-lg text-slate-400 hover:text-accent-red transition-all" aria-label="Supprimer le participant"><Trash2 size={16} /></button>
               </div>
             </div>
             <h4 className="text-lg font-bold">{participant.name}</h4>

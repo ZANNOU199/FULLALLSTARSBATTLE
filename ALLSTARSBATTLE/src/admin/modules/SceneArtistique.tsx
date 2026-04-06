@@ -435,7 +435,7 @@ export default function SceneArtistique({ data, setData, onSave }: { data: CMSDa
           <div className="bg-[#111] border border-white/10 p-8 rounded-2xl space-y-6 mb-6">
             <div className="flex justify-between items-center">
               <h4 className="font-heading text-lg">{isAdding ? 'Nouvelle Compagnie' : 'Modifier Compagnie'}</h4>
-              <button onClick={() => { setIsAdding(false); setEditingId(null); }} className="text-slate-500 hover:text-white"><X size={20} /></button>
+              <button onClick={() => { setIsAdding(false); setEditingId(null); }} className="text-slate-500 hover:text-white" aria-label="Fermer la fenêtre"><X size={20} /></button>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

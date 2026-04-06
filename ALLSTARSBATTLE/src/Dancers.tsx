@@ -77,7 +77,7 @@ const Dancers = ({ onViewPerformances, pageBackgrounds }: DancersProps) => {
             onClick={() => setSelectedDancer(null)}
             className="flex items-center gap-2 text-primary hover:text-white transition-colors mb-12 uppercase font-black tracking-widest text-xs"
           >
-            <ArrowLeft className="w-4 h-4" /> Retour à la liste
+            <ArrowLeft className="w-4 h-4" aria-label="Retour à la liste" />
           </button>
 
           <div className="grid lg:grid-cols-2 gap-16 items-start">

@@ -67,7 +67,7 @@ export default function News({ onBack, initialArticleId }: NewsProps) {
             onClick={() => setSelectedArticle(null)}
             className="flex items-center gap-2 text-primary hover:text-white transition-colors mb-12 uppercase font-black tracking-widest text-xs"
           >
-            <ArrowLeft className="w-4 h-4" /> Retour aux actualités
+            <ArrowLeft className="w-4 h-4" aria-label="Retour aux actualités" /> Retour aux actualités
           </button>
 
           <motion.div

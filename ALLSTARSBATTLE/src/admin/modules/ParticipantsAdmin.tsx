@@ -242,8 +242,8 @@ const ParticipantsAdmin = () => {
               <div className="aspect-[4/5] relative overflow-hidden">
                 <img src={p.image} alt={p.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
                 <div className="absolute top-4 right-4 flex gap-2">
-                  <button onClick={() => handleOpenModal(p)} className="p-2 bg-white/10 backdrop-blur-md rounded-lg text-white hover:bg-primary hover:text-background-dark transition-all"><Edit2 size={16} /></button>
-                  <button onClick={() => handleDelete(p.id)} className="p-2 bg-white/10 backdrop-blur-md rounded-lg text-white hover:bg-red-500 transition-all"><Trash2 size={16} /></button>
+                  <button onClick={() => handleOpenModal(p)} className="p-2 bg-white/10 backdrop-blur-md rounded-lg text-white hover:bg-primary hover:text-background-dark transition-all" aria-label="Modifier le participant"><Edit2 size={16} /></button>
+                  <button onClick={() => handleDelete(p.id)} className="p-2 bg-white/10 backdrop-blur-md rounded-lg text-white hover:bg-red-500 transition-all" aria-label="Supprimer le participant"><Trash2 size={16} /></button>
                 </div>
                 <div className="absolute bottom-4 left-4 flex flex-col gap-2">
                   <span className="bg-primary text-background-dark px-3 py-1 text-[10px] font-black uppercase tracking-widest rounded self-start">
@@ -271,7 +271,7 @@ const ParticipantsAdmin = () => {
             <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} className="relative w-full max-w-2xl bg-slate-900 border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
               <div className="p-6 border-b border-white/5 flex items-center justify-between">
                 <h2 className="text-2xl font-heading text-white uppercase tracking-tight">{editingParticipant ? 'Modifier' : 'Ajouter'} Participant</h2>
-                <button onClick={() => setIsModalOpen(false)} className="text-slate-500 hover:text-white"><X size={24} /></button>
+                <button onClick={() => setIsModalOpen(false)} className="text-slate-500 hover:text-white" aria-label="Fermer la fenêtre modale"><X size={24} /></button>
               </div>
               <form onSubmit={handleSave} className="p-8 overflow-y-auto space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -349,8 +349,8 @@ const ParticipantsAdmin = () => {
                   <textarea rows={4} className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-primary outline-none resize-none" value={formData.bio} onChange={(e) => setFormData({...formData, bio: e.target.value})} />
                 </div>
                 <div className="pt-6 flex justify-end gap-4">
-                  <button type="button" onClick={() => setIsModalOpen(false)} className="px-6 py-3 text-slate-500 font-bold uppercase tracking-widest text-xs">Annuler</button>
-                  <button type="submit" className="bg-primary text-background-dark px-10 py-3 rounded-xl font-bold uppercase tracking-widest text-xs hover:bg-white transition-all">Enregistrer</button>
+                  <button type="button" onClick={() => setIsModalOpen(false)} className="px-6 py-3 text-slate-500 font-bold uppercase tracking-widest text-xs" aria-label="Annuler les modifications">Annuler</button>
+                  <button type="submit" className="bg-primary text-background-dark px-10 py-3 rounded-xl font-bold uppercase tracking-widest text-xs hover:bg-white transition-all" aria-label="Enregistrer les modifications">Enregistrer</button>
                 </div>
               </form>
             </motion.div>

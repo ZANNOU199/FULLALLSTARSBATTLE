@@ -278,7 +278,7 @@ const ArtisticSceneAdmin = () => {
                 <h2 className="text-2xl font-heading text-white uppercase tracking-tight">
                   {editingCompany ? 'Modifier Compagnie' : 'Nouvelle Compagnie'}
                 </h2>
-                <button onClick={() => setIsModalOpen(false)} className="text-slate-500 hover:text-white transition-colors">
+                <button onClick={() => setIsModalOpen(false)} className="text-slate-500 hover:text-white transition-colors" aria-label="Fermer la fenêtre modale">
                   <X size={24} />
                 </button>
               </div>

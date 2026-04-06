@@ -559,7 +559,7 @@ const Participate = ({ onBack, data, pageBackgrounds }: { onBack?: () => void, d
                 onClick={() => handleSubscribeClick('professionals')}
                 className="text-primary font-bold text-sm uppercase tracking-widest hover:text-accent-red transition-colors flex items-center gap-2"
               >
-                Rejoindre le réseau <ArrowLeft className="w-4 h-4 group-hover:translate-x-1 transition-transform rotate-180" />
+                Rejoindre le réseau <ArrowLeft className="w-4 h-4 group-hover:translate-x-1 transition-transform rotate-180" aria-label="Rejoindre le réseau" />
               </button>
             </motion.div>
 

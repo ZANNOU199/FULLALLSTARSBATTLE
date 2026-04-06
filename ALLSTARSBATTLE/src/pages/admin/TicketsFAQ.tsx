@@ -47,7 +47,7 @@ export default function TicketsFAQ() {
           {state.tickets.map(ticket => (
             <div key={ticket.id} className="glass p-8 rounded-3xl relative group">
               <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                <button onClick={() => handleDeleteTicket(ticket.id)} className="p-2 hover:bg-red-500/20 text-red-500 rounded-lg"><Trash2 size={16} /></button>
+                <button onClick={() => handleDeleteTicket(ticket.id)} className="p-2 hover:bg-red-500/20 text-red-500 rounded-lg" aria-label="Supprimer le ticket"><Trash2 size={16} /></button>
               </div>
               <TicketIcon className="text-primary mb-6" size={32} />
               <h3 className="text-xl font-black tracking-tight mb-2">{ticket.name}</h3>
@@ -82,7 +82,7 @@ export default function TicketsFAQ() {
                   <HelpCircle className="text-primary shrink-0" size={20} />
                   <h3 className="font-bold">{item.question}</h3>
                 </div>
-                <button onClick={() => handleDeleteFAQ(item.id)} className="p-2 opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-red-500 transition-all"><Trash2 size={16} /></button>
+                <button onClick={() => handleDeleteFAQ(item.id)} className="p-2 opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-red-500 transition-all" aria-label="Supprimer la question FAQ"><Trash2 size={16} /></button>
               </div>
               <p className="text-sm text-zinc-400 ml-9">{item.answer}</p>
             </div>

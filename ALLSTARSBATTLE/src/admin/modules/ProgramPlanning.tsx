@@ -296,7 +296,7 @@ export default function ProgramPlanning({ data, setData }: { data: CMSData, setD
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <h4 className="font-heading text-lg flex items-center gap-2"><Calendar size={20} className="text-primary" /> Jours du Programme</h4>
-          <button onClick={handleAddDay} disabled={isLoading} className="flex items-center gap-2 px-4 py-2 bg-primary text-background-dark font-bold rounded-xl disabled:opacity-50">
+          <button onClick={handleAddDay} disabled={isLoading} className="flex items-center gap-2 px-4 py-2 bg-primary text-background-dark font-bold rounded-xl disabled:opacity-50" aria-label="Ajouter un nouveau jour">
             <Plus size={18} /> Ajouter Jour
           </button>
         </div>
@@ -424,8 +424,8 @@ export default function ProgramPlanning({ data, setData }: { data: CMSData, setD
               </div>
 
               <div className="flex justify-end gap-4">
-                <button onClick={() => { setIsAddingActivity(false); setEditingActivityId(null); setActivityFormData({}); }} className="px-6 py-2 text-xs font-bold uppercase tracking-widest text-slate-500">Annuler</button>
-                <button onClick={editingActivityId ? handleUpdateActivity : handleAddActivity} disabled={isLoading} className="px-6 py-2 bg-primary text-background-dark rounded-xl font-bold text-xs uppercase tracking-widest disabled:opacity-50">Enregistrer</button>
+                <button onClick={() => { setIsAddingActivity(false); setEditingActivityId(null); setActivityFormData({}); }} className="px-6 py-2 text-xs font-bold uppercase tracking-widest text-slate-500" aria-label="Annuler l'ajout d'activité">Annuler</button>
+                <button onClick={editingActivityId ? handleUpdateActivity : handleAddActivity} disabled={isLoading} className="px-6 py-2 bg-primary text-background-dark rounded-xl font-bold text-xs uppercase tracking-widest disabled:opacity-50" aria-label={editingActivityId ? "Mettre à jour l'activité" : "Enregistrer l'activité"}>Enregistrer</button>
               </div>
             </div>
           )}
@@ -438,7 +438,7 @@ export default function ProgramPlanning({ data, setData }: { data: CMSData, setD
                   <span className="font-bold">{activity.title}</span>
                   <span className="text-sm text-slate-400">{activity.category}</span>
                 </div>
-                <button onClick={() => handleDeleteActivity(activity.id)} className="p-2 hover:bg-white/5 rounded-lg text-slate-400 hover:text-accent-red">
+                <button onClick={() => handleDeleteActivity(activity.id)} className="p-2 hover:bg-white/5 rounded-lg text-slate-400 hover:text-accent-red" aria-label="Supprimer l'activité">
                   <Trash2 size={18} />
                 </button>
               </div>

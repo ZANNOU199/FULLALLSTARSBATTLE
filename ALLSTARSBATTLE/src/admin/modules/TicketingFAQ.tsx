@@ -108,7 +108,7 @@ export default function TicketingFAQ({ data, setData }: { data: CMSData, setData
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <h4 className="font-heading text-lg flex items-center gap-2"><HelpCircle size={20} className="text-primary" /> Foire Aux Questions</h4>
-          <button onClick={() => setIsAdding(true)} className="flex items-center gap-2 px-4 py-2 bg-primary text-background-dark font-bold rounded-xl"><Plus size={18} /> Ajouter une Question</button>
+            <button onClick={() => setIsAdding(true)} className="flex items-center gap-2 px-4 py-2 bg-primary text-background-dark font-bold rounded-xl" aria-label="Ajouter une nouvelle question FAQ"><Plus size={18} /> Ajouter une Question</button>
         </div>
 
         {isAdding && (
@@ -144,8 +144,8 @@ export default function TicketingFAQ({ data, setData }: { data: CMSData, setData
               </div>
             </div>
             <div className="flex justify-end gap-4">
-              <button onClick={() => { setIsAdding(false); setEditingId(null); setFaqFormData({}); }} className="px-6 py-2 text-xs font-bold uppercase tracking-widest text-slate-500">Annuler</button>
-              <button onClick={editingId ? handleUpdateFAQ : handleAddFAQ} disabled={isLoading} className="px-6 py-2 bg-primary text-background-dark rounded-xl font-bold text-xs uppercase tracking-widest disabled:opacity-50">Enregistrer</button>
+              <button onClick={() => { setIsAdding(false); setEditingId(null); setFaqFormData({}); }} className="px-6 py-2 text-xs font-bold uppercase tracking-widest text-slate-500" aria-label="Annuler l'ajout de question">Annuler</button>
+              <button onClick={editingId ? handleUpdateFAQ : handleAddFAQ} disabled={isLoading} className="px-6 py-2 bg-primary text-background-dark rounded-xl font-bold text-xs uppercase tracking-widest disabled:opacity-50" aria-label={editingId ? "Mettre à jour la question" : "Enregistrer la question"}>Enregistrer</button>
             </div>
           </div>
         )}

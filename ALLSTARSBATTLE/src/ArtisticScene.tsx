@@ -135,7 +135,7 @@ const ArtisticScene = ({ onNavigateToProgram, onNavigateToTickets, pageBackgroun
                 }}
                 className="flex items-center gap-2 text-primary hover:text-white transition-colors mb-12 uppercase font-black tracking-widest text-xs"
               >
-                <ArrowLeft className="w-4 h-4" /> Retour à l'aperçu
+                <ArrowLeft className="w-4 h-4" aria-label="Retour à l'aperçu" /> Retour à l'aperçu
               </button>
 
               <div className="mb-16">
@@ -497,7 +497,7 @@ const ArtisticScene = ({ onNavigateToProgram, onNavigateToTickets, pageBackgroun
                 onClick={() => setSelectedCompany(null)}
                 className="flex items-center gap-2 text-primary hover:text-white transition-colors mb-12 uppercase font-black tracking-widest text-xs"
               >
-                <ArrowLeft className="w-4 h-4" /> Retour aux compagnies
+                <ArrowLeft className="w-4 h-4" aria-label="Retour aux compagnies" /> Retour aux compagnies
               </button>
 
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">

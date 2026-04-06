@@ -98,7 +98,7 @@ const Judges = () => {
             onClick={() => setSelectedJudge(null)}
             className="flex items-center gap-2 text-primary hover:text-white transition-colors mb-12 uppercase font-black tracking-widest text-xs"
           >
-            <ArrowLeft className="w-4 h-4" /> Retour à la liste des juges
+            <ArrowLeft className="w-4 h-4" aria-label="Retour à la liste des juges" /> Retour à la liste des juges
           </button>
 
           <div className="grid lg:grid-cols-2 gap-16 items-start">
@@ -155,7 +155,7 @@ const Judges = () => {
             onClick={() => setSelectedArtist(null)}
             className="flex items-center gap-2 text-primary hover:text-white transition-colors mb-12 uppercase font-black tracking-widest text-xs"
           >
-            <ArrowLeft className="w-4 h-4" /> Retour à la liste des artistes
+            <ArrowLeft className="w-4 h-4" aria-label="Retour à la liste des artistes" /> Retour à la liste des artistes
           </button>
 
           <div className="grid lg:grid-cols-2 gap-16 items-start">
@@ -395,7 +395,7 @@ const Judges = () => {
                     animate={{ rotate: expandedStaff === staff.name ? 90 : 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <ArrowRight className="text-primary group-hover:translate-x-2 transition-transform" />
+                    <ArrowRight className="text-primary group-hover:translate-x-2 transition-transform" aria-label="Voir plus de détails" />
                   </motion.div>
                 </div>
                 
@@ -525,7 +525,7 @@ const Judges = () => {
                           rel="noopener noreferrer"
                           className="flex items-center gap-3 p-4 bg-white/5 hover:bg-blue-600/10 border border-white/10 hover:border-blue-600/30 rounded-xl transition-all group"
                         >
-                          <Linkedin size={24} className="text-blue-500 group-hover:scale-110 transition-transform" />
+                          <Linkedin size={24} className="text-blue-500 group-hover:scale-110 transition-transform" aria-label="Profil LinkedIn" />
                           <div>
                             <p className="text-[10px] text-slate-400 uppercase font-bold">LinkedIn</p>
                             <p className="text-white">{selectedOrganizer.socialLinks.linkedin}</p>

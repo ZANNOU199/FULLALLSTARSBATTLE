@@ -621,7 +621,7 @@ export default function MediaArchives({ data, setData, onSave }: { data: CMSData
                             {mediaItem.url && !isUploading && (
                               <div className="flex items-center gap-2 text-green-400 text-sm">
                                 <Upload size={16} />
-                                Image actuelle: <a href={mediaItem.url} target="_blank" rel="noopener noreferrer" className="underline hover:text-green-300">Voir l'image</a>
+                                Image actuelle: <a href={mediaItem.url} target="_blank" rel="noopener noreferrer" className="underline hover:text-green-300" aria-label="Voir l'image actuelle">Voir l'image</a>
                               </div>
                             )}
                           </div>

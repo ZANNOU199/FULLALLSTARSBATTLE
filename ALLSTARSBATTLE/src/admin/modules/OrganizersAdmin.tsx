@@ -670,7 +670,7 @@ export default function OrganizersAdmin({ data, setData, onSave }: { data: CMSDa
                         rel="noopener noreferrer"
                         className="flex items-center gap-3 p-4 bg-white/5 hover:bg-blue-600/10 border border-white/10 hover:border-blue-600/30 rounded-xl transition-all group"
                       >
-                        <Linkedin size={24} className="text-blue-500 group-hover:scale-110 transition-transform" />
+                        <Linkedin size={24} className="text-blue-500 group-hover:scale-110 transition-transform" aria-label="LinkedIn" />
                         <div>
                           <p className="text-[10px] text-slate-400 uppercase font-bold">LinkedIn</p>
                           <p className="text-white">{selectedOrganizerDetail.socialLinks.linkedin}</p>

@@ -184,7 +184,7 @@ export default function BlogNews({ data, setData }: { data: CMSData, setData: Re
             <h4 className="font-heading text-lg">
               {isAdding ? 'Nouvel Article' : `Modifier Article : ${formData.title || 'Sans titre'}`}
             </h4>
-            <button onClick={() => { setIsAdding(false); setEditingId(null); resetForm(); }} className="text-slate-500 hover:text-white"><X size={20} /></button>
+            <button onClick={() => { setIsAdding(false); setEditingId(null); resetForm(); }} className="text-slate-500 hover:text-white" aria-label="Fermer la fenêtre d'ajout"><X size={20} /></button>
           </div>
           
           <div className="grid grid-cols-1 gap-6">
@@ -305,8 +305,8 @@ export default function BlogNews({ data, setData }: { data: CMSData, setData: Re
               <div className="flex justify-between items-start mb-4">
                 <span className="text-slate-500 text-[10px] font-bold uppercase tracking-widest">{article.date}</span>
                 <div className="flex gap-2">
-                  <button onClick={() => startEdit(article)} className="p-2 hover:bg-white/5 rounded-lg text-slate-400 hover:text-white transition-all"><Edit size={16} /></button>
-                  <button onClick={() => handleDelete(article.id)} className="p-2 hover:bg-white/5 rounded-lg text-slate-400 hover:text-accent-red transition-all"><Trash2 size={16} /></button>
+                  <button onClick={() => startEdit(article)} className="p-2 hover:bg-white/5 rounded-lg text-slate-400 hover:text-white transition-all" aria-label="Modifier l'article"><Edit size={16} /></button>
+                  <button onClick={() => handleDelete(article.id)} className="p-2 hover:bg-white/5 rounded-lg text-slate-400 hover:text-accent-red transition-all" aria-label="Supprimer l'article"><Trash2 size={16} /></button>
                 </div>
               </div>
               <h4 className="text-xl font-heading mb-4 group-hover:text-primary transition-colors">{article.title}</h4>

@@ -1277,10 +1277,18 @@ const AppContent = () => {
           >
             <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-500">Suivez-nous :</span>
             <div className="flex gap-8">
-              <a href={config?.socials.instagram || '#'} target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition-all hover:scale-125"><Instagram className="w-5 h-5" /></a>
-              <a href={config?.socials.facebook || '#'} target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition-all hover:scale-125"><Facebook className="w-5 h-5" /></a>
-              <a href={config?.socials.twitter || '#'} target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition-all hover:scale-125"><Twitter className="w-5 h-5" /></a>
-              <a href={config?.socials.youtube || '#'} target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition-all hover:scale-125"><Youtube className="w-5 h-5" /></a>
+              <a href={config?.socials.instagram || '#'} target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition-all hover:scale-125" aria-label="Suivez-nous sur Instagram">
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a href={config?.socials.facebook || '#'} target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition-all hover:scale-125" aria-label="Suivez-nous sur Facebook">
+                <Facebook className="w-5 h-5" />
+              </a>
+              <a href={config?.socials.twitter || '#'} target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition-all hover:scale-125" aria-label="Suivez-nous sur Twitter">
+                <Twitter className="w-5 h-5" />
+              </a>
+              <a href={config?.socials.youtube || '#'} target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition-all hover:scale-125" aria-label="Suivez-nous sur YouTube">
+                <Youtube className="w-5 h-5" />
+              </a>
             </div>
           </motion.div>
         </div>
@@ -1881,10 +1889,18 @@ const AppContent = () => {
           <div className="mt-10 flex flex-col md:flex-row gap-8 items-center border-t border-white/5 pt-8">
             <span className="text-[10px] text-slate-500 uppercase font-black tracking-widest">Suivez l'actualité :</span>
             <div className="flex gap-8">
-              <a href="#" className="text-white hover:text-primary transition-all hover:scale-125"><Instagram className="w-5 h-5" /></a>
-              <a href="#" className="text-white hover:text-primary transition-all hover:scale-125"><Facebook className="w-5 h-5" /></a>
-              <a href="#" className="text-white hover:text-primary transition-all hover:scale-125"><Twitter className="w-5 h-5" /></a>
-              <a href="#" className="text-white hover:text-primary transition-all hover:scale-125"><Youtube className="w-5 h-5" /></a>
+              <a href="#" className="text-white hover:text-primary transition-all hover:scale-125" aria-label="Suivez-nous sur Instagram">
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a href="#" className="text-white hover:text-primary transition-all hover:scale-125" aria-label="Suivez-nous sur Facebook">
+                <Facebook className="w-5 h-5" />
+              </a>
+              <a href="#" className="text-white hover:text-primary transition-all hover:scale-125" aria-label="Suivez-nous sur Twitter">
+                <Twitter className="w-5 h-5" />
+              </a>
+              <a href="#" className="text-white hover:text-primary transition-all hover:scale-125" aria-label="Suivez-nous sur YouTube">
+                <Youtube className="w-5 h-5" />
+              </a>
             </div>
           </div>
           
