@@ -51,6 +51,15 @@
           "value": "public, max-age=31536000"
         }
       ]
+    },
+    {
+      "source": "https://pub-e66e8acef13f47bf90ce3de0d7240052.r2.dev/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000"
+        }
+      ]
     }
   ],
   "env": {
