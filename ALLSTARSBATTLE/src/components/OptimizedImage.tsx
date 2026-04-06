@@ -13,6 +13,8 @@ interface OptimizedImageProps {
   onError?: (e: React.SyntheticEvent<HTMLImageElement>) => void;
   showSkeleton?: boolean;
   placeholderColor?: string;
+  width?: number;
+  height?: number;
 }
 
 const OptimizedImage: React.FC<OptimizedImageProps> = ({
@@ -26,7 +28,9 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
   maxWidth = 1920,
   onError,
   showSkeleton = true,
-  placeholderColor = 'bg-zinc-700'
+  placeholderColor = 'bg-zinc-700',
+  width,
+  height
 }) => {
   const imgRef = useRef<HTMLImageElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -75,6 +79,8 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
           onError={handleError}
           onLoad={handleLoad}
           decoding="async"
+          width={width}
+          height={height}
         />
       )}
 

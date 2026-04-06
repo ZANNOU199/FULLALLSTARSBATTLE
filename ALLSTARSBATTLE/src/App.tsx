@@ -1073,6 +1073,7 @@ const AppContent = () => {
                   fetchPriority="high"
                   loading="eager"
                   decoding="async"
+                  height="64"
                   onClick={navigateTo('home')}
                 />
               )}
@@ -1310,6 +1311,8 @@ const AppContent = () => {
                   alt="Competition" 
                   className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"
+                  width="658"
+                  height="402"
                 />
               )}
             </div>
