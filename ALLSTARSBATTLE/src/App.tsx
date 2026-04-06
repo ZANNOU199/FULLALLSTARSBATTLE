@@ -174,7 +174,7 @@ const BracketMatch = ({ player1, player2, score1 = "--", score2 = "--", country1
       <span className="font-bold text-xl sm:text-2xl md:text-sm uppercase leading-tight flex items-center gap-1 md:gap-2">
         {player1} 
         {countryCode1 !== 'un' ? (
-          <img src={`https://flagcdn.com/w20/${countryCode1}.png`} alt={country1} className="w-5 sm:w-6 h-auto rounded-sm" width="20" height="15" />
+          <img src={`https://flagcdn.com/w20/${countryCode1}.png`} alt={country1} className="w-5 sm:w-6 h-auto rounded-sm" />
         ) : (
           <span className="text-slate-500">--</span>
         )}
@@ -186,7 +186,7 @@ const BracketMatch = ({ player1, player2, score1 = "--", score2 = "--", country1
       <span className="font-bold text-xl sm:text-2xl md:text-sm uppercase leading-tight flex items-center gap-1 md:gap-2">
         {player2} 
         {countryCode2 !== 'un' ? (
-          <img src={`https://flagcdn.com/w20/${countryCode2}.png`} alt={country2} className="w-5 sm:w-6 h-auto rounded-sm" width="20" height="15" />
+          <img src={`https://flagcdn.com/w20/${countryCode2}.png`} alt={country2} className="w-5 sm:w-6 h-auto rounded-sm" />
         ) : (
           <span className="text-slate-500">--</span>
         )}
@@ -314,7 +314,7 @@ const BracketContent = ({ brackets }: { brackets?: any }) => {
             <div className="flex flex-col items-center w-full">
               <div className="flex items-center gap-4 justify-center w-full mb-4">
                 {data.final.countryCode1 && data.final.countryCode1 !== 'un' ? (
-                  <img src={`https://flagcdn.com/w40/${data.final.countryCode1.toLowerCase()}.png`} alt={data.final.country1} className="w-8 h-6 rounded" width="40" height="30" />
+                  <img src={`https://flagcdn.com/w40/${data.final.countryCode1.toLowerCase()}.png`} alt={data.final.country1} className="w-8 h-6 rounded" />
                 ) : (
                   <div className="w-8 h-6 bg-slate-400/30 rounded flex items-center justify-center text-xs">UN</div>
                 )}
@@ -334,7 +334,7 @@ const BracketContent = ({ brackets }: { brackets?: any }) => {
             <div className="flex flex-col items-center w-full">
               <div className="flex items-center gap-4 justify-center w-full mb-4">
                 {data.final.countryCode2 && data.final.countryCode2 !== 'un' ? (
-                  <img src={`https://flagcdn.com/w40/${data.final.countryCode2.toLowerCase()}.png`} alt={data.final.country2} className="w-8 h-6 rounded" width="40" height="30" />
+                  <img src={`https://flagcdn.com/w40/${data.final.countryCode2.toLowerCase()}.png`} alt={data.final.country2} className="w-8 h-6 rounded" />
                 ) : (
                   <div className="w-8 h-6 bg-slate-400/30 rounded flex items-center justify-center text-xs">UN</div>
                 )}
@@ -1073,7 +1073,6 @@ const AppContent = () => {
                   fetchPriority="high"
                   loading="eager"
                   decoding="async"
-                  height="64"
                   onClick={navigateTo('home')}
                 />
               )}
@@ -1112,7 +1111,7 @@ const AppContent = () => {
             </div>
 
             <div className="flex items-center gap-4">
-              <button className="xl:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label={isMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}>
+              <button className="xl:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
                 {isMenuOpen ? <X /> : <Menu />}
               </button>
             </div>
@@ -1258,7 +1257,7 @@ const AppContent = () => {
             transition={{ delay: 0.8 }}
             className="flex flex-col sm:flex-row md:flex-col lg:flex-row gap-4 justify-center mb-12 max-w-2xl mx-auto"
           >
-            <button onClick={navigateTo('participate')} className="btn-luxury-primary shimmer-effect flex-1 sm:flex-none md:flex-1 lg:flex-none px-6 md:px-8 lg:px-10 py-3 md:py-4 text-xs md:text-sm" aria-label="Participer à la compétition">
+            <button onClick={navigateTo('participate')} className="btn-luxury-primary shimmer-effect flex-1 sm:flex-none md:flex-1 lg:flex-none px-6 md:px-8 lg:px-10 py-3 md:py-4 text-xs md:text-sm">
               PARTICIPER
             </button>
             <button onClick={navigateTo('history')} className="btn-luxury-secondary shimmer-effect flex-1 sm:flex-none md:flex-1 lg:flex-none px-6 md:px-8 lg:px-10 py-3 md:py-4 text-xs md:text-sm">
@@ -1311,8 +1310,6 @@ const AppContent = () => {
                   alt="Competition" 
                   className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"
-                  width="658"
-                  height="402"
                 />
               )}
             </div>
@@ -1536,7 +1533,7 @@ const AppContent = () => {
                     </>
                   )}
                 </div>
-                <button onClick={navigateTo('tickets')} className="btn-luxury-vip shimmer-effect" aria-label="Découvrir les offres VIP">DÉCOUVRIR LES OFFRES</button>
+                <button onClick={navigateTo('tickets')} className="btn-luxury-vip shimmer-effect">DÉCOUVRIR LES OFFRES</button>
               </div>
               <div className="relative group">
                 <div className="absolute -inset-1 bg-gradient-to-r from-primary to-accent-red rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
