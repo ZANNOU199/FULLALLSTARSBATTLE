@@ -174,7 +174,7 @@ const BracketMatch = ({ player1, player2, score1 = "--", score2 = "--", country1
       <span className="font-bold text-xl sm:text-2xl md:text-sm uppercase leading-tight flex items-center gap-1 md:gap-2">
         {player1} 
         {countryCode1 !== 'un' ? (
-          <img src={`https://flagcdn.com/w20/${countryCode1}.png`} alt={country1} className="w-5 sm:w-6 h-auto rounded-sm" />
+          <img src={`https://flagcdn.com/w20/${countryCode1}.png`} alt={country1} className="w-5 sm:w-6 h-auto rounded-sm" width="20" height="15" />
         ) : (
           <span className="text-slate-500">--</span>
         )}
@@ -186,7 +186,7 @@ const BracketMatch = ({ player1, player2, score1 = "--", score2 = "--", country1
       <span className="font-bold text-xl sm:text-2xl md:text-sm uppercase leading-tight flex items-center gap-1 md:gap-2">
         {player2} 
         {countryCode2 !== 'un' ? (
-          <img src={`https://flagcdn.com/w20/${countryCode2}.png`} alt={country2} className="w-5 sm:w-6 h-auto rounded-sm" />
+          <img src={`https://flagcdn.com/w20/${countryCode2}.png`} alt={country2} className="w-5 sm:w-6 h-auto rounded-sm" width="20" height="15" />
         ) : (
           <span className="text-slate-500">--</span>
         )}
@@ -314,7 +314,7 @@ const BracketContent = ({ brackets }: { brackets?: any }) => {
             <div className="flex flex-col items-center w-full">
               <div className="flex items-center gap-4 justify-center w-full mb-4">
                 {data.final.countryCode1 && data.final.countryCode1 !== 'un' ? (
-                  <img src={`https://flagcdn.com/w40/${data.final.countryCode1.toLowerCase()}.png`} alt={data.final.country1} className="w-8 h-6 rounded" />
+                  <img src={`https://flagcdn.com/w40/${data.final.countryCode1.toLowerCase()}.png`} alt={data.final.country1} className="w-8 h-6 rounded" width="40" height="30" />
                 ) : (
                   <div className="w-8 h-6 bg-slate-400/30 rounded flex items-center justify-center text-xs">UN</div>
                 )}
@@ -334,7 +334,7 @@ const BracketContent = ({ brackets }: { brackets?: any }) => {
             <div className="flex flex-col items-center w-full">
               <div className="flex items-center gap-4 justify-center w-full mb-4">
                 {data.final.countryCode2 && data.final.countryCode2 !== 'un' ? (
-                  <img src={`https://flagcdn.com/w40/${data.final.countryCode2.toLowerCase()}.png`} alt={data.final.country2} className="w-8 h-6 rounded" />
+                  <img src={`https://flagcdn.com/w40/${data.final.countryCode2.toLowerCase()}.png`} alt={data.final.country2} className="w-8 h-6 rounded" width="40" height="30" />
                 ) : (
                   <div className="w-8 h-6 bg-slate-400/30 rounded flex items-center justify-center text-xs">UN</div>
                 )}
