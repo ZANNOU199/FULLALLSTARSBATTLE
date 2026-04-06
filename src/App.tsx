@@ -58,6 +58,7 @@ const NavDropdown = ({ label, items, active = false }: { label: string, items: {
       <button 
         className={`flex items-center gap-1 text-xs font-bold tracking-widest uppercase transition-colors hover:text-primary cursor-pointer whitespace-nowrap ${active ? 'text-primary' : 'text-white'}`}
         aria-label={`Ouvrir menu ${label}`}
+        aria-expanded={isOpen}
       >
         {label}
         <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
@@ -1112,7 +1113,7 @@ const AppContent = () => {
             </div>
 
             <div className="flex items-center gap-4">
-              <button className="xl:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label={isMenuOpen ? "Fermer menu" : "Ouvrir menu"}>
+              <button className="xl:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label={isMenuOpen ? "Fermer menu" : "Ouvrir menu"} aria-expanded={isMenuOpen}>
                 {isMenuOpen ? <X /> : <Menu />}
               </button>
             </div>
